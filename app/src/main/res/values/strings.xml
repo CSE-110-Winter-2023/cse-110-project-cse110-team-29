@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">SocialCompass</string>
-    <string name="name">Name</string>
     <string name="longitude">Longitude</string>
     <string name="latitude">Latitude</string>
     <string name="save_and_continue">Save and Continue</string>
+    <string name="labelname">Label\'s Name</string>
 </resources>
