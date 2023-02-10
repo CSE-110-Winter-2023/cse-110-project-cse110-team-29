@@ -1,8 +1,5 @@
 name: Run Android Unit Tests
-on: 
-  push: 
-    branches:
-      - develop
+on: push
 
 jobs:
   test:
