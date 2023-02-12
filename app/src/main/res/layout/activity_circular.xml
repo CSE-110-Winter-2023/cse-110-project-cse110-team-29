@@ -26,58 +26,31 @@
             app:srcCompat="@drawable/compass"
             tools:layout_editor_absoluteY="16dp" />
 
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1"
+            app:layout_constraintCircle="@+id/clockFace"
+            app:layout_constraintCircleAngle="210"
+            app:layout_constraintCircleRadius="155dp"
+            tools:layout_editor_absoluteX="218dp"
+            tools:layout_editor_absoluteY="329dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="1"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="9dp" />
-
-    <TextView
-        android:id="@+id/lat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="2"
-        app:layout_constraintTop_toBottomOf="@+id/label"
-        tools:layout_editor_absoluteX="9dp" />
-
-    <TextView
-        android:id="@+id/longi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="3"
-        app:layout_constraintTop_toBottomOf="@+id/lat"
-        tools:layout_editor_absoluteX="9dp" />
-
-    <TextView
-        android:id="@+id/northPointer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="-15dp"
-        android:text="N"
-        app:layout_constraintBottom_toTopOf="@+id/clock"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.942" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="168dp"
         android:rotation="90"
         android:scaleX="1.4"
         android:scaleY="1.4"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.216"
         app:srcCompat="@drawable/ic_baseline_chevron_left_24" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
