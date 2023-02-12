@@ -32,7 +32,7 @@ public class InputActivity extends AppCompatActivity {
     public void saveLocation() {
         // get a new Location from user input
         // TODO: validate inputs
-        Location newLoc = new Location(
+        iLocation newLoc = new iLocation(
                 labelInput.getText().toString(),
                 Float.parseFloat(latInput.getText().toString()),
                 Float.parseFloat(longInput.getText().toString()));

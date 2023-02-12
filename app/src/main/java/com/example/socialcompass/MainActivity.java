@@ -30,12 +30,19 @@ public class MainActivity extends AppCompatActivity {
             && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
+        locationService = LocationService.singleton(this);
 
         TextView textView = findViewById(R.id.mainText);
 
+        locationService.getLocation().observe(this, loc -> {
+            textView.setText(Double.toString(loc.first) + ", " + Double.toString(loc.second));
+        });
+
+
+        /*
         Intent intent = new Intent(this, InputActivity.class);
         startActivity(intent);
-
+    */
 
 
         // temp always start input activity immediately
