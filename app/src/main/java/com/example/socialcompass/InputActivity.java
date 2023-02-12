@@ -41,7 +41,8 @@ public class InputActivity extends AppCompatActivity {
 
 
         // save locations
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+
+        SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("parentsLabel", newLoc.getLabel());
         editor.putFloat("parentsLat", newLoc.getLatitude());
