@@ -52,7 +52,9 @@ public class InputActivity extends AppCompatActivity {
 
     public void onSaveAndContinue(View view) {
         saveLocation();
-
+        //note:after click save and continue, it should jump to the compass Frame
+        Intent intent = new Intent(this,CircularActivity.class);
+        startActivity(intent);
         // reset inputs
         labelInput.setText("");
         latInput.setText("");
