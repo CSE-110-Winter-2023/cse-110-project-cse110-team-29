@@ -12,7 +12,6 @@ public class LocationService {
     private MutableLiveData<Location> Location;
     private ExecutorService backgroundThreadExecutor = Executors.newSingleThreadExecutor();
     private Future<?> registerFuture;
-
     protected LocationService() {
         this.Location = new MutableLiveData<>();
     }
