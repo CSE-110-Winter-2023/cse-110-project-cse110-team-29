@@ -3,22 +3,44 @@ package com.example.socialcompass;
 import static com.example.socialcompass.Utilities.showAlert;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+<<<<<<< Updated upstream
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+=======
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.widget.TextView;
+>>>>>>> Stashed changes
 
 public class MainActivity extends AppCompatActivity {
+
+    private  LocationService locationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // temp always start input activity immediately
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 200);
+        }
+
+        TextView textView = findViewById(R.id.mainText);
+
         Intent intent = new Intent(this, InputActivity.class);
         startActivity(intent);
+
+
+
+        // temp always start input activity immediately
+
     }
 
     public void debug(View view) {

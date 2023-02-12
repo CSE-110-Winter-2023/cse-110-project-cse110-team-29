@@ -24,4 +24,8 @@ public class Location implements Serializable {
     public float getLongitude() {
         return longitude;
     }
+    
+    public String to_string(){
+        return String.valueOf(latitude) + ", " + String.valueOf(longitude);
+    }
 }
