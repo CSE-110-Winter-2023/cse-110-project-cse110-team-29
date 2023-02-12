@@ -7,15 +7,14 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Intent;
-<<<<<<< Updated upstream
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-=======
+
 import android.content.pm.PackageManager;
-import android.os.Bundle;
 import android.widget.TextView;
->>>>>>> Stashed changes
+
 
 public class MainActivity extends AppCompatActivity {
 
