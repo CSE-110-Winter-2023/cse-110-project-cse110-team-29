@@ -1,9 +1,12 @@
 package com.example.socialcompass;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 public class CircularActivity extends AppCompatActivity {
@@ -19,16 +22,16 @@ public class CircularActivity extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
 
         String label = prefs.getString("parentsLabel","");
-        Float lat = prefs.getFloat("parentsLat",0);
-        Float longi = prefs.getFloat("parentsLong",0);
+        Float latitude = prefs.getFloat("parentsLat",0);
+        Float longitude = prefs.getFloat("parentsLong",0);
 
         TextView labelView = findViewById(R.id.label);
-        TextView latView = findViewById(R.id.lat);
-        TextView longiView = findViewById(R.id.longi);
 
-        labelView.setText(label);
-        latView.setText(lat.toString());
-        longiView.setText(longi.toString());
+        labelView.setText("Parent");
+
+        // manually update angle (it works)
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) labelView.getLayoutParams();
+        layoutParams.circleAngle = 180;
     }
 
     private double angleFromCoordinate(double lat1, double long1, double lat2,
