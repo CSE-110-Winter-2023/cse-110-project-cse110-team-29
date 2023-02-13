@@ -5,8 +5,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 
 public class CircularActivity extends AppCompatActivity {
@@ -40,11 +38,11 @@ public class CircularActivity extends AppCompatActivity {
         // coordinates of Geisel Library
         // final double myLat = 32.881174;
         // final double myLong = -117.2378661;
-        layoutParams.circleAngle = (float) angleFromCoordinate(myLat, myLong, (double)latitude, (double)longitude);
+        layoutParams.circleAngle = (float) angle_in_activity(myLat, myLong, (double)latitude, (double)longitude);
     }
 
-    private double angleFromCoordinate(double lat1, double long1, double lat2,
-                                       double long2) {
+    private double angle_in_activity(double lat1, double long1, double lat2,
+                                     double long2) {
 
         double dLon = (long2 - long1);
 
