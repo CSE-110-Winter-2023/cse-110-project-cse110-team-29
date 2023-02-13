@@ -10,15 +10,20 @@ import android.view.View;
 import android.widget.TextView;
 
 public class CircularActivity extends AppCompatActivity {
+    private LocationService locationService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_circular);
-        loadInput();
+        locationService = LocationService.singleton(this);
+        locationService.getLocation().observe(this, loc -> {
+            loadInput(loc.first, loc.second);
+            // Utilities.showAlert(this, String.valueOf(loc.first) + "," + String.valueOf(loc.second));
+        });
     }
 
-    public void loadInput() {
+    public void loadInput(double myLat, double myLong) {
         SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
 
         String label = prefs.getString("parentsLabel","");
@@ -31,7 +36,11 @@ public class CircularActivity extends AppCompatActivity {
 
         // manually update angle (it works)
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) labelView.getLayoutParams();
-        layoutParams.circleAngle = 180;
+
+        // coordinates of Geisel Library
+        // final double myLat = 32.881174;
+        // final double myLong = -117.2378661;
+        layoutParams.circleAngle = (float) angleFromCoordinate(myLat, myLong, (double)latitude, (double)longitude);
     }
 
     private double angleFromCoordinate(double lat1, double long1, double lat2,
