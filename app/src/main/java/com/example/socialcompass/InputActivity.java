@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import java.util.ArrayList;
-
 public class InputActivity extends AppCompatActivity {
     // private ArrayList<Location> locations;
     private EditText labelInput;
@@ -32,7 +30,7 @@ public class InputActivity extends AppCompatActivity {
     public void saveLocation() {
         // get a new Location from user input
         // TODO: validate inputs
-        Location newLoc = new Location(
+        iLocation newLoc = new iLocation(
                 labelInput.getText().toString(),
                 Float.parseFloat(latInput.getText().toString()),
                 Float.parseFloat(longInput.getText().toString()));
