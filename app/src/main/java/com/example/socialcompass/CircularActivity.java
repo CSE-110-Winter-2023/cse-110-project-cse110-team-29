@@ -26,8 +26,8 @@ public class CircularActivity extends AppCompatActivity {
         Float longitude = prefs.getFloat("parentsLong",0);
 
         TextView labelView = findViewById(R.id.label);
-
-        labelView.setText("Parent");
+        //get the label from user input
+        labelView.setText(label);
 
         // manually update angle (it works)
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) labelView.getLayoutParams();
