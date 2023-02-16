@@ -39,7 +39,7 @@ public class CircularActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
 
-        orientationService = new OrientationService(this);
+        orientationService = OrientationService.singleton(this);
         TextView image = findViewById(R.id.label);
 
         orientationService.getOrientation().observe(this, orientation -> {
@@ -74,7 +74,6 @@ public class CircularActivity extends AppCompatActivity {
         // final double myLong = -117.2378661;
         layoutParams.circleAngle = (float) angle_in_activity(myLat, myLong, (double) latitude, (double) longitude);
         labelView.setLayoutParams(layoutParams);
-
     }
 
     private double angle_in_activity(double lat1, double long1, double lat2,
