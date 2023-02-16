@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class CircularActivity extends AppCompatActivity {
     private LocationService locationService;
-    private OrientationServiceS orientationService;
+    private OrientationService orientationService;
     private float orientationAngel;
 
 //    @Override
@@ -32,8 +32,6 @@ public class CircularActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_circular);
 
-//        loadInput();
-
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -41,14 +39,8 @@ public class CircularActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
 
-        locationService = LocationService.singleton(this);
-        locationService.getLocation().observe(this, loc -> {
-            loadInput(loc.first, loc.second);
-            // Utilities.showAlert(this, String.valueOf(loc.first) + "," + String.valueOf(loc.second));
-        });
-
-        orientationService = new OrientationServiceS(this);
-        ImageView image = findViewById(R.id.clockFace);
+        orientationService = new OrientationService(this);
+        TextView image = findViewById(R.id.label);
 
         orientationService.getOrientation().observe(this, orientation -> {
             orientationAngel = orientation;
@@ -56,11 +48,9 @@ public class CircularActivity extends AppCompatActivity {
         });
     }
 
-    private void orientationSet(ImageView image, float degree) {
+    private void orientationSet(TextView image, float degree) {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) image.getLayoutParams();
-        if (degree < 0) {
-            degree += 2 * Math.PI;
-        }
+        degree = -degree;
         layoutParams.circleAngle = (float) (180 * degree / (Math.PI));
         image.setLayoutParams(layoutParams);
     }
