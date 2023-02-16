@@ -3,11 +3,13 @@ package com.example.socialcompass;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.lifecycle.LiveData;
 
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Pair;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,16 +19,6 @@ public class CircularActivity extends AppCompatActivity {
     private float orientationAngel;
     private double longitude;
     private double latitude;
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_circular);
-//        locationService = LocationService.singleton(this);
-//        locationService.getLocation().observe(this, loc -> {
-//            loadInput(loc.first, loc.second);
-//            // Utilities.showAlert(this, String.valueOf(loc.first) + "," + String.valueOf(loc.second));
-//        });
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +34,39 @@ public class CircularActivity extends AppCompatActivity {
 
         orientationService = OrientationService.singleton(this);
         locationService = LocationService.singleton(this);
-        TextView image = findViewById(R.id.label);
 
-        orientationService.getOrientation().observe(this, orientation -> {
-            orientationAngel = orientation;
-            orientationSet(image, orientationAngel);
-        });
+        this.reobserveOrientation();
+        this.reobserveLocation();
 
-        locationService.getLocation().observe(this, loc -> {
-            latitude = loc.first;
-            longitude = loc.second;
-        });
+    }
+
+    public void reobserveOrientation() {
+        LiveData<Float> orientationData = orientationService.getOrientation();
+        orientationData.observe(this, this::onOrientationChanged);
+    }
+
+    private void reobserveLocation() {
+        LiveData<Pair<Double, Double>> locationData = locationService.getLocation();
+        locationData.observe(this, this::onLocationChanged);
+    }
+
+    private void onOrientationChanged(Float orientation) {
+        TextView orientationText = findViewById(R.id.label);
+        orientationSet(orientationText, orientation);
+    }
+
+    private void onLocationChanged(Pair<Double, Double> latLong) {
+        TextView textView = findViewById(R.id.latTextView);
+        TextView textView1 = findViewById(R.id.longTextView);
+
+        textView.setText(latLong.first.toString());
+        textView1.setText(latLong.second.toString());
+
+        SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putFloat("parentsLat", latLong.first.floatValue());
+        editor.putFloat("parentsLong", latLong.second.floatValue());
+        editor.apply();
     }
 
     private void orientationSet(TextView image, float degree) {
