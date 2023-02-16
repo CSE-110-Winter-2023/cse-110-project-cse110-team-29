@@ -10,15 +10,15 @@ import android.hardware.SensorManager;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-public class OrientationServiceS implements SensorEventListener {
-    private static OrientationServiceS instance;
+public class OrientationService implements SensorEventListener {
+    private static OrientationService instance;
 
     private final SensorManager sensorManager;
     private float[] accelerometerReading;
     private float[] magnetometerReading;
     private MutableLiveData<Float> azimuth;
 
-    public OrientationServiceS(Activity activity) {
+    public OrientationService(Activity activity) {
         this.azimuth = new MutableLiveData<>();
         this.sensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
         this.registerSensorListeners();
@@ -33,9 +33,9 @@ public class OrientationServiceS implements SensorEventListener {
                 SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-    public static OrientationServiceS singleton(Activity activity) {
+    public static OrientationService singleton(Activity activity) {
         if (instance == null) {
-            instance = new OrientationServiceS(activity);
+            instance = new OrientationService(activity);
         }
         return instance;
     }
