@@ -15,7 +15,8 @@ public class CircularActivity extends AppCompatActivity {
     private LocationService locationService;
     private OrientationService orientationService;
     private float orientationAngel;
-
+    private double longitude;
+    private double latitude;
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
@@ -40,11 +41,17 @@ public class CircularActivity extends AppCompatActivity {
         }
 
         orientationService = OrientationService.singleton(this);
+        locationService = LocationService.singleton(this);
         TextView image = findViewById(R.id.label);
 
         orientationService.getOrientation().observe(this, orientation -> {
             orientationAngel = orientation;
             orientationSet(image, orientationAngel);
+        });
+
+        locationService.getLocation().observe(this, loc -> {
+            latitude = loc.first;
+            longitude = loc.second;
         });
     }
 
