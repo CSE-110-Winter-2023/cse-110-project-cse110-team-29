@@ -31,9 +31,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" "
+            android:textAllCaps="true"
+            android:textColor="#B60340"
+            android:textSize="16dp"
+            android:textStyle="bold"
             app:layout_constraintCircle="@+id/clockFace"
             app:layout_constraintCircleAngle="210"
-            app:layout_constraintCircleRadius="155dp"
+            app:layout_constraintCircleRadius="150dp"
             tools:layout_editor_absoluteX="218dp"
             tools:layout_editor_absoluteY="329dp" />
 
