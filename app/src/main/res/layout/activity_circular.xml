@@ -23,9 +23,9 @@
             android:id="@+id/clockFace"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/compass"
-            tools:layout_editor_absoluteX="-16dp"
-            tools:layout_editor_absoluteY="-16dp" />
+            tools:layout_editor_absoluteX="-16dp" />
 
         <TextView
             android:id="@+id/label"
@@ -38,6 +38,17 @@
             app:layout_constraintCircleRadius="155dp"
             tools:layout_editor_absoluteX="218dp"
             tools:layout_editor_absoluteY="329dp" />
+
+        <TextView
+            android:id="@+id/ParentHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Parent's Home"
+            app:layout_constraintCircle="@+id/clockFace"
+            app:layout_constraintCircleAngle="210"
+            app:layout_constraintCircleRadius="155dp"
+            tools:layout_editor_absoluteX="148dp"
+            tools:layout_editor_absoluteY="17dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -13,6 +13,8 @@ import android.util.Pair;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.nio.DoubleBuffer;
+
 public class CircularActivity extends AppCompatActivity {
     private LocationService locationService;
     private OrientationService orientationService;
@@ -52,7 +54,19 @@ public class CircularActivity extends AppCompatActivity {
 
     private void onOrientationChanged(Float orientation) {
         TextView orientationText = findViewById(R.id.label);
-        orientationSet(orientationText, orientation);
+
+        orientationSet(orientationText, (double) orientation);
+        SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
+        Double lat = Double.valueOf(prefs.getFloat("parentsLat", 0.0f));
+        Double lon = Double.valueOf(prefs.getFloat("parentsLong",0.0f));
+        LiveData<Float> cur_angle_liveData = orientationService.getOrientation();
+        Float cur_angle = cur_angle_liveData.getValue();
+        LiveData<Pair<Double,Double>> cur_location_liveData = locationService.getLocation();
+        Pair<Double,Double>  cur_location = cur_location_liveData.getValue();
+
+        Double new_angle = angle_in_activity(lat, lon, cur_location.first, cur_location.second + cur_angle);
+        TextView parents_home = findViewById(R.id.ParentHome);
+        orientationSet(parents_home,new_angle);
     }
 
     private void onLocationChanged(Pair<Double, Double> latLong) {
@@ -64,12 +78,24 @@ public class CircularActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+
         editor.putFloat("parentsLat", latLong.first.floatValue());
         editor.putFloat("parentsLong", latLong.second.floatValue());
         editor.apply();
+        Double lat = Double.valueOf(prefs.getFloat("parentsLat", 0.0f));
+        Double lon = Double.valueOf(prefs.getFloat("parentsLong",0.0f));
+
+        LiveData<Float> cur_angle_liveData = orientationService.getOrientation();
+        Float cur_angle = cur_angle_liveData.getValue();
+        LiveData<Pair<Double,Double>> cur_location_liveData = locationService.getLocation();
+        Pair<Double,Double>  cur_location = cur_location_liveData.getValue();
+
+        Double new_angle = angle_in_activity(lat, lon, cur_location.first, cur_location.second + cur_angle);
+        TextView parents_home = findViewById(R.id.ParentHome);
+        orientationSet(parents_home,new_angle);
     }
 
-    private void orientationSet(TextView image, float degree) {
+    private void orientationSet(TextView image, Double degree) {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) image.getLayoutParams();
         degree = -degree;
         layoutParams.circleAngle = (float) (180 * degree / (Math.PI));
