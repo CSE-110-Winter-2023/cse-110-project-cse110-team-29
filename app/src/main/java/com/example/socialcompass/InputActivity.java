@@ -23,8 +23,12 @@ public class InputActivity extends AppCompatActivity {
         latInput = findViewById(R.id.latitudeNum);
         longInput = findViewById(R.id.longitudeNum);
 
-        // locations = new ArrayList<>();
-        // TODO: update locations with saved locations
+        // update locations with saved locations
+        SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
+
+        labelInput.setText(prefs.getString("parentsLabel",""));
+        latInput.setText(String.valueOf(prefs.getFloat("parentsLat",0)));
+        longInput.setText(String.valueOf(prefs.getFloat("parentsLong",0)));
     }
 
     public void saveLocation() {
@@ -46,17 +50,6 @@ public class InputActivity extends AppCompatActivity {
         editor.putFloat("parentsLat", newLoc.getLatitude());
         editor.putFloat("parentsLong", newLoc.getLongitude());
         editor.apply();
-    }
-
-    public void onSaveAndContinue(View view) {
-        saveLocation();
-        //note:after click save and continue, it should jump to the compass Frame
-        Intent intent = new Intent(this,CircularActivity.class);
-        startActivity(intent);
-        // reset inputs
-        labelInput.setText("");
-        latInput.setText("");
-        longInput.setText("");
     }
 
     public void onFinish(View view) {

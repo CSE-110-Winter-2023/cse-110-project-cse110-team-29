@@ -3,8 +3,10 @@ package com.example.socialcompass;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class CircularActivity extends AppCompatActivity {
@@ -19,6 +21,8 @@ public class CircularActivity extends AppCompatActivity {
             loadInput(loc.first, loc.second);
             // Utilities.showAlert(this, String.valueOf(loc.first) + "," + String.valueOf(loc.second));
         });
+        Intent intent = new Intent(this, InputActivity.class);
+        startActivity(intent);
     }
 
     public void loadInput(double myLat, double myLong) {
@@ -28,9 +32,11 @@ public class CircularActivity extends AppCompatActivity {
         Float latitude = prefs.getFloat("parentsLat",0);
         Float longitude = prefs.getFloat("parentsLong",0);
 
+        label = label == "" ? "Parent's House" : label;
+
         TextView labelView = findViewById(R.id.label);
         //get the label from user input
-        labelView.setText(label);
+        labelView.setText(label );
 
         // manually update angle (it works)
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) labelView.getLayoutParams();
@@ -57,5 +63,10 @@ public class CircularActivity extends AppCompatActivity {
         brng = 360 - brng; // count degrees counter-clockwise - remove to make clockwise
 
         return brng;
+    }
+
+    public void onEditLocation(View view) {
+        Intent intent = new Intent(this, InputActivity.class);
+        startActivity(intent);
     }
 }
