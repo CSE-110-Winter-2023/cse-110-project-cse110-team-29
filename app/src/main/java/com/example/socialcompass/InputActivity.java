@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 
 public class InputActivity extends AppCompatActivity {
-    // private ArrayList<Location> locations;
     private EditText labelInput;
     private EditText latInput;
     private EditText longInput;
@@ -32,17 +31,11 @@ public class InputActivity extends AppCompatActivity {
     }
 
     public void saveLocation() {
-        // get a new Location from user input
         // TODO: validate inputs
         iLocation newLoc = new iLocation(
                 labelInput.getText().toString(),
                 Float.parseFloat(latInput.getText().toString()),
                 Float.parseFloat(longInput.getText().toString()));
-
-        // locations.add(newLoc);
-
-
-        // save locations
 
         SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();

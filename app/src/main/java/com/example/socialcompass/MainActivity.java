@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
 
-
         // temp always start input activity immediately
         Intent intent = new Intent(this, CircularActivity.class);
         startActivity(intent);
