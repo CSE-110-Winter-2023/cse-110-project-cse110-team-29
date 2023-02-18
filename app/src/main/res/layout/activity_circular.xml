@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CircularActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clock"
         android:layout_width="0dp"
@@ -25,87 +26,97 @@
             android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/compass"
-            tools:layout_editor_absoluteX="-16dp" />
+            tools:layout_editor_absoluteX="0dp" />
 
         <TextView
-            android:id="@+id/label"
+            android:id="@+id/north"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="N"
-            android:textSize="50dp"
             android:textAllCaps="true"
             android:textColor="#B60340"
+            android:textSize="50dp"
             android:textStyle="bold"
             app:layout_constraintCircle="@+id/clockFace"
-            app:layout_constraintCircleAngle="210"
             app:layout_constraintCircleRadius="150dp"
-            tools:layout_editor_absoluteX="218dp"
-            tools:layout_editor_absoluteY="329dp" />
+            tools:layout_editor_absoluteX="172dp"
+            tools:layout_editor_absoluteY="-23dp" />
 
         <TextView
             android:id="@+id/ParentHome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Parent's Home"
             app:layout_constraintCircle="@+id/clockFace"
-            app:layout_constraintCircleAngle="210"
             app:layout_constraintCircleRadius="155dp"
             tools:layout_editor_absoluteX="148dp"
             tools:layout_editor_absoluteY="17dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <Button
+        android:id="@+id/editOrientationBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onEditOrientation"
+        android:text="Set Orientation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editOrientation"
+        android:layout_width="180dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="numberSigned"
+        app:layout_constraintBottom_toTopOf="@+id/editOrientationBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.069"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/editLabelBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onEditLabel"
+        android:text="Update Label"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.939"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editLabel"
+        android:layout_width="180dp"
+        android:layout_height="45dp"
+        android:autofillHints="Enter label..."
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/editLabelBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/upArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:rotation="90"
         android:scaleX="1.4"
         android:scaleY="1.4"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/clock"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.216"
+        app:layout_constraintVertical_bias="0.914"
         app:srcCompat="@drawable/ic_baseline_chevron_left_24" />
 
 
-    <TextView
-        android:id="@+id/latTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.126" />
-
-    <TextView
-        android:id="@+id/longTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.057" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Edit Location"
-        android:onClick="onEditLocation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

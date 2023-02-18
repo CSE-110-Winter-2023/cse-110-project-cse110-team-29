@@ -12,19 +12,28 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
-import android.widget.ImageView;
+import androidx.core.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
-import java.nio.DoubleBuffer;
+
 
 public class CircularActivity extends AppCompatActivity {
     private LocationService locationService;
     private OrientationService orientationService;
-    private float orientationAngel;
-    private double longitude;
-    private double latitude;
+
+    SharedPreferences prefs;
+
+    // for a single saved location
+    private double orientationAngle;
+    private double angleFromLocation;
+    private double parentLongitude;
+    private double parentLatitude;
+
+    private double orientationOffset;
+
+    TextView northView;
+    TextView parentsHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +47,24 @@ public class CircularActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
 
-        orientationService = OrientationService.singleton(this);
         locationService = LocationService.singleton(this);
-
-
-        this.reobserveOrientation();
         this.reobserveLocation();
 
+        orientationService = OrientationService.singleton(this);
+        this.reobserveOrientation();
+
+        this.prefs = getSharedPreferences("data", MODE_PRIVATE);
+        this.northView = findViewById(R.id.north);
+        this.parentsHome = findViewById(R.id.ParentHome);
+
+        if(!prefs.contains("parentsLabel") || !prefs.contains("parentsLat") || !prefs.contains("parentsLong")) {
+            Intent inputIntent = new Intent(this, InputActivity.class);
+            startActivity(inputIntent);
+        }
+
+        this.parentsHome.setText(prefs.getString("parentsLabel",""));
+        this.parentLongitude = prefs.getFloat("parentsLong", 0);
+        this.parentLatitude = prefs.getFloat("parentsLat", 0);
     }
 
     public void reobserveOrientation() {
@@ -58,86 +78,39 @@ public class CircularActivity extends AppCompatActivity {
     }
 
     private void onOrientationChanged(Float orientation) {
-        TextView orientationText = findViewById(R.id.label);
+        if(orientation == this.orientationAngle) {
+            return;
+        }
 
-        orientationSet(orientationText, (double) orientation);
-        SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
-        Double lat = Double.valueOf(prefs.getFloat("parentsLat", 0.0f));
-        Double lon = Double.valueOf(prefs.getFloat("parentsLong",0.0f));
-        LiveData<Float> cur_angle_liveData = orientationService.getOrientation();
-        Float cur_angle = cur_angle_liveData.getValue();
-        LiveData<Pair<Double,Double>> cur_location_liveData = locationService.getLocation();
-        Pair<Double,Double>  cur_location = cur_location_liveData.getValue();
-        Log.d("MS-1 Debug", cur_location.toString());
-        Double new_angle = angle_in_activity(lat, lon, cur_location.first, cur_location.second + cur_angle);
-        TextView parents_home = findViewById(R.id.ParentHome);
-        orientationSet(parents_home,new_angle);
+        this.orientationAngle = orientation;
+        orientationSet(this.northView, orientation + this.orientationOffset);
+        orientationSet(this.parentsHome, this.angleFromLocation + orientation + this.orientationOffset);
     }
 
-    private void onLocationChanged(Pair<Double, Double> latLong) {
-        TextView textView = findViewById(R.id.latTextView);
-        TextView textView1 = findViewById(R.id.longTextView);
+    private void onLocationChanged(Pair<Double, Double> userLocation) {
+        Double userLat = userLocation.first, userLong = userLocation.second;
 
-        textView.setText(latLong.first.toString());
-        textView1.setText(latLong.second.toString());
+        Double newAngle = angleInActivity(userLat, userLong, this.parentLatitude, this.parentLongitude);
 
-        SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
+        if(newAngle == this.angleFromLocation) {
+            return;
+        }
 
-        editor.putFloat("parentsLat", latLong.first.floatValue());
-        editor.putFloat("parentsLong", latLong.second.floatValue());
-        editor.apply();
-        Double lat = Double.valueOf(prefs.getFloat("parentsLat", 0.0f));
-        Double lon = Double.valueOf(prefs.getFloat("parentsLong",0.0f));
+        this.angleFromLocation = newAngle;
 
-        LiveData<Float> cur_angle_liveData = orientationService.getOrientation();
-        Float cur_angle = cur_angle_liveData.getValue();
-        LiveData<Pair<Double,Double>> cur_location_liveData = locationService.getLocation();
-        Pair<Double,Double>  cur_location = cur_location_liveData.getValue();
-
-        Double new_angle = angle_in_activity(lat, lon, cur_location.first, cur_location.second + cur_angle);
-        TextView parents_home = findViewById(R.id.ParentHome);
-        orientationSet(parents_home,new_angle);
+        orientationSet(this.parentsHome, newAngle);
     }
 
     private void orientationSet(TextView image, Double degree) {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) image.getLayoutParams();
         degree = -degree;
+
         layoutParams.circleAngle = (float) (180 * degree / (Math.PI));
+
         image.setLayoutParams(layoutParams);
-        locationService.getLocation().observe(this, loc -> {
-            loadInput(loc.first, loc.second);
-            // Utilities.showAlert(this, String.valueOf(loc.first) + "," + String.valueOf(loc.second));
-        });
-        Intent intent = new Intent(this, InputActivity.class);
-        startActivity(intent);
     }
 
-    public void loadInput(double myLat, double myLong) {
-        SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
-
-        String label = prefs.getString("parentsLabel", "");
-        Float latitude = prefs.getFloat("parentsLat", 0);
-        Float longitude = prefs.getFloat("parentsLong", 0);
-
-        label = label == "" ? "Parent's House" : label;
-
-        TextView labelView = findViewById(R.id.label);
-        //get the label from user input
-        labelView.setText(label );
-
-        // manually update angle (it works)
-        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) labelView.getLayoutParams();
-
-        // coordinates of Geisel Library
-        // final double myLat = 32.881174;
-        // final double myLong = -117.2378661;
-        layoutParams.circleAngle = (float) angle_in_activity(myLat, myLong, (double) latitude, (double) longitude);
-        labelView.setLayoutParams(layoutParams);
-    }
-
-    private double angle_in_activity(double lat1, double long1, double lat2,
-                                     double long2) {
+    private double angleInActivity(double lat1, double long1, double lat2, double long2) {
 
         double dLon = (long2 - long1);
 
@@ -154,8 +127,31 @@ public class CircularActivity extends AppCompatActivity {
         return brng;
     }
 
-    public void onEditLocation(View view) {
-        Intent intent = new Intent(this, InputActivity.class);
-        startActivity(intent);
+    public void onEditOrientation(View view) {
+        TextView orientationText = findViewById(R.id.editOrientation);
+        double newOrientation = Double.parseDouble(orientationText.getText().toString());
+
+        this.orientationOffset = newOrientation;
+
+        // offset orientation by value entered
+        orientationSet(this.northView, this.orientationAngle + this.orientationOffset);
+        orientationSet(this.parentsHome, this.angleFromLocation + this.orientationAngle + this.orientationOffset);
+    }
+
+    public void onEditLabel(View view) {
+        TextView newLabel = findViewById(R.id.editLabel);
+        String label = newLabel.getText().toString();
+
+        if(label.equals("")) {
+            return;
+        }
+
+        this.parentsHome.setText(label);
+        newLabel.setText("");
+
+        SharedPreferences.Editor editor = this.prefs.edit();
+        editor.putString("parentsLabel", label);
+
+        editor.apply();
     }
 }
