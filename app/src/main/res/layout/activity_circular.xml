@@ -49,7 +49,9 @@
             app:layout_constraintCircle="@+id/clockFace"
             app:layout_constraintCircleRadius="155dp"
             tools:layout_editor_absoluteX="148dp"
-            tools:layout_editor_absoluteY="17dp" />
+            tools:layout_editor_absoluteY="17dp"
+            android:text=""
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

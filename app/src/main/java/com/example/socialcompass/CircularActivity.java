@@ -72,7 +72,7 @@ public class CircularActivity extends AppCompatActivity {
         orientationData.observe(this, this::onOrientationChanged);
     }
 
-    private void reobserveLocation() {
+    public void reobserveLocation() {
         LiveData<Pair<Double, Double>> locationData = locationService.getLocation();
         locationData.observe(this, this::onLocationChanged);
     }
@@ -130,7 +130,7 @@ public class CircularActivity extends AppCompatActivity {
     public void onEditOrientation(View view) {
         TextView orientationText = findViewById(R.id.editOrientation);
         double newOrientation = Double.parseDouble(orientationText.getText().toString());
-
+        newOrientation = Math.toRadians(newOrientation);
         this.orientationOffset = newOrientation;
 
         // offset orientation by value entered
