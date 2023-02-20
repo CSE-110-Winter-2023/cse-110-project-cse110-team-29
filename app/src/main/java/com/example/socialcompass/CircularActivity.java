@@ -90,7 +90,7 @@ public class CircularActivity extends AppCompatActivity {
     private void onLocationChanged(Pair<Double, Double> userLocation) {
         Double userLat = userLocation.first, userLong = userLocation.second;
 
-        Double newAngle = angleInActivity(userLat, userLong, this.parentLatitude, this.parentLongitude);
+        Double newAngle = Utilities.angleFromCoordinate(userLat, userLong, this.parentLatitude, this.parentLongitude);
 
         if(newAngle == this.angleFromLocation) {
             return;
@@ -108,23 +108,6 @@ public class CircularActivity extends AppCompatActivity {
         layoutParams.circleAngle = (float) (180 * degree / (Math.PI));
 
         image.setLayoutParams(layoutParams);
-    }
-
-    private double angleInActivity(double lat1, double long1, double lat2, double long2) {
-
-        double dLon = (long2 - long1);
-
-        double y = Math.sin(dLon) * Math.cos(lat2);
-        double x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1)
-                * Math.cos(lat2) * Math.cos(dLon);
-
-        double brng = Math.atan2(y, x);
-
-        brng = Math.toDegrees(brng);
-        brng = (brng + 360) % 360;
-        brng = 360 - brng; // count degrees counter-clockwise - remove to make clockwise
-
-        return brng;
     }
 
     public void onEditOrientation(View view) {
