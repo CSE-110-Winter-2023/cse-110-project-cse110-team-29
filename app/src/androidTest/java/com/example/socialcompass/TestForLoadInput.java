@@ -31,7 +31,7 @@ public class TestForLoadInput {
                 lat.setText("14");
                 TextView longi = (TextView) activity.findViewById(R.id.longitudeNum);
                 longi.setText("16");
-                View but = activity.findViewById(R.id.button);
+                View but = activity.findViewById(R.id.button2);
                 but.performClick();
                 SharedPreferences prefs = activity.getSharedPreferences("data",Context.MODE_PRIVATE);
                 assertEquals("Home",prefs.getString("parentsLabel",""));
