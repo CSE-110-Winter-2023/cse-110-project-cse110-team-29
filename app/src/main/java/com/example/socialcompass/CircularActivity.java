@@ -72,7 +72,7 @@ public class CircularActivity extends AppCompatActivity {
         orientationData.observe(this, this::onOrientationChanged);
     }
 
-    private void reobserveLocation() {
+    public void reobserveLocation() {
         LiveData<Pair<Double, Double>> locationData = locationService.getLocation();
         locationData.observe(this, this::onLocationChanged);
     }
