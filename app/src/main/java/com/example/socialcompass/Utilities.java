@@ -19,8 +19,7 @@ public class Utilities {
         alertDialog.show();
     }
 
-    public static double angleFromCoordinate(double lat1, double long1, double lat2,
-                                       double long2) {
+    public static double angleInActivity(double lat1, double long1, double lat2, double long2) {
 
         double dLon = (long2 - long1);
 
@@ -32,10 +31,11 @@ public class Utilities {
 
         brng = Math.toDegrees(brng);
         brng = (brng + 360) % 360;
-        //brng = 360 - brng; // count degrees counter-clockwise - remove to make clockwise
-        if (brng == 360){
+
+        if (brng == 360) {
             brng = 0;
         }
+
         return brng;
     }
 }
