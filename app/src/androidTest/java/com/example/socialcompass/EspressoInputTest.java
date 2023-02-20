@@ -31,6 +31,7 @@ import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import androidx.test.rule.GrantPermissionRule;
 import android.content.SharedPreferences;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -39,7 +40,10 @@ public class EspressoInputTest {
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
-
+    
+    @Rule
+    public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION);
+    
     @Test
     public void espressoInputTest() {
         ViewInteraction appCompatEditText = onView(
