@@ -16,8 +16,6 @@ import androidx.core.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
-
-
 public class CircularActivity extends AppCompatActivity {
     private LocationService locationService;
     private OrientationService orientationService;
@@ -25,15 +23,11 @@ public class CircularActivity extends AppCompatActivity {
     SharedPreferences prefs;
 
     // for a single saved location
-    private double orientationAngle;
-    private double angleFromLocation;
-    private double parentLongitude;
-    private double parentLatitude;
+    Location parentLocation;
 
     private double orientationOffset;
 
     TextView northView;
-    TextView parentsHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,16 +49,14 @@ public class CircularActivity extends AppCompatActivity {
 
         this.prefs = getSharedPreferences("data", MODE_PRIVATE);
         this.northView = findViewById(R.id.north);
-        this.parentsHome = findViewById(R.id.ParentHome);
 
         if(!prefs.contains("parentsLabel") || !prefs.contains("parentsLat") || !prefs.contains("parentsLong")) {
             Intent inputIntent = new Intent(this, InputActivity.class);
             startActivity(inputIntent);
         }
 
-        this.parentsHome.setText(prefs.getString("parentsLabel",""));
-        this.parentLongitude = prefs.getFloat("parentsLong", 0);
-        this.parentLatitude = prefs.getFloat("parentsLat", 0);
+        this.parentLocation = new Location(findViewById(R.id.ParentHome), prefs.getFloat("parentsLong", 0), prefs.getFloat("parentsLat", 0));
+        this.parentLocation.updateLabel(prefs.getString("parentsLabel",""));
     }
 
     public void reobserveOrientation() {
@@ -78,53 +70,30 @@ public class CircularActivity extends AppCompatActivity {
     }
 
     private void onOrientationChanged(Float orientation) {
-        if(orientation == this.orientationAngle) {
+        if(orientation == this.parentLocation.getOrientationAngle()) {
             return;
         }
 
-        this.orientationAngle = orientation;
+        this.parentLocation.setOrientationAngle(orientation);
+
         orientationSet(this.northView, orientation + this.orientationOffset);
-        orientationSet(this.parentsHome, this.angleFromLocation + orientation + this.orientationOffset);
+        orientationSet(this.parentLocation.getTextView(), this.parentLocation.getAngleFromLocation() +
+                        orientation + this.orientationOffset);
     }
 
     private void onLocationChanged(Pair<Double, Double> userLocation) {
         Double userLat = userLocation.first, userLong = userLocation.second;
 
-        Double newAngle = angleInActivity(userLat, userLong, this.parentLatitude, this.parentLongitude);
+        Double newAngle = Utilities.angleInActivity(userLat, userLong, this.parentLocation.getLatitude(),
+                                                    this.parentLocation.getLongitude());
 
-        if(newAngle == this.angleFromLocation) {
+        if(newAngle == this.parentLocation.getAngleFromLocation()) {
             return;
         }
 
-        this.angleFromLocation = newAngle;
+        this.parentLocation.setAngleFromLocation(newAngle);
 
-        orientationSet(this.parentsHome, newAngle);
-    }
-
-    private void orientationSet(TextView image, Double degree) {
-        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) image.getLayoutParams();
-        degree = -degree;
-
-        layoutParams.circleAngle = (float) (180 * degree / (Math.PI));
-
-        image.setLayoutParams(layoutParams);
-    }
-
-    private double angleInActivity(double lat1, double long1, double lat2, double long2) {
-
-        double dLon = (long2 - long1);
-
-        double y = Math.sin(dLon) * Math.cos(lat2);
-        double x = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1)
-                * Math.cos(lat2) * Math.cos(dLon);
-
-        double brng = Math.atan2(y, x);
-
-        brng = Math.toDegrees(brng);
-        brng = (brng + 360) % 360;
-        brng = 360 - brng; // count degrees counter-clockwise - remove to make clockwise
-
-        return brng;
+        orientationSet(this.parentLocation.getTextView(), newAngle);
     }
 
     public void onEditOrientation(View view) {
@@ -134,8 +103,9 @@ public class CircularActivity extends AppCompatActivity {
         this.orientationOffset = newOrientation;
 
         // offset orientation by value entered
-        orientationSet(this.northView, this.orientationAngle + this.orientationOffset);
-        orientationSet(this.parentsHome, this.angleFromLocation + this.orientationAngle + this.orientationOffset);
+        orientationSet(this.northView, this.parentLocation.getOrientationAngle() + this.orientationOffset);
+        orientationSet(this.parentLocation.getTextView(), this.parentLocation.getAngleFromLocation() +
+                        this.parentLocation.getOrientationAngle() + this.orientationOffset);
     }
 
     public void onEditLabel(View view) {
@@ -146,12 +116,22 @@ public class CircularActivity extends AppCompatActivity {
             return;
         }
 
-        this.parentsHome.setText(label);
+        this.parentLocation.updateLabel(label);
         newLabel.setText("");
 
         SharedPreferences.Editor editor = this.prefs.edit();
         editor.putString("parentsLabel", label);
 
         editor.apply();
+    }
+
+    private void orientationSet(View image, Double degree) {
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) image.getLayoutParams();
+
+        degree = -degree;
+
+        layoutParams.circleAngle = (float) (180 * degree / (Math.PI));
+
+        image.setLayoutParams(layoutParams);
     }
 }
