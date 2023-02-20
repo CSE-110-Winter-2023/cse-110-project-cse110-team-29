@@ -1,0 +1,63 @@
+Index: .idea/androidTestResultsUserPreferences.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AndroidTestResultsUserPreferences\">\n    <option name=\"androidTestResultsTableState\">\n      <map>\n        <entry key=\"-770998070\">\n          <value>\n            <AndroidTestResultsTableState>\n              <option name=\"preferredColumnWidths\">\n                <map>\n                  <entry key=\"Duration\" value=\"90\" />\n                  <entry key=\"Pixel_4_API_32\" value=\"120\" />\n                  <entry key=\"Tests\" value=\"360\" />\n                </map>\n              </option>\n            </AndroidTestResultsTableState>\n          </value>\n        </entry>\n        <entry key=\"-386764623\">\n          <value>\n            <AndroidTestResultsTableState>\n              <option name=\"preferredColumnWidths\">\n                <map>\n                  <entry key=\"Duration\" value=\"90\" />\n                  <entry key=\"Pixel_4_API_32\" value=\"120\" />\n                  <entry key=\"Tests\" value=\"360\" />\n                </map>\n              </option>\n            </AndroidTestResultsTableState>\n          </value>\n        </entry>\n        <entry key=\"105249608\">\n          <value>\n            <AndroidTestResultsTableState>\n              <option name=\"preferredColumnWidths\">\n                <map>\n                  <entry key=\"Duration\" value=\"90\" />\n                  <entry key=\"Pixel_2_API_30\" value=\"120\" />\n                  <entry key=\"Tests\" value=\"360\" />\n                </map>\n              </option>\n            </AndroidTestResultsTableState>\n          </value>\n        </entry>\n        <entry key=\"216424567\">\n          <value>\n            <AndroidTestResultsTableState>\n              <option name=\"preferredColumnWidths\">\n                <map>\n                  <entry key=\"Duration\" value=\"90\" />\n                  <entry key=\"Pixel_4_API_32\" value=\"120\" />\n                  <entry key=\"Tests\" value=\"360\" />\n                </map>\n              </option>\n            </AndroidTestResultsTableState>\n          </value>\n        </entry>\n        <entry key=\"629663337\">\n          <value>\n            <AndroidTestResultsTableState>\n              <option name=\"preferredColumnWidths\">\n                <map>\n                  <entry key=\"Duration\" value=\"90\" />\n                  <entry key=\"Pixel_2_API_30\" value=\"120\" />\n                  <entry key=\"Tests\" value=\"360\" />\n                </map>\n              </option>\n            </AndroidTestResultsTableState>\n          </value>\n        </entry>\n        <entry key=\"1534618739\">\n          <value>\n            <AndroidTestResultsTableState>\n              <option name=\"preferredColumnWidths\">\n                <map>\n                  <entry key=\"1B091JEG503102\" value=\"120\" />\n                  <entry key=\"Duration\" value=\"90\" />\n                  <entry key=\"Google&#10; Pixel 5a\" value=\"120\" />\n                  <entry key=\"Pixel_2_API_30\" value=\"120\" />\n                  <entry key=\"Pixel_4_API_32\" value=\"120\" />\n                  <entry key=\"Tests\" value=\"360\" />\n                </map>\n              </option>\n            </AndroidTestResultsTableState>\n          </value>\n        </entry>\n        <entry key=\"1723847890\">\n          <value>\n            <AndroidTestResultsTableState>\n              <option name=\"preferredColumnWidths\">\n                <map>\n                  <entry key=\"Duration\" value=\"90\" />\n                  <entry key=\"Pixel_2_API_30\" value=\"120\" />\n                  <entry key=\"Tests\" value=\"360\" />\n                </map>\n              </option>\n            </AndroidTestResultsTableState>\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/androidTestResultsUserPreferences.xml b/.idea/androidTestResultsUserPreferences.xml
+--- a/.idea/androidTestResultsUserPreferences.xml	(revision 9c166b131f7883a48b55d74c7913b8f6f6049d0a)
++++ b/.idea/androidTestResultsUserPreferences.xml	(date 1676866639671)
+@@ -3,6 +3,19 @@
+   <component name="AndroidTestResultsUserPreferences">
+     <option name="androidTestResultsTableState">
+       <map>
++        <entry key="-1565002584">
++          <value>
++            <AndroidTestResultsTableState>
++              <option name="preferredColumnWidths">
++                <map>
++                  <entry key="Duration" value="90" />
++                  <entry key="Pixel_4_API_32" value="120" />
++                  <entry key="Tests" value="360" />
++                </map>
++              </option>
++            </AndroidTestResultsTableState>
++          </value>
++        </entry>
+         <entry key="-770998070">
+           <value>
+             <AndroidTestResultsTableState>
+@@ -43,6 +56,32 @@
+           </value>
+         </entry>
+         <entry key="216424567">
++          <value>
++            <AndroidTestResultsTableState>
++              <option name="preferredColumnWidths">
++                <map>
++                  <entry key="Duration" value="90" />
++                  <entry key="Pixel_4_API_32" value="120" />
++                  <entry key="Tests" value="360" />
++                </map>
++              </option>
++            </AndroidTestResultsTableState>
++          </value>
++        </entry>
++        <entry key="387716809">
++          <value>
++            <AndroidTestResultsTableState>
++              <option name="preferredColumnWidths">
++                <map>
++                  <entry key="Duration" value="90" />
++                  <entry key="Pixel_4_API_32" value="120" />
++                  <entry key="Tests" value="360" />
++                </map>
++              </option>
++            </AndroidTestResultsTableState>
++          </value>
++        </entry>
++        <entry key="944430476">
+           <value>
+             <AndroidTestResultsTableState>
+               <option name="preferredColumnWidths">
