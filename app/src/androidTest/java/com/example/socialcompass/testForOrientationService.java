@@ -20,7 +20,7 @@ public class testForOrientationService {
     /**
      * this test is for testing only orientation service by mocking a fake data
      * into the observer in order to check whether the parent label and the North
-     * label will appear at the correct location(angle) of the compass
+     * label will appear at the correct location(angle) of the compass.
      */
     public void test_orientation() {
         var testValue = (float) 30.0;
