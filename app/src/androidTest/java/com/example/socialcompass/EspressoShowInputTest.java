@@ -34,14 +34,14 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 // WARNING: Espresso Test Recorder was paused during recording.
 // The generated test may be missing actions which might lead to unexpected behavior.
-public class EspressoInputTest {
+public class EspressoShowInputTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void espressoInputTest() {
+    public void espressoShowInputTest() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.labelName),
                         childAtPosition(
@@ -60,10 +60,10 @@ public class EspressoInputTest {
                                         0),
                                 0),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("25.0"));
+        appCompatEditText2.perform(replaceText("25"));
 
         ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.latitudeNum), withText("25.0"),
+                allOf(withId(R.id.latitudeNum), withText("25"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -80,10 +80,10 @@ public class EspressoInputTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText4.perform(replaceText("-30.5"));
+        appCompatEditText4.perform(replaceText("-70.5"));
 
         ViewInteraction appCompatEditText5 = onView(
-                allOf(withId(R.id.longitudeNum), withText("-30.5"),
+                allOf(withId(R.id.longitudeNum), withText("-70.5"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -93,7 +93,7 @@ public class EspressoInputTest {
         appCompatEditText5.perform(closeSoftKeyboard());
 
         ViewInteraction appCompatEditText6 = onView(
-                allOf(withId(R.id.longitudeNum), withText("-30.5"),
+                allOf(withId(R.id.longitudeNum), withText("-70.5"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
