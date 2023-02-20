@@ -43,6 +43,8 @@ public class InputActivity extends AppCompatActivity {
         editor.putFloat("parentsLat", newLoc.getLatitude());
         editor.putFloat("parentsLong", newLoc.getLongitude());
         editor.apply();
+        Intent intent = new Intent(this,CircularActivity.class);
+        startActivity(intent);
     }
 
     public void onFinish(View view) {

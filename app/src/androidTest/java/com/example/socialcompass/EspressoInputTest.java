@@ -13,10 +13,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
+import android.content.SharedPreferences;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -29,19 +31,17 @@ import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
+import android.content.SharedPreferences;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-// WARNING: Espresso Test Recorder was paused during recording.
-// The generated test may be missing actions which might lead to unexpected behavior.
-public class EspressoShowInputTest {
+public class EspressoInputTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void espressoShowInputTest() {
+    public void espressoInputTest() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.labelName),
                         childAtPosition(
@@ -50,7 +50,7 @@ public class EspressoShowInputTest {
                                         0),
                                 2),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("Parents"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("Parent"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.latitudeNum), withText("0.0"),
@@ -60,10 +60,10 @@ public class EspressoShowInputTest {
                                         0),
                                 0),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("25"));
+        appCompatEditText2.perform(replaceText("12.0"));
 
         ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.latitudeNum), withText("25"),
+                allOf(withId(R.id.latitudeNum), withText("12.0"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -80,10 +80,10 @@ public class EspressoShowInputTest {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText4.perform(replaceText("-70.5"));
+        appCompatEditText4.perform(replaceText("-30.0"));
 
         ViewInteraction appCompatEditText5 = onView(
-                allOf(withId(R.id.longitudeNum), withText("-70.5"),
+                allOf(withId(R.id.longitudeNum), withText("-30.0"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -93,7 +93,7 @@ public class EspressoShowInputTest {
         appCompatEditText5.perform(closeSoftKeyboard());
 
         ViewInteraction appCompatEditText6 = onView(
-                allOf(withId(R.id.longitudeNum), withText("-70.5"),
+                allOf(withId(R.id.longitudeNum), withText("-30.0"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -113,11 +113,11 @@ public class EspressoShowInputTest {
         materialButton.perform(click());
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.ParentHome), withText("Parents"),
+                allOf(withId(R.id.ParentHome), withText("Parent"),
                         withParent(allOf(withId(R.id.clock),
                                 withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
                         isDisplayed()));
-        textView.check(matches(withText("Parents")));
+        textView.check(matches(withText("Parent")));
     }
 
     private static Matcher<View> childAtPosition(
