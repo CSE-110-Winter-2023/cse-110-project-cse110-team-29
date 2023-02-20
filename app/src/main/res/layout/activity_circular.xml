@@ -49,7 +49,9 @@
             app:layout_constraintCircle="@+id/clockFace"
             app:layout_constraintCircleRadius="155dp"
             tools:layout_editor_absoluteX="148dp"
-            tools:layout_editor_absoluteY="17dp" />
+            tools:layout_editor_absoluteY="17dp"
+            android:text=""
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -69,6 +71,7 @@
         android:layout_width="180dp"
         android:layout_height="45dp"
         android:ems="10"
+        android:hint="0"
         android:inputType="numberSigned"
         app:layout_constraintBottom_toTopOf="@+id/editOrientationBtn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,6 +97,7 @@
         android:layout_height="45dp"
         android:autofillHints="Enter label..."
         android:ems="10"
+        android:hint="Enter Label"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/editLabelBtn"
         app:layout_constraintEnd_toEndOf="parent"
