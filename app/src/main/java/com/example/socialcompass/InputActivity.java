@@ -1,7 +1,7 @@
 package com.example.socialcompass;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -42,6 +42,8 @@ public class InputActivity extends AppCompatActivity {
         editor.putFloat("parentsLat", newLoc.getLatitude());
         editor.putFloat("parentsLong", newLoc.getLongitude());
         editor.apply();
+        Intent intent = new Intent(this,CircularActivity.class);
+        startActivity(intent);
     }
 
     public void onFinish(View view) {
