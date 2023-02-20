@@ -17,7 +17,7 @@ public class locationServiceTest {
     /**
      * This test is singlely for testing the passing in the mock data into
      * location service class and observe the angle that parent label change after
-     * the location change.
+     * the location change
      */
     public void testForLocationService(){
         var pair = new Pair<Double,Double>(12.0,24.0);
