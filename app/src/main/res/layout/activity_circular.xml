@@ -121,6 +121,14 @@
         app:layout_constraintVertical_bias="0.914"
         app:srcCompat="@drawable/ic_baseline_chevron_left_24" />
 
+    <TextView
+        android:id="@+id/test_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="45dp"
+        tools:layout_editor_absoluteY="53dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

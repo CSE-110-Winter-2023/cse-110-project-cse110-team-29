@@ -41,22 +41,29 @@ public class CircularActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
 
-        locationService = LocationService.singleton(this);
-        this.reobserveLocation();
-
-        orientationService = OrientationService.singleton(this);
-        this.reobserveOrientation();
-
-        this.prefs = getSharedPreferences("data", MODE_PRIVATE);
-        this.northView = findViewById(R.id.north);
+        setUpOrientationAndLocation();
+        observeOrientationAndLocation();
 
         if(!prefs.contains("parentsLabel") || !prefs.contains("parentsLat") || !prefs.contains("parentsLong")) {
             Intent inputIntent = new Intent(this, InputActivity.class);
             startActivity(inputIntent);
         }
 
+        this.northView = findViewById(R.id.north);
+
         this.parentLocation = new Location(findViewById(R.id.ParentHome), prefs.getFloat("parentsLong", 0), prefs.getFloat("parentsLat", 0));
         this.parentLocation.updateLabel(prefs.getString("parentsLabel",""));
+    }
+
+    private void setUpOrientationAndLocation() {
+        locationService = LocationService.singleton(this);
+        orientationService = OrientationService.singleton(this);
+        this.prefs = getSharedPreferences("data", MODE_PRIVATE);
+    }
+
+    private void observeOrientationAndLocation() {
+        this.reobserveLocation();
+        this.reobserveOrientation();
     }
 
     public void reobserveOrientation() {
@@ -76,9 +83,9 @@ public class CircularActivity extends AppCompatActivity {
 
         this.parentLocation.setOrientationAngle(orientation);
 
-        orientationSet(this.northView, orientation + this.orientationOffset);
+        orientationSet(this.northView, Double.valueOf(orientation));
         orientationSet(this.parentLocation.getTextView(), this.parentLocation.getAngleFromLocation() +
-                        orientation + this.orientationOffset);
+                        orientation);
     }
 
     private void onLocationChanged(Pair<Double, Double> userLocation) {
@@ -94,6 +101,10 @@ public class CircularActivity extends AppCompatActivity {
         this.parentLocation.setAngleFromLocation(newAngle);
 
         orientationSet(this.parentLocation.getTextView(), newAngle);
+
+
+        TextView view = findViewById(R.id.test_view);
+        view.setText(newAngle.toString());
     }
 
     public void onEditOrientation(View view) {
@@ -125,13 +136,13 @@ public class CircularActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void orientationSet(View image, Double degree) {
-        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) image.getLayoutParams();
+    private void orientationSet(View label, Double degree) {
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) label.getLayoutParams();
 
         degree = -degree;
 
         layoutParams.circleAngle = (float) (180 * degree / (Math.PI));
 
-        image.setLayoutParams(layoutParams);
+        label.setLayoutParams(layoutParams);
     }
 }
