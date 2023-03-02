@@ -37,6 +37,7 @@
             android:textColor="#B60340"
             android:textSize="50dp"
             android:textStyle="bold"
+
             app:layout_constraintCircle="@+id/clockFace"
             app:layout_constraintCircleRadius="150dp"
             tools:layout_editor_absoluteX="172dp"
@@ -126,8 +127,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="53dp" />
+        tools:layout_editor_absoluteX="62dp"
+        tools:layout_editor_absoluteY="75dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

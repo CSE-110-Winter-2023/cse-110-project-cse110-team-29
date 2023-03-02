@@ -81,11 +81,14 @@ public class CircularActivity extends AppCompatActivity {
             return;
         }
 
+        TextView view = findViewById(R.id.test_view);
+        view.setText(orientation.toString());
+
         this.parentLocation.setOrientationAngle(orientation);
 
-        orientationSet(this.northView, Double.valueOf(orientation));
+        orientationSet(this.northView, orientation + this.orientationOffset);
         orientationSet(this.parentLocation.getTextView(), this.parentLocation.getAngleFromLocation() +
-                        orientation);
+                orientation+ this.orientationOffset);
     }
 
     private void onLocationChanged(Pair<Double, Double> userLocation) {
@@ -98,13 +101,8 @@ public class CircularActivity extends AppCompatActivity {
             return;
         }
 
-        this.parentLocation.setAngleFromLocation(newAngle);
-
-        orientationSet(this.parentLocation.getTextView(), newAngle);
-
-
-        TextView view = findViewById(R.id.test_view);
-        view.setText(newAngle.toString());
+        this.parentLocation.setAngleFromLocation(Math.toRadians(newAngle));
+        orientationSet(this.parentLocation.getTextView(), Math.toRadians(newAngle) + this.orientationOffset);
     }
 
     public void onEditOrientation(View view) {
@@ -114,7 +112,7 @@ public class CircularActivity extends AppCompatActivity {
         this.orientationOffset = newOrientation;
 
         // offset orientation by value entered
-        orientationSet(this.northView, this.parentLocation.getOrientationAngle() + this.orientationOffset);
+        orientationSet(this.northView, newOrientation);
         orientationSet(this.parentLocation.getTextView(), this.parentLocation.getAngleFromLocation() +
                         this.parentLocation.getOrientationAngle() + this.orientationOffset);
     }
@@ -139,9 +137,7 @@ public class CircularActivity extends AppCompatActivity {
     private void orientationSet(View label, Double degree) {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) label.getLayoutParams();
 
-        degree = -degree;
-
-        layoutParams.circleAngle = (float) (180 * degree / (Math.PI));
+        layoutParams.circleAngle = 360 - (float) (180 * degree / (Math.PI));
 
         label.setLayoutParams(layoutParams);
     }
