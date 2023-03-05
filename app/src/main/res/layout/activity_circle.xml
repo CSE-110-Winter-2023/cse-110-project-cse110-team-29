@@ -21,21 +21,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView11"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            app:srcCompat="@drawable/center_point"
-            tools:layout_editor_absoluteX="203dp"
-            tools:layout_editor_absoluteY="367dp" />
-
-        <ImageView
             android:id="@+id/circle_3"
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:alpha="0.5"
             app:srcCompat="@drawable/circle_1"
-            tools:layout_editor_absoluteX="58dp"
-            tools:layout_editor_absoluteY="222dp" />
+            tools:layout_editor_absoluteX="55dp"
+            tools:layout_editor_absoluteY="55dp" />
 
         <ImageView
             android:id="@+id/circle_1"
@@ -43,8 +35,8 @@
             android:layout_height="100dp"
             android:alpha="0.5"
             app:srcCompat="@drawable/circle_1"
-            tools:layout_editor_absoluteX="158dp"
-            tools:layout_editor_absoluteY="322dp" />
+            tools:layout_editor_absoluteX="155dp"
+            tools:layout_editor_absoluteY="155dp" />
 
         <ImageView
             android:id="@+id/circle_4"
@@ -53,8 +45,8 @@
             android:alpha="0.5"
             android:visibility="visible"
             app:srcCompat="@drawable/circle_1"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="172dp" />
+            tools:layout_editor_absoluteX="5dp"
+            tools:layout_editor_absoluteY="5dp" />
 
         <ImageView
             android:id="@+id/circle_2"
@@ -62,8 +54,16 @@
             android:layout_height="200dp"
             android:alpha="0.5"
             app:srcCompat="@drawable/circle_1"
-            tools:layout_editor_absoluteX="108dp"
-            tools:layout_editor_absoluteY="272dp" />
+            tools:layout_editor_absoluteX="105dp"
+            tools:layout_editor_absoluteY="105dp" />
+
+        <ImageView
+            android:id="@+id/imageView11"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            app:srcCompat="@drawable/center_point"
+            tools:layout_editor_absoluteX="200dp"
+            tools:layout_editor_absoluteY="200dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
