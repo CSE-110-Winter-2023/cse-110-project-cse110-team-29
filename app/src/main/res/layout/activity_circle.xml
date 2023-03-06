@@ -8,12 +8,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
 
+        android:id="@+id/CircleView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="0dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,45 +23,53 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:alpha="0.5"
-            app:srcCompat="@drawable/circle_1"
-            tools:layout_editor_absoluteX="55dp"
-            tools:layout_editor_absoluteY="55dp" />
+            app:layout_constraintBottom_toBottomOf="@+id/circle_4"
+            app:layout_constraintEnd_toEndOf="@+id/circle_4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/circle_4"
+            app:srcCompat="@drawable/circle_1" />
 
         <ImageView
             android:id="@+id/circle_1"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:alpha="0.5"
-            app:srcCompat="@drawable/circle_1"
-            tools:layout_editor_absoluteX="155dp"
-            tools:layout_editor_absoluteY="155dp" />
+            app:layout_constraintBottom_toBottomOf="@+id/circle_2"
+            app:layout_constraintEnd_toEndOf="@+id/circle_2"
+            app:layout_constraintStart_toStartOf="@+id/circle_2"
+            app:layout_constraintTop_toTopOf="@+id/circle_2"
+            app:srcCompat="@drawable/circle_1" />
 
         <ImageView
             android:id="@+id/circle_4"
-            android:layout_width="400dp"
-            android:layout_height="400dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="6dp"
             android:alpha="0.5"
             android:visibility="visible"
-            app:srcCompat="@drawable/circle_1"
-            tools:layout_editor_absoluteX="5dp"
-            tools:layout_editor_absoluteY="5dp" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/circle_1" />
 
         <ImageView
             android:id="@+id/circle_2"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:alpha="0.5"
-            app:srcCompat="@drawable/circle_1"
-            tools:layout_editor_absoluteX="105dp"
-            tools:layout_editor_absoluteY="105dp" />
+            app:layout_constraintBottom_toBottomOf="@+id/circle_3"
+            app:layout_constraintEnd_toEndOf="@+id/circle_3"
+            app:layout_constraintStart_toStartOf="@+id/circle_3"
+            app:layout_constraintTop_toTopOf="@+id/circle_3"
+            app:srcCompat="@drawable/circle_1" />
 
         <ImageView
             android:id="@+id/imageView11"
             android:layout_width="10dp"
             android:layout_height="10dp"
-            app:srcCompat="@drawable/center_point"
-            tools:layout_editor_absoluteX="200dp"
-            tools:layout_editor_absoluteY="201dp" />
+            app:layout_constraintBottom_toBottomOf="@+id/circle_1"
+            app:layout_constraintEnd_toEndOf="@+id/circle_1"
+            app:layout_constraintStart_toStartOf="@+id/circle_1"
+            app:layout_constraintTop_toTopOf="@+id/circle_1"
+            app:srcCompat="@drawable/center_point" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
