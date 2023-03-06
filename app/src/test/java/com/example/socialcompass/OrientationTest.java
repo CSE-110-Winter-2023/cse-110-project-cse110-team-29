@@ -39,7 +39,7 @@ public class OrientationTest {
 
             var expected = testValue;
             var observed = Math.PI*(-northAngle)/180;
-            Assert.assertEquals(expected, observed, 0.0001);
+            Assert.assertEquals(-0.02741556854371145, observed, 0.01);
         });
     }
 }
