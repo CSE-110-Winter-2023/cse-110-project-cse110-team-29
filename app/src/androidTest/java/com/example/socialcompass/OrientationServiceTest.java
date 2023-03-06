@@ -1,8 +1,5 @@
 package com.example.socialcompass;
-import androidx.core.util.Pair;
 
-import android.content.Context;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -15,7 +12,7 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
 @RunWith(AndroidJUnit4.class)
-public class orientationServiceTest {
+public class OrientationServiceTest {
     @Test
     /**
      * this test is for testing only orientation service by mocking a fake data
@@ -28,16 +25,22 @@ public class orientationServiceTest {
             scenario.onActivity(activity -> {
                 var orientationService = OrientationService.singleton(activity);
                 var mockOrientation = new MutableLiveData<Float>();
+
                 orientationService.setMockOrientationSource(mockOrientation);
                 activity.reobserveOrientation();
+
                 mockOrientation.setValue(testValue);
                 TextView north = activity.findViewById(R.id.north);
                 TextView parent = activity.findViewById(R.id.ParentHome);
+
                 ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) north.getLayoutParams();
                 ConstraintLayout.LayoutParams layoutParamsParent = (ConstraintLayout.LayoutParams) parent.getLayoutParams();
+
                 var expected = (float) (180 * -testValue / (Math.PI));
+
                 var angleNorth = layoutParams.circleAngle;
                 var angleParent = layoutParamsParent.circleAngle;
+
                 assertEquals(expected, angleNorth, 0);
                 assertEquals(expected, angleParent, 0);
             });

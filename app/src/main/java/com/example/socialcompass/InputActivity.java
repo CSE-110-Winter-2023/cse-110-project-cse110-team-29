@@ -30,14 +30,14 @@ public class InputActivity extends AppCompatActivity {
     }
 
     public void saveLocation() {
-        // TODO: validate inputs
-        iLocation newLoc = new iLocation(
+        ILocation newLoc = new ILocation(
                 labelInput.getText().toString(),
                 Float.parseFloat(latInput.getText().toString()),
                 Float.parseFloat(longInput.getText().toString()));
 
         SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+
         editor.putString("parentsLabel", newLoc.getLabel());
         editor.putFloat("parentsLat", newLoc.getLatitude());
         editor.putFloat("parentsLong", newLoc.getLongitude());

@@ -13,12 +13,10 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
-import android.content.SharedPreferences;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -28,11 +26,16 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.hamcrest.core.IsInstanceOf;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
-import android.content.SharedPreferences;
+
+import java.io.IOException;
+
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class EspressoInputTest {
@@ -40,12 +43,12 @@ public class EspressoInputTest {
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
-    
+
     @Rule
     public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION);
-    
+
     @Test
-    public void espressoInputTest() {
+    public void espressoInputTest() throws IOException {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.labelName),
                         childAtPosition(
@@ -126,7 +129,6 @@ public class EspressoInputTest {
 
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
-
         return new TypeSafeMatcher<View>() {
             @Override
             public void describeTo(Description description) {
