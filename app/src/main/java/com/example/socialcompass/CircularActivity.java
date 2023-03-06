@@ -110,7 +110,7 @@ public class CircularActivity extends AppCompatActivity {
     public void onEditOrientation(View view) {
         TextView orientationText = findViewById(R.id.editOrientation);
         double newOrientation = Double.parseDouble(orientationText.getText().toString());
-        newOrientation = Math.toRadians(newOrientation);
+
         this.orientationOffset = newOrientation;
 
         // offset orientation by value entered
@@ -139,9 +139,9 @@ public class CircularActivity extends AppCompatActivity {
     private void orientationSet(View label, Double degree) {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) label.getLayoutParams();
 
-        degree = -degree;
+        //degree = -degree;
 
-        layoutParams.circleAngle = (float) (180 * degree / (Math.PI));
+        layoutParams.circleAngle = degree.floatValue();
 
         label.setLayoutParams(layoutParams);
     }
