@@ -20,6 +20,10 @@ public class Utilities {
     }
 
     public static double angleInActivity(double lat1, double long1, double lat2, double long2) {
+        lat1 = Math.toRadians(lat1);
+        long1 = Math.toRadians(long1);
+        lat2 = Math.toRadians(lat2);
+        long2 = Math.toRadians(long2);
 
         double dLon = (long2 - long1);
 
@@ -31,10 +35,7 @@ public class Utilities {
 
         brng = Math.toDegrees(brng);
         brng = (brng + 360) % 360;
-
-        if (brng == 360) {
-            brng = 0;
-        }
+        //brng = 360 - brng; // count degrees counter-clockwise - remove to make clockwise
 
         return brng;
     }
