@@ -16,9 +16,6 @@
         android:theme="@style/Theme.SocialCompass"
         tools:targetApi="31">
         <activity
-            android:name=".CircleActivity"
-            android:exported="false" />
-        <activity
             android:name=".CircularActivity"
             android:exported="false">
             <meta-data
