@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // temp always start input activity immediately
-        Intent intent = new Intent(this, CircularActivity.class);
+        Intent intent = new Intent(this, CircleActivity.class);
         startActivity(intent);
     }
 
