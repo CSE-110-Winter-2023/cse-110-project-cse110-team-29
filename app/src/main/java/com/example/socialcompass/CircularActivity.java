@@ -16,6 +16,9 @@ import androidx.core.util.Pair;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CircularActivity extends AppCompatActivity {
     private LocationService locationService;
     private OrientationService orientationService;
@@ -24,6 +27,9 @@ public class CircularActivity extends AppCompatActivity {
 
     // for a single saved location
     Location parentLocation;
+
+    // multiple locations
+    List<ILocation> locations;
 
     private double orientationOffset;
 
@@ -53,6 +59,12 @@ public class CircularActivity extends AppCompatActivity {
 
         this.parentLocation = new Location(findViewById(R.id.ParentHome), prefs.getFloat("parentsLong", 0), prefs.getFloat("parentsLat", 0));
         this.parentLocation.updateLabel(prefs.getString("parentsLabel",""));
+
+        locations = new ArrayList<>();
+
+        locations.add(new ILocation("test1", 75, 200, this));
+        locations.add(new ILocation("test2", 200, 75, this));
+        locations.add(new ILocation("test3", 100, 150, this));
     }
 
     private void setUpOrientationAndLocation() {
@@ -77,34 +89,39 @@ public class CircularActivity extends AppCompatActivity {
     }
 
     private void onOrientationChanged(Float orientation) {
-        if(orientation == this.parentLocation.getOrientationAngle()) {
-            return;
+        for(ILocation location : this.locations) {
+            if (orientation == location.getOrientationAngle()) {
+                return;
+            }
+
+            Log.d("ORIENTATION", location.getLabel());
+
+            location.setOrientationAngle(orientation);
+
+            orientationSet(location.getTextView(), location.getAngleFromLocation() +
+                    orientation);
         }
 
-        this.parentLocation.setOrientationAngle(orientation);
-
         orientationSet(this.northView, Double.valueOf(orientation));
-        orientationSet(this.parentLocation.getTextView(), this.parentLocation.getAngleFromLocation() +
-                        orientation);
     }
 
     private void onLocationChanged(Pair<Double, Double> userLocation) {
         Double userLat = userLocation.first, userLong = userLocation.second;
 
-        Double newAngle = Utilities.angleInActivity(userLat, userLong, this.parentLocation.getLatitude(),
-                                                    this.parentLocation.getLongitude());
+        for(ILocation location : this.locations) {
+            Double newAngle = Utilities.angleInActivity(userLat, userLong, location.getLatitude(),
+                    location.getLongitude());
 
-        if(newAngle == this.parentLocation.getAngleFromLocation()) {
-            return;
+            if(newAngle == location.getAngleFromLocation()) {
+                return;
+            }
+
+            Log.d("LOCATION", location.getLabel());
+
+            location.setAngleFromLocation(newAngle);
+
+            orientationSet(location.getTextView(), newAngle);
         }
-
-        this.parentLocation.setAngleFromLocation(newAngle);
-
-        orientationSet(this.parentLocation.getTextView(), newAngle);
-
-
-        TextView view = findViewById(R.id.test_view);
-        view.setText(newAngle.toString());
     }
 
     public void onEditOrientation(View view) {
@@ -138,8 +155,6 @@ public class CircularActivity extends AppCompatActivity {
 
     private void orientationSet(View label, Double degree) {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) label.getLayoutParams();
-
-        //degree = -degree;
 
         layoutParams.circleAngle = degree.floatValue();
 
