@@ -18,7 +18,9 @@ public class DistanceTest {
         double long2 = 30;
 
         double temp = Utilities.distance(lat1,long1,lat2,long2);
-        double expected = 4638;
+
+        // expected value from NOAA https://www.nhc.noaa.gov/gccalc.shtml
+        double expected = 5337;
 
         assertEquals(expected, temp, 1);
     }
