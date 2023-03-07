@@ -31,7 +31,7 @@ public class ILocation implements Serializable {
 
         layoutParams.width = ConstraintLayout.LayoutParams.WRAP_CONTENT;
         layoutParams.height = ConstraintLayout.LayoutParams.WRAP_CONTENT;
-        layoutParams.circleConstraint = R.id.clockFace;
+        layoutParams.circleConstraint = R.id.circle_1;
         layoutParams.circleRadius = 425;
 
         this.view.setLayoutParams(layoutParams);
