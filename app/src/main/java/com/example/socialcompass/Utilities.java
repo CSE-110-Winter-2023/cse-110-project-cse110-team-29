@@ -69,4 +69,15 @@ public class Utilities {
         // calculate the result
         return(c * r);
     }
+
+    public static int distance_range(Double input){
+        if (0 <= input && input <= 1){
+            return  0;
+        } else if (1 <= input && input <= 10) {
+            return 1;
+        } else if (10 <= input && input <= 500) {
+            return 2;
+        }
+        else return 3;
+    }
 }

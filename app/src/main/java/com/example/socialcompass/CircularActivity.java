@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class CircularActivity extends AppCompatActivity {
@@ -35,6 +36,8 @@ public class CircularActivity extends AppCompatActivity {
 
     TextView northView;
 
+    HashMap<Integer,ArrayList<ILocation>> location_ranges;
+    //0-1,1-10,10-500,500+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,9 +49,6 @@ public class CircularActivity extends AppCompatActivity {
 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
-
-        setUpOrientationAndLocation();
-        observeOrientationAndLocation();
 
         if(!prefs.contains("parentsLabel") || !prefs.contains("parentsLat") || !prefs.contains("parentsLong")) {
             Intent inputIntent = new Intent(this, InputActivity.class);
@@ -65,6 +65,11 @@ public class CircularActivity extends AppCompatActivity {
         locations.add(new ILocation("test1", 75, 200, this));
         locations.add(new ILocation("test2", 200, 75, this));
         locations.add(new ILocation("test3", 100, 150, this));
+
+        location_ranges = new HashMap<>();
+
+        setUpOrientationAndLocation();
+        observeOrientationAndLocation();
     }
 
     private void setUpOrientationAndLocation() {
@@ -108,6 +113,7 @@ public class CircularActivity extends AppCompatActivity {
     private void onLocationChanged(Pair<Double, Double> userLocation) {
         Double userLat = userLocation.first, userLong = userLocation.second;
 
+        location_ranges.clear();
         for(ILocation location : this.locations) {
             Double newAngle = Utilities.angleInActivity(userLat, userLong, location.getLatitude(),
                     location.getLongitude());
@@ -121,6 +127,15 @@ public class CircularActivity extends AppCompatActivity {
             location.setAngleFromLocation(newAngle);
 
             orientationSet(location.getTextView(), newAngle);
+
+            Double location_distance = Utilities.distance(userLat, userLong, location.getLatitude(),
+                    location.getLongitude());
+            if (location_ranges.get(Utilities.distance_range(location_distance) )== null){
+                location_ranges.put(Utilities.distance_range(location_distance), new ArrayList<ILocation>());
+            }
+            location_ranges.get(Utilities.distance_range(location_distance)).add(location);
+
+
         }
     }
 
