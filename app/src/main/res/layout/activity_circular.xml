@@ -36,13 +36,25 @@
             android:id="@+id/circle_3"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="50dp"
             android:alpha="0.3"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@+id/circle_4"
             app:layout_constraintEnd_toEndOf="@+id/circle_4"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/circle_4"
             app:layout_constraintTop_toTopOf="@+id/circle_4"
+            app:srcCompat="@drawable/circle_1" />
+
+
+        <ImageView
+            android:id="@+id/circle_2"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:alpha="0.3"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/circle_3"
+            app:layout_constraintEnd_toEndOf="@+id/circle_3"
+            app:layout_constraintStart_toStartOf="@+id/circle_3"
+            app:layout_constraintTop_toTopOf="@+id/circle_3"
             app:srcCompat="@drawable/circle_1" />
 
         <ImageView
@@ -57,18 +69,7 @@
             app:srcCompat="@drawable/circle_1" />
 
         <ImageView
-            android:id="@+id/circle_2"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:alpha="0.3"
-            app:layout_constraintBottom_toBottomOf="@+id/circle_3"
-            app:layout_constraintEnd_toEndOf="@+id/circle_3"
-            app:layout_constraintStart_toStartOf="@+id/circle_3"
-            app:layout_constraintTop_toTopOf="@+id/circle_3"
-            app:srcCompat="@drawable/circle_1" />
-
-        <ImageView
-            android:id="@+id/imageView11"
+            android:id="@+id/center_dot"
             android:layout_width="10dp"
             android:layout_height="10dp"
             app:layout_constraintBottom_toBottomOf="@+id/circle_1"
@@ -169,13 +170,23 @@
         app:layout_constraintVertical_bias="0.914"
         app:srcCompat="@drawable/ic_baseline_chevron_left_24" />
 
-    <TextView
-        android:id="@+id/test_view"
+    <Button
+        android:id="@+id/zoom_in_btn"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:onClick="onClickZoomIn"
+        android:text="IN"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="52dp" />
+
+    <Button
+        android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="45dp"
-        tools:layout_editor_absoluteY="53dp" />
+        android:onClick="onClickZoomOut"
+        android:text="Button"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="48dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
