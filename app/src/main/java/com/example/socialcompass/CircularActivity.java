@@ -145,96 +145,36 @@ public class CircularActivity extends AppCompatActivity {
     public void onClickZoomIn(View view) {
         if (numOfClickZoom < 3) {
             numOfClickZoom++;
-        } else {
-            return;
         }
-
-        View circle4 = findViewById(R.id.circle_4);
-        View circle3 = findViewById(R.id.circle_3);
-        View circle2 = findViewById(R.id.circle_2);
-        View circle1 = findViewById(R.id.circle_1);
-
-        ViewGroup.LayoutParams layoutParams3 = circle3.getLayoutParams();
-        ViewGroup.LayoutParams layoutParams2 = circle2.getLayoutParams();
-        ViewGroup.LayoutParams layoutParams1 = circle1.getLayoutParams();
-
-        if (numOfClickZoom == 1) {
-            circle4.setVisibility(View.INVISIBLE);
-            layoutParams3.width = 1050;
-            layoutParams3.height = 1050;
-            circle3.setLayoutParams(layoutParams3);
-
-            layoutParams2.width = 735;
-            layoutParams2.height = 735;
-            circle2.setLayoutParams(layoutParams2);
-
-            layoutParams1.width = 394;
-            layoutParams1.height = 394;
-            circle1.setLayoutParams(layoutParams1);
-        }
-
-        if (numOfClickZoom == 2) {
-            circle3.setVisibility(View.INVISIBLE);
-            layoutParams2.width = 1050;
-            layoutParams2.height = 1050;
-            circle2.setLayoutParams(layoutParams2);
-
-            layoutParams1.width = 578;
-            layoutParams1.height = 578;
-            circle1.setLayoutParams(layoutParams1);
-        }
-
-        if(numOfClickZoom == 3) {
-            circle2.setVisibility(View.INVISIBLE);
-            layoutParams1.width = 1050;
-            layoutParams1.height = 1050;
-            circle1.setLayoutParams(layoutParams1);
-        }
+        setMultipleCircles(1); //1 represent it is from zoom in btn
     }
 
     public void onClickZoomOut(View view) {
         if (numOfClickZoom > 0) {
             numOfClickZoom--;
-        } else {
-            return;
         }
+        setMultipleCircles(0); //0 represent it is from zoom out btn
+    }
+
+    private void setMultipleCircles(int source) {
         View circle4 = findViewById(R.id.circle_4);
         View circle3 = findViewById(R.id.circle_3);
         View circle2 = findViewById(R.id.circle_2);
         View circle1 = findViewById(R.id.circle_1);
 
+        ViewGroup.LayoutParams layoutParams4 = circle4.getLayoutParams();
         ViewGroup.LayoutParams layoutParams3 = circle3.getLayoutParams();
         ViewGroup.LayoutParams layoutParams2 = circle2.getLayoutParams();
         ViewGroup.LayoutParams layoutParams1 = circle1.getLayoutParams();
 
-        if(numOfClickZoom == 3) {
-            circle2.setVisibility(View.VISIBLE);
-            layoutParams2.width = 1050;
-            layoutParams2.height = 1050;
-            circle2.setLayoutParams(layoutParams2);
+        if(numOfClickZoom == 0) {
+            if(source == 0)
+                circle4.setVisibility(View.VISIBLE);
 
-            layoutParams1.width = 578;
-            layoutParams1.height = 578;
-            circle1.setLayoutParams(layoutParams1);
-        }
+            layoutParams4.width = 1050;
+            layoutParams4.height = 1050;
+            circle4.setLayoutParams(layoutParams4);
 
-        if (numOfClickZoom == 2) {
-            circle3.setVisibility(View.VISIBLE);
-            layoutParams3.width = 1050;
-            layoutParams3.height = 1050;
-            circle3.setLayoutParams(layoutParams3);
-
-            layoutParams2.width = 735;
-            layoutParams2.height = 735;
-            circle2.setLayoutParams(layoutParams2);
-
-            layoutParams1.width = 394;
-            layoutParams1.height = 394;
-            circle1.setLayoutParams(layoutParams1);
-        }
-
-        if (numOfClickZoom == 1) {
-            circle4.setVisibility(View.VISIBLE);
             layoutParams3.width = 788;
             layoutParams3.height = 788;
             circle3.setLayoutParams(layoutParams3);
@@ -245,6 +185,51 @@ public class CircularActivity extends AppCompatActivity {
 
             layoutParams1.width = 263;
             layoutParams1.height = 263;
+            circle1.setLayoutParams(layoutParams1);
+        }
+
+
+        if(numOfClickZoom == 1) {
+            if (source == 1)
+                circle4.setVisibility(View.INVISIBLE);
+            if (source == 0)
+                circle3.setVisibility(View.VISIBLE);
+
+            layoutParams3.width = 1050;
+            layoutParams3.height = 1050;
+            circle3.setLayoutParams(layoutParams3);
+
+            layoutParams2.width = 735;
+            layoutParams2.height = 735;
+            circle2.setLayoutParams(layoutParams2);
+
+            layoutParams1.width = 394;
+            layoutParams1.height = 394;
+            circle1.setLayoutParams(layoutParams1);
+        }
+
+
+        if(numOfClickZoom == 2) {
+            if (source == 1)
+                circle3.setVisibility(View.INVISIBLE);
+            if (source == 0)
+                circle2.setVisibility(View.VISIBLE);
+
+            layoutParams2.width = 1050;
+            layoutParams2.height = 1050;
+            circle2.setLayoutParams(layoutParams2);
+
+            layoutParams1.width = 578;
+            layoutParams1.height = 578;
+            circle1.setLayoutParams(layoutParams1);
+        }
+
+        if(numOfClickZoom == 3) {
+            if (source == 1)
+                circle2.setVisibility(View.INVISIBLE);
+
+            layoutParams1.width = 1050;
+            layoutParams1.height = 1050;
             circle1.setLayoutParams(layoutParams1);
         }
     }
