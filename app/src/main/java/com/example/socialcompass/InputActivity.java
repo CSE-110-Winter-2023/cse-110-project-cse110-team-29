@@ -30,18 +30,14 @@ public class InputActivity extends AppCompatActivity {
     }
 
     public void saveLocation() {
-        ILocation newLoc = new ILocation(
-                labelInput.getText().toString(),
-                Float.parseFloat(latInput.getText().toString()),
-                Float.parseFloat(longInput.getText().toString()));
-
         SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
-        editor.putString("parentsLabel", newLoc.getLabel());
-        editor.putFloat("parentsLat", newLoc.getLatitude());
-        editor.putFloat("parentsLong", newLoc.getLongitude());
+        editor.putString("parentsLabel", labelInput.getText().toString());
+        editor.putFloat("parentsLat", Float.parseFloat(latInput.getText().toString()));
+        editor.putFloat("parentsLong", Float.parseFloat(longInput.getText().toString()));
         editor.apply();
+
         Intent intent = new Intent(this,CircularActivity.class);
         startActivity(intent);
     }
