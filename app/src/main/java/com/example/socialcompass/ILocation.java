@@ -22,6 +22,7 @@ public class ILocation implements Serializable {
         this.latitude = latitude;
         this.longitude = longitude;
 
+        /*
         this.view = new TextView(context);
         this.view.setText(label);
         ConstraintLayout cLayout = ((Activity)context).findViewById(R.id.clock);
@@ -35,6 +36,8 @@ public class ILocation implements Serializable {
         layoutParams.circleRadius = 425;
 
         this.view.setLayoutParams(layoutParams);
+        */
+
     }
 
     public String getLabel() {

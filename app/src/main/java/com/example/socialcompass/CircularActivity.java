@@ -106,6 +106,7 @@ public class CircularActivity extends AppCompatActivity {
     }
 
     private void onOrientationChanged(Float orientation) {
+        /*
         for(ILocation location : this.locations) {
             if (orientation == location.getOrientationAngle()) {
                 return;
@@ -120,9 +121,12 @@ public class CircularActivity extends AppCompatActivity {
         }
 
         orientationSet(this.northView, Double.valueOf(orientation));
+        */
+
     }
 
     private void onLocationChanged(Pair<Double, Double> userLocation) {
+        /*
         Double userLat = userLocation.first, userLong = userLocation.second;
 
         location_ranges.clear();
@@ -149,6 +153,8 @@ public class CircularActivity extends AppCompatActivity {
 
 
         }
+        */
+
     }
 
     public void onEditOrientation(View view) {
