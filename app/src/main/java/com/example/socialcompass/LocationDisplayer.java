@@ -62,7 +62,7 @@ public class LocationDisplayer {
         phoneAngle.observe((LifecycleOwner) context, new Observer<Float>() {
             @Override
             public void onChanged(Float f) {
-                Log.i("new Angle", f.toString());
+                //Log.i("new Angle", f.toString());
                 updateView();
             }
         });

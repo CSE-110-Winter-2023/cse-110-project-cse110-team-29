@@ -119,7 +119,7 @@ public class EspressoInputTest {
                         isDisplayed()));
         materialButton.perform(click());
 
-        
+
     }
 
     private static Matcher<View> childAtPosition(
