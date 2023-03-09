@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, CircularActivity.class);
         startActivity(intent);
     }
-
     public void debug(View view) {
         SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
         String label = prefs.getString("parentsLabel", "what");

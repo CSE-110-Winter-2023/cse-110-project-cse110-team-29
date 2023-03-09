@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import androidx.core.util.Pair;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class CircularActivity extends AppCompatActivity {
@@ -28,6 +29,8 @@ public class CircularActivity extends AppCompatActivity {
     private double orientationOffset;
 
     TextView northView;
+
+    private int numOfClickZoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +104,6 @@ public class CircularActivity extends AppCompatActivity {
         this.parentLocation.setAngleFromLocation(newAngle);
 
         orientationSet(this.parentLocation.getTextView(), newAngle);
-
-
-        TextView view = findViewById(R.id.test_view);
-        view.setText(newAngle.toString());
     }
 
     public void onEditOrientation(View view) {
@@ -138,11 +137,105 @@ public class CircularActivity extends AppCompatActivity {
 
     private void orientationSet(View label, Double degree) {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) label.getLayoutParams();
-
-        //degree = -degree;
-
         layoutParams.circleAngle = degree.floatValue();
 
         label.setLayoutParams(layoutParams);
+    }
+
+    public void onClickZoomIn(View view) {
+        if (numOfClickZoom < 3) {
+            numOfClickZoom++;
+        }
+        setMultipleCircles(1); //1 represent it is from zoom in btn
+    }
+
+    public void onClickZoomOut(View view) {
+        if (numOfClickZoom > 0) {
+            numOfClickZoom--;
+        }
+        setMultipleCircles(0); //0 represent it is from zoom out btn
+    }
+
+    private void setMultipleCircles(int source) {
+        View circle4 = findViewById(R.id.circle_4);
+        View circle3 = findViewById(R.id.circle_3);
+        View circle2 = findViewById(R.id.circle_2);
+        View circle1 = findViewById(R.id.circle_1);
+
+        ViewGroup.LayoutParams layoutParams4 = circle4.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams3 = circle3.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams2 = circle2.getLayoutParams();
+        ViewGroup.LayoutParams layoutParams1 = circle1.getLayoutParams();
+
+        if(numOfClickZoom == 0) {
+            if(source == 0)
+                circle4.setVisibility(View.VISIBLE);
+
+            layoutParams4.width = 1050;
+            layoutParams4.height = 1050;
+            circle4.setLayoutParams(layoutParams4);
+
+            layoutParams3.width = 788;
+            layoutParams3.height = 788;
+            circle3.setLayoutParams(layoutParams3);
+
+            layoutParams2.width = 525;
+            layoutParams2.height = 525;
+            circle2.setLayoutParams(layoutParams2);
+
+            layoutParams1.width = 263;
+            layoutParams1.height = 263;
+            circle1.setLayoutParams(layoutParams1);
+        }
+
+
+        if(numOfClickZoom == 1) {
+            if (source == 1)
+                circle4.setVisibility(View.INVISIBLE);
+            if (source == 0)
+                circle3.setVisibility(View.VISIBLE);
+
+            layoutParams3.width = 1050;
+            layoutParams3.height = 1050;
+            circle3.setLayoutParams(layoutParams3);
+
+            layoutParams2.width = 735;
+            layoutParams2.height = 735;
+            circle2.setLayoutParams(layoutParams2);
+
+            layoutParams1.width = 394;
+            layoutParams1.height = 394;
+            circle1.setLayoutParams(layoutParams1);
+        }
+
+
+        if(numOfClickZoom == 2) {
+            if (source == 1)
+                circle3.setVisibility(View.INVISIBLE);
+            if (source == 0)
+                circle2.setVisibility(View.VISIBLE);
+
+            layoutParams2.width = 1050;
+            layoutParams2.height = 1050;
+            circle2.setLayoutParams(layoutParams2);
+
+            layoutParams1.width = 578;
+            layoutParams1.height = 578;
+            circle1.setLayoutParams(layoutParams1);
+        }
+
+        if(numOfClickZoom == 3) {
+            if (source == 1)
+                circle2.setVisibility(View.INVISIBLE);
+
+            layoutParams1.width = 1050;
+            layoutParams1.height = 1050;
+            circle1.setLayoutParams(layoutParams1);
+        }
+    }
+    //Function for getting the number of zoomclick for JunitTest
+    public int getCircleCount()
+    {
+        return this.numOfClickZoom;
     }
 }
