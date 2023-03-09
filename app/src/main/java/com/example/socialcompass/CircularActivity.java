@@ -233,4 +233,9 @@ public class CircularActivity extends AppCompatActivity {
             circle1.setLayoutParams(layoutParams1);
         }
     }
+    //Function for getting the number of zoomclick for JunitTest
+    public int getCircleCount()
+    {
+        return this.numOfClickZoom;
+    }
 }
