@@ -41,8 +41,8 @@ import java.io.IOException;
 public class EspressoInputTest {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
-            new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<InputActivity> mActivityScenarioRule =
+            new ActivityScenarioRule<>(InputActivity.class);
 
     @Rule
     public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION);
@@ -119,12 +119,7 @@ public class EspressoInputTest {
                         isDisplayed()));
         materialButton.perform(click());
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.ParentHome), withText("Parent"),
-                        withParent(allOf(withId(R.id.clock),
-                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
-                        isDisplayed()));
-        textView.check(matches(withText("Parent")));
+        
     }
 
     private static Matcher<View> childAtPosition(

@@ -58,10 +58,10 @@ public class CircularActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
 
-        // if(!prefs.contains("parentsLabel") || !prefs.contains("parentsLat") || !prefs.contains("parentsLong")) {
-        //    Intent inputIntent = new Intent(this, InputActivity.class);
-        //    startActivity(inputIntent);
-        // }
+        //if(!prefs.contains("parentsLabel") || !prefs.contains("parentsLat") || !prefs.contains("parentsLong")) {
+           // Intent inputIntent = new Intent(this, InputActivity.class);
+           // startActivity(inputIntent);
+        //}
 
         this.northView = findViewById(R.id.north);
 
