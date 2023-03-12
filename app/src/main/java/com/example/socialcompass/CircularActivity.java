@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+
 import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 
@@ -42,7 +43,7 @@ public class CircularActivity extends AppCompatActivity {
     TextView northView;
 
 
-    HashMap<Integer,ArrayList<ILocation>> location_ranges;
+    HashMap<Integer, ArrayList<ILocation>> location_ranges;
     //0-1,1-10,10-500,500+
     private static int numOfClickZoom;
 
@@ -59,8 +60,8 @@ public class CircularActivity extends AppCompatActivity {
         }
 
         //if(!prefs.contains("parentsLabel") || !prefs.contains("parentsLat") || !prefs.contains("parentsLong")) {
-           // Intent inputIntent = new Intent(this, InputActivity.class);
-           // startActivity(inputIntent);
+        // Intent inputIntent = new Intent(this, InputActivity.class);
+        // startActivity(inputIntent);
         //}
 
         this.northView = findViewById(R.id.north);
@@ -83,7 +84,7 @@ public class CircularActivity extends AppCompatActivity {
         locationDisplayers = new ArrayList<>();
         for (ILocation data : locations) {
             MutableLiveData<Pair<Double, Double>> thisLoc = new MutableLiveData<>();
-            thisLoc.setValue(new Pair<>((double)data.getLatitude(), (double)data.getLongitude()));
+            thisLoc.setValue(new Pair<>((double) data.getLatitude(), (double) data.getLongitude()));
             locationDisplayers.add(new LocationDisplayer(this, data.getLabel(), data.getLabel(), locationService.getLocation(), thisLoc, orientationService.getOrientation()));
         }
     }
@@ -172,14 +173,14 @@ public class CircularActivity extends AppCompatActivity {
         // offset orientation by value entered
         orientationSet(this.northView, this.parentLocation.getOrientationAngle() + this.orientationOffset);
         orientationSet(this.parentLocation.getTextView(), this.parentLocation.getAngleFromLocation() +
-                        this.parentLocation.getOrientationAngle() + this.orientationOffset);
+                this.parentLocation.getOrientationAngle() + this.orientationOffset);
     }
 
     public void onEditLabel(View view) {
         TextView newLabel = findViewById(R.id.editLabel);
         String label = newLabel.getText().toString();
 
-        if(label.equals("")) {
+        if (label.equals("")) {
             return;
         }
 
@@ -192,26 +193,23 @@ public class CircularActivity extends AppCompatActivity {
         //editor.apply();
     }
 
-    public void displayLabelsOnMultiCircles(String label, int distance, float angle) {
-        TextView labelView = new TextView(this);
-        labelView.setText(label);
-
-        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
-        );
-
-        layoutParams.circleConstraint = R.id.clock;
-        labelView.setLayoutParams(layoutParams);
-
-        orientationSet(labelView, Double.valueOf(angle));
-
-
-        //radiusSet(labelView, distance);
-
-        ConstraintLayout layout = findViewById(R.id.clock);
-        layout.addView(labelView);
-    }
+//    public void displayLabelsOnMultiCircles(String label, int distance, float angle) {
+//        TextView labelView = new TextView(this);
+//        labelView.setText(label);
+//
+//        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
+//                ConstraintLayout.LayoutParams.WRAP_CONTENT,
+//                ConstraintLayout.LayoutParams.WRAP_CONTENT
+//        );
+//
+//        layoutParams.circleConstraint = R.id.clock;
+//        labelView.setLayoutParams(layoutParams);
+//
+//        orientationSet(labelView, Double.valueOf(angle));
+//
+//        ConstraintLayout layout = findViewById(R.id.clock);
+//        layout.addView(labelView);
+//    }
 
     private void orientationSet(View label, Double degree) {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) label.getLayoutParams();
@@ -248,11 +246,12 @@ public class CircularActivity extends AppCompatActivity {
         ViewGroup.LayoutParams layoutParams1 = circle1.getLayoutParams();
         ConstraintLayout.LayoutParams layoutParamsNorth = (ConstraintLayout.LayoutParams) north.getLayoutParams();
 
-        if(numOfClickZoom == 0) {
-            if(source == 0) {
+        if (numOfClickZoom == 0) {
+            if (source == 0) {
                 circle4.setVisibility(View.VISIBLE);
                 north.setText("N");
                 layoutParamsNorth.circleRadius = 460;
+                north.setLayoutParams(layoutParamsNorth);
             }
             layoutParams4.width = 1050;
             layoutParams4.height = 1050;
@@ -271,12 +270,12 @@ public class CircularActivity extends AppCompatActivity {
             circle1.setLayoutParams(layoutParams1);
         }
 
-        if(numOfClickZoom == 1) {
+        if (numOfClickZoom == 1) {
             if (source == 1)
                 circle4.setVisibility(View.INVISIBLE);
-                north.setText(".");
-                //north.setLayoutParams();
-                layoutParamsNorth.circleRadius = 565;
+            north.setText(".");
+            //north.setLayoutParams();
+            layoutParamsNorth.circleRadius = 565;
 
             if (source == 0)
                 circle3.setVisibility(View.VISIBLE);
@@ -293,7 +292,7 @@ public class CircularActivity extends AppCompatActivity {
             circle1.setLayoutParams(layoutParams1);
         }
 
-        if(numOfClickZoom == 2) {
+        if (numOfClickZoom == 2) {
             if (source == 1)
                 circle3.setVisibility(View.INVISIBLE);
             if (source == 0)
@@ -308,7 +307,7 @@ public class CircularActivity extends AppCompatActivity {
             circle1.setLayoutParams(layoutParams1);
         }
 
-        if(numOfClickZoom == 3) {
+        if (numOfClickZoom == 3) {
             if (source == 1)
                 circle2.setVisibility(View.INVISIBLE);
 
@@ -317,9 +316,9 @@ public class CircularActivity extends AppCompatActivity {
             circle1.setLayoutParams(layoutParams1);
         }
     }
+
     //Function for getting the number of zoomclick for JunitTest
-    public static int getCircleCount()
-    {
+    public static int getCircleCount() {
         return numOfClickZoom;
     }
 }

@@ -100,57 +100,60 @@ public class LocationDisplayer {
         double numOfClickZoom = CircularActivity.getCircleCount();
 
         //four circles:
-        //third: 405
-        //first: 125
-        //second: 270
-        //fourth: 510
+        //first: 132
+        //second: 263
+        //third: 394
+        //fourth: 525
 
         //three circles:
-        //first:185
-        //second: 345
-        //third: 510
+        //first:197
+        //second: 368
+        //third: 525
 
         //two circles:
-        //first: 295
-        //second: 510
+        //first: 289
+        //second: 525
+
+        //one circles:
+        //first: 525
 
         if (numOfClickZoom == 3) {
             if (distance_range == 0)
-                radius = 510 * distance;
+                radius = 525 * distance;
             else
-                radius = 510;
+                radius = 525;
         } else if (numOfClickZoom == 2) {
             if (distance_range == 0) {
                 //distance * inner circle radius / 1 mile
-                radius = 295 * distance;
+                radius = 289 * distance;
             } else if (distance_range == 1) {
                 //inner circle radius + distance * (outer circle radius - inner circle radius) / 9 mile
-                radius = 295 + distance * (510 - 295) / 9;
+                radius = 289 + distance * (525 - 289) / 9;
             } else
-                radius = 510;
+                radius = 525;
         } else if (numOfClickZoom == 1) {
             if (distance_range == 0) {
                 //distance * inner circle radius / 1 mile
-                radius = 185 * distance;
+                radius = 197 * distance;
             } else if (distance_range == 1) {
                 //inner circle radius + distance * (outer circle radius - inner circle radius) / 9 mile
-                radius = 185 + distance * (345 - 185) / 9;
+                radius = 197 + distance * (368 - 197) / 9;
             } else if (distance_range == 2) {
                 //middle circle radius + distance * (most outer circle radius - middle circle radius) / 490 mile
-                radius = 345 + distance * (510 - 345) / 490;
+                radius = 368 + distance * (525 - 368) / 490;
             } else {
-                radius = 510;
+                radius = 525;
             }
         } else {
             if (distance_range == 0) {
-                radius = 125 * distance;
+                radius = 132 * distance;
             } else if (distance_range == 1) {
-                radius = 125 + distance * (270 - 125) / 9;
+                radius = 132 + distance * (263 - 132) / 9;
             } else if (distance_range == 2) {
-                radius = 270 + distance * (405 - 270) / 490;
+                radius = 263 + distance * (394 - 263) / 490;
             } else {
                 //third circle radius + distance * 0.001 mile
-                radius = 405 + distance * 0.001;
+                radius = 394 + distance * 0.001;
             }
         }
 
