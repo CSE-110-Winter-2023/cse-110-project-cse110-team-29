@@ -15,12 +15,11 @@ import java.io.InputStreamReader;
 public class Friend {
     /** The title of the note. Used as the primary key for shared notes (even on the cloud). */
     @PrimaryKey
-    @SerializedName("UID")
     @NonNull
     public String uid;
 
     /** The content of the note. */
-    @SerializedName("friend name")
+
     @NonNull
     public String friend_name;
 
@@ -33,9 +32,9 @@ public class Friend {
     public String updatedAt = "";
 
     /** General constructor for a note. */
-    public Friend(@NonNull String title, @NonNull String content) {
-        this.uid = title;
-        this.friend_name = content;
+    public Friend(@NonNull String uid, @NonNull String friend_name) {
+        this.uid = uid;
+        this.friend_name = friend_name;
     }
 
     public static Friend fromJSON(String json) {
