@@ -40,6 +40,7 @@ public class DisplayMultipleCircleEspressoTest {
             new ActivityScenarioRule<>(MainActivity.class);
     @Rule
     public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION);
+
     @Test
     public void displayMultipleCircleEspressoTest() {
         ViewInteraction appCompatEditText = onView(
@@ -141,14 +142,14 @@ public class DisplayMultipleCircleEspressoTest {
         imageView4.check(matches(isDisplayed()));
 
         ViewInteraction imageView5 = onView(
-                allOf(withId(R.id.imageView11),
+                allOf(withId(R.id.center_dot),
                         withParent(allOf(withId(R.id.clock),
                                 withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
                         isDisplayed()));
         imageView5.check(matches(isDisplayed()));
 
         ViewInteraction imageView6 = onView(
-                allOf(withId(R.id.imageView11),
+                allOf(withId(R.id.center_dot),
                         withParent(allOf(withId(R.id.clock),
                                 withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
                         isDisplayed()));

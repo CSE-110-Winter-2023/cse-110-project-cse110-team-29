@@ -52,4 +52,13 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestUtil 'androidx.test:orchestrator:1.4.2'
+    def gson_version = "2.10.1"
+    implementation "com.google.code.gson:gson:$gson_version"
+
+    def room_version = "2.5.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    def okhttp_version = "4.10.0"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
 }
