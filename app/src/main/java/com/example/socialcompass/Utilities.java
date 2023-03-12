@@ -35,10 +35,50 @@ public class Utilities {
 
         brng = Math.toDegrees(brng);
         brng = (brng + 360) % 360;
-        //brng = 360 - brng; // count degrees counter-clockwise - remove to make clockwise
 
         return brng;
     }
 
+
+    public static double distance(double lat1,
+                                  double lon1, double lat2,
+                                  double lon2)
+    {
+
+        // The math module contains a function
+        // named toRadians which converts from
+        // degrees to radians.
+        lon1 = Math.toRadians(lon1);
+        lon2 = Math.toRadians(lon2);
+        lat1 = Math.toRadians(lat1);
+        lat2 = Math.toRadians(lat2);
+
+        // Haversine formula
+        double dlon = lon2 - lon1;
+        double dlat = lat2 - lat1;
+        double a = Math.pow(Math.sin(dlat / 2), 2)
+                + Math.cos(lat1) * Math.cos(lat2)
+                * Math.pow(Math.sin(dlon / 2),2);
+
+        double c = 2 * Math.asin(Math.sqrt(a));
+
+        // Radius of earth in kilometers. Use 3956
+        // for miles
+        double r = 3956;
+
+        // calculate the result
+        return(c * r);
+    }
+
+    public static int distance_range(Double input){
+        if (0 <= input && input <= 1){
+            return  0;
+        } else if (1 <= input && input <= 10) {
+            return 1;
+        } else if (10 <= input && input <= 500) {
+            return 2;
+        }
+        else return 3;
+    }
 
 }
