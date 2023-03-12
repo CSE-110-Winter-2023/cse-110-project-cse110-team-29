@@ -44,7 +44,7 @@ public class CircularActivity extends AppCompatActivity {
 
     HashMap<Integer,ArrayList<ILocation>> location_ranges;
     //0-1,1-10,10-500,500+
-    private int numOfClickZoom;
+    private static int numOfClickZoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,45 +205,12 @@ public class CircularActivity extends AppCompatActivity {
         labelView.setLayoutParams(layoutParams);
 
         orientationSet(labelView, Double.valueOf(angle));
-        radiusSet(labelView, distance);
+
+
+        //radiusSet(labelView, distance);
 
         ConstraintLayout layout = findViewById(R.id.clock);
         layout.addView(labelView);
-    }
-
-    private void radiusSet(TextView labelView, double distance) {
-        double radius = 0.0;
-
-        //number here is incorrect, need to fix
-        //2.625
-        if (numOfClickZoom == 0) {
-            if (distance <= 1)
-                radius = distance;
-            else
-                labelView.setVisibility(View.INVISIBLE);
-        } else if (numOfClickZoom == 1) {
-            if (distance <= 10) {
-                if (distance > 1)
-                    labelView.setVisibility(View.VISIBLE);
-                radius = distance;
-            } else
-                labelView.setVisibility(View.INVISIBLE);
-        } else if (numOfClickZoom == 2) {
-            if (distance <= 500) {
-                radius = distance;
-                if (distance > 10)
-                    labelView.setVisibility(View.VISIBLE);
-            }
-            else
-                labelView.setVisibility(View.INVISIBLE);
-        } else {
-            labelView.setVisibility(View.VISIBLE);
-            radius = 400;
-        }
-
-        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) labelView.getLayoutParams();
-        layoutParams.circleRadius = (int) radius;
-        labelView.setLayoutParams(layoutParams);
     }
 
     private void orientationSet(View label, Double degree) {
@@ -300,7 +267,6 @@ public class CircularActivity extends AppCompatActivity {
             circle1.setLayoutParams(layoutParams1);
         }
 
-
         if(numOfClickZoom == 1) {
             if (source == 1)
                 circle4.setVisibility(View.INVISIBLE);
@@ -346,8 +312,8 @@ public class CircularActivity extends AppCompatActivity {
         }
     }
     //Function for getting the number of zoomclick for JunitTest
-    public int getCircleCount()
+    public static int getCircleCount()
     {
-        return this.numOfClickZoom;
+        return numOfClickZoom;
     }
 }
