@@ -240,16 +240,20 @@ public class CircularActivity extends AppCompatActivity {
         View circle3 = findViewById(R.id.circle_3);
         View circle2 = findViewById(R.id.circle_2);
         View circle1 = findViewById(R.id.circle_1);
+        TextView north = findViewById(R.id.north);
 
         ViewGroup.LayoutParams layoutParams4 = circle4.getLayoutParams();
         ViewGroup.LayoutParams layoutParams3 = circle3.getLayoutParams();
         ViewGroup.LayoutParams layoutParams2 = circle2.getLayoutParams();
         ViewGroup.LayoutParams layoutParams1 = circle1.getLayoutParams();
+        ConstraintLayout.LayoutParams layoutParamsNorth = (ConstraintLayout.LayoutParams) north.getLayoutParams();
 
         if(numOfClickZoom == 0) {
-            if(source == 0)
+            if(source == 0) {
                 circle4.setVisibility(View.VISIBLE);
-
+                north.setText("N");
+                layoutParamsNorth.circleRadius = 460;
+            }
             layoutParams4.width = 1050;
             layoutParams4.height = 1050;
             circle4.setLayoutParams(layoutParams4);
@@ -270,9 +274,12 @@ public class CircularActivity extends AppCompatActivity {
         if(numOfClickZoom == 1) {
             if (source == 1)
                 circle4.setVisibility(View.INVISIBLE);
+                north.setText(".");
+                //north.setLayoutParams();
+                layoutParamsNorth.circleRadius = 565;
+
             if (source == 0)
                 circle3.setVisibility(View.VISIBLE);
-
             layoutParams3.width = 1050;
             layoutParams3.height = 1050;
             circle3.setLayoutParams(layoutParams3);
@@ -285,7 +292,6 @@ public class CircularActivity extends AppCompatActivity {
             layoutParams1.height = 394;
             circle1.setLayoutParams(layoutParams1);
         }
-
 
         if(numOfClickZoom == 2) {
             if (source == 1)
