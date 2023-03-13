@@ -6,6 +6,7 @@ import android.content.Context;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -22,6 +23,8 @@ public class LocationDisplayer {
     private LiveData<Pair<Double, Double>> thisLoc;
     private LiveData<Float> phoneAngle;
 
+    private String label;
+
     public LocationDisplayer(Context context,
                              String uid,
                              String label,
@@ -32,6 +35,8 @@ public class LocationDisplayer {
         this.userLoc = userLoc;
         this.thisLoc = thisLoc;
         this.phoneAngle = phoneAngle;
+
+        this.label = label;
 
         // create the view
         this.view = new TextView(context);
@@ -87,15 +92,50 @@ public class LocationDisplayer {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
         layoutParams.circleAngle = -angle.floatValue();
 
+        layoutParams.circleRadius = getRadius(distance_range, distance);
 
-        layoutParams.circleRadius = radiusSet(distance_range, distance);
+        setText(distance_range, label);
+
         view.setLayoutParams(layoutParams);
     }
 
+    private void setText(int distance_range, String label) {
+        double numOfClickZoom = CircularActivity.getCircleCount();
+
+        if (numOfClickZoom == 3) {
+            if (distance_range != 0) {
+                setDotView(view);
+            } else
+                setNormalView(view);
+        } else if (numOfClickZoom == 2) {
+            if (distance_range != 0 && distance_range != 1) {
+                setDotView(view);
+            } else
+                setNormalView(view);
+        } else if (numOfClickZoom == 1) {
+            if (distance_range == 3) {
+                setDotView(view);
+            } else
+                setNormalView(view);
+        } else
+            setNormalView(view);
+    }
+
+    private void setDotView(TextView view) {
+        view.setText("•");
+        view.setTextSize(25);
+        view.setTextColor(Color.BLUE);
+    }
+
+    private void setNormalView(TextView view) {
+        view.setText(label);
+        view.setTextSize(15);
+        view.setTextColor(Color.BLACK);
+    }
 
     //dynamically set the distance between the center of the circle and the location of different labels
     //hardcode style
-    private int radiusSet(int distance_range, double distance) {
+    private int getRadius(int distance_range, double distance) {
         double radius;
         double numOfClickZoom = CircularActivity.getCircleCount();
 
@@ -159,4 +199,6 @@ public class LocationDisplayer {
 
         return (int) radius;
     }
+
+
 }
