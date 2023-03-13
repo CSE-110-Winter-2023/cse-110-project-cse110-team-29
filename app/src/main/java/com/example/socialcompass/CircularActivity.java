@@ -219,6 +219,11 @@ public class CircularActivity extends AppCompatActivity {
         setMultipleCircles(0); //0 represent it is from zoom out btn
     }
 
+    public void onClickBack(View view){
+        Intent intent = new Intent(this, InputActivity.class);
+        startActivity(intent);
+    }
+
     private void setMultipleCircles(int source) {
         View circle4 = findViewById(R.id.circle_4);
         View circle3 = findViewById(R.id.circle_3);
