@@ -45,7 +45,7 @@ public class CircularActivity extends AppCompatActivity {
 
     HashMap<Integer, ArrayList<ILocation>> location_ranges;
     //0-1,1-10,10-500,500+
-    private static int numOfClickZoom;
+    private static int numOfClickZoom = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +87,10 @@ public class CircularActivity extends AppCompatActivity {
             thisLoc.setValue(new Pair<>((double) data.getLatitude(), (double) data.getLongitude()));
             locationDisplayers.add(new LocationDisplayer(this, data.getLabel(), data.getLabel(), locationService.getLocation(), thisLoc, orientationService.getOrientation()));
         }
+
+
+        //Story 18: Default Zoom is inner two levels
+        setMultipleCircles(1);
     }
 
     private void setUpOrientationAndLocation() {
@@ -192,24 +196,6 @@ public class CircularActivity extends AppCompatActivity {
 
         //editor.apply();
     }
-
-//    public void displayLabelsOnMultiCircles(String label, int distance, float angle) {
-//        TextView labelView = new TextView(this);
-//        labelView.setText(label);
-//
-//        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(
-//                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-//                ConstraintLayout.LayoutParams.WRAP_CONTENT
-//        );
-//
-//        layoutParams.circleConstraint = R.id.clock;
-//        labelView.setLayoutParams(layoutParams);
-//
-//        orientationSet(labelView, Double.valueOf(angle));
-//
-//        ConstraintLayout layout = findViewById(R.id.clock);
-//        layout.addView(labelView);
-//    }
 
     private void orientationSet(View label, Double degree) {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) label.getLayoutParams();
