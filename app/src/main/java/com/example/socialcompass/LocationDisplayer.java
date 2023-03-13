@@ -23,7 +23,7 @@ public class LocationDisplayer {
     private LiveData<Pair<Double, Double>> thisLoc;
     private LiveData<Float> phoneAngle;
 
-    private String label;
+    private String label; //user for setNormalText
 
     public LocationDisplayer(Context context,
                              String uid,
@@ -94,12 +94,12 @@ public class LocationDisplayer {
 
         layoutParams.circleRadius = getRadius(distance_range, distance);
 
-        setText(distance_range, label);
+        setText(distance_range);
 
         view.setLayoutParams(layoutParams);
     }
 
-    private void setText(int distance_range, String label) {
+    private void setText(int distance_range) {
         double numOfClickZoom = CircularActivity.getCircleCount();
 
         if (numOfClickZoom == 3) {
@@ -199,6 +199,4 @@ public class LocationDisplayer {
 
         return (int) radius;
     }
-
-
 }
