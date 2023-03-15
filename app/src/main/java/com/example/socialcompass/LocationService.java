@@ -32,6 +32,7 @@ public class LocationService implements LocationListener {
     // This needs to be more specific than just Activity for location permissions requesting.
     private final AppCompatActivity activity;
 
+    private long lastGPSTime;
     private static LocationService instance;
 
     private MutableLiveData<Pair<Double, Double>> locationValue;
@@ -95,6 +96,7 @@ public class LocationService implements LocationListener {
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
+        this.lastGPSTime = System.currentTimeMillis();
         this.locationValue.postValue(new Pair<>(location.getLatitude(), location.getLongitude()));
     }
 
@@ -109,5 +111,18 @@ public class LocationService implements LocationListener {
     public void setMockOrientationData(MutableLiveData<Pair<Double, Double>> mockData) {
         unregisterLocationListener();
         this.locationValue = mockData;
+    }
+    public void checkGPS(){
+        if(!locationManager.isProviderEnabled(locationManager.GPS_PROVIDER))
+        {
+            lastGPSTime=System.currentTimeMillis();
+        }
+    }
+    public long getLastGPSTime() {
+        checkGPS();
+        return lastGPSTime;
+    }
+    public LocationManager getLocationManager(){
+        return this.locationManager;
     }
 }
