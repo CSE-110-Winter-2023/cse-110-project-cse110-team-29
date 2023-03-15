@@ -32,7 +32,7 @@ public abstract class FriendDao {
     public abstract LiveData<Friend> get(String public_code);
 
     @Query("SELECT * FROM friends ORDER BY friend_name")
-    public abstract LiveData<List<Friend>> getAll();
+    public abstract List<Friend> getAll();
 
     @Delete
     public abstract int delete(Friend friend);

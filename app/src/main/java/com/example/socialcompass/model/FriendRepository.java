@@ -1,5 +1,7 @@
 package com.example.socialcompass.model;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -74,7 +76,7 @@ public class FriendRepository {
         return dao.get(public_code);
     }
 
-    public LiveData<List<Friend>> getAllLocal() {
+    public List<Friend> getAllLocal() {
         return dao.getAll();
     }
 
@@ -96,6 +98,9 @@ public class FriendRepository {
         }
 
         Friend friend = api.get(public_code);
+        Log.d("hey", "before friend_name");
+        Log.d("hey", friend.friend_name);
+        Log.d("hey", String.valueOf(friend.getLatitude()) + ", " + String.valueOf(friend.getLongitude()));
 
         if (friend != null) {
             upsertLocal(friend);
