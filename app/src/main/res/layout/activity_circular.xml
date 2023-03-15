@@ -207,7 +207,7 @@
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="60dp"
         android:onClick="onClickBack"
-        android:text="back"
+        android:text="Add Friends"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/zoom_in_btn"
