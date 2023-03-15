@@ -1,5 +1,5 @@
 package com.example.socialcompass.viewmodel;
-
+/*
 import android.app.Application;
 import android.content.Context;
 
@@ -26,7 +26,7 @@ public class LocationViewModel extends AndroidViewModel {
     /**
      * Load all friends from the database.
      * @return a LiveData object that will be updated when any notes change.
-     */
+     *\/
     public LiveData<List<Friend>> getUsers() {
         if (users == null) {
             users = repo.getAllLocal();
@@ -34,3 +34,4 @@ public class LocationViewModel extends AndroidViewModel {
         return users;
     }
 }
+*/

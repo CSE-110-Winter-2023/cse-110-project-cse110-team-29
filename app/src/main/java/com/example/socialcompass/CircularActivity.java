@@ -112,7 +112,8 @@ public class CircularActivity extends AppCompatActivity {
         locationDisplayers = new ArrayList<>();
 
         friendRepo = new FriendRepository(FriendDatabase.provide(this).getDao());
-        List<Friend> friends = friendRepo.getAllLocal().getValue();
+        List<Friend> friends = friendRepo.getAllLocal();
+        Log.d("hey", friends.toString());
         friends = friends == null ? new ArrayList<Friend>() : friends;
         for (Friend f : friends) {
             LiveData<Friend> liveFriend = friendRepo.getSynced(f.getUid());
