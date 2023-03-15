@@ -7,14 +7,16 @@ import androidx.lifecycle.LiveData;
 
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
-
+import android.location.LocationManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -85,6 +87,13 @@ public class CircularActivity extends AppCompatActivity {
             MutableLiveData<Pair<Double, Double>> thisLoc = new MutableLiveData<>();
             thisLoc.setValue(new Pair<>((double)data.getLatitude(), (double)data.getLongitude()));
             locationDisplayers.add(new LocationDisplayer(this, data.getLabel(), data.getLabel(), locationService.getLocation(), thisLoc, orientationService.getOrientation()));
+        }
+        var gpsDot = findViewById(R.id.GPSSignal);
+        var LocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        var GPS = LocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if(GPS==true)
+        {
+            gpsDot.setBackgroundColor(Color.GREEN);
         }
     }
 
