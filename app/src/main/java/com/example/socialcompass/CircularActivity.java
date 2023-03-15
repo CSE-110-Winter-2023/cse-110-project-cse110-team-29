@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+
 import androidx.core.util.Pair;
 import androidx.lifecycle.MutableLiveData;
 
@@ -42,9 +43,9 @@ public class CircularActivity extends AppCompatActivity {
     TextView northView;
 
 
-    HashMap<Integer,ArrayList<ILocation>> location_ranges;
+    HashMap<Integer, ArrayList<ILocation>> location_ranges;
     //0-1,1-10,10-500,500+
-    private int numOfClickZoom;
+    private static int numOfClickZoom = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +60,8 @@ public class CircularActivity extends AppCompatActivity {
         }
 
         //if(!prefs.contains("parentsLabel") || !prefs.contains("parentsLat") || !prefs.contains("parentsLong")) {
-           // Intent inputIntent = new Intent(this, InputActivity.class);
-           // startActivity(inputIntent);
+        // Intent inputIntent = new Intent(this, InputActivity.class);
+        // startActivity(inputIntent);
         //}
 
         this.northView = findViewById(R.id.north);
@@ -83,9 +84,13 @@ public class CircularActivity extends AppCompatActivity {
         locationDisplayers = new ArrayList<>();
         for (ILocation data : locations) {
             MutableLiveData<Pair<Double, Double>> thisLoc = new MutableLiveData<>();
-            thisLoc.setValue(new Pair<>((double)data.getLatitude(), (double)data.getLongitude()));
+            thisLoc.setValue(new Pair<>((double) data.getLatitude(), (double) data.getLongitude()));
             locationDisplayers.add(new LocationDisplayer(this, data.getLabel(), data.getLabel(), locationService.getLocation(), thisLoc, orientationService.getOrientation()));
         }
+
+
+        //Story 18: Default Zoom is inner two levels
+        setMultipleCircles(1);
     }
 
     private void setUpOrientationAndLocation() {
@@ -129,6 +134,7 @@ public class CircularActivity extends AppCompatActivity {
 
     }
 
+
     private void onLocationChanged(Pair<Double, Double> userLocation) {
         /*
         Double userLat = userLocation.first, userLong = userLocation.second;
@@ -171,14 +177,14 @@ public class CircularActivity extends AppCompatActivity {
         // offset orientation by value entered
         orientationSet(this.northView, this.parentLocation.getOrientationAngle() + this.orientationOffset);
         orientationSet(this.parentLocation.getTextView(), this.parentLocation.getAngleFromLocation() +
-                        this.parentLocation.getOrientationAngle() + this.orientationOffset);
+                this.parentLocation.getOrientationAngle() + this.orientationOffset);
     }
 
     public void onEditLabel(View view) {
         TextView newLabel = findViewById(R.id.editLabel);
         String label = newLabel.getText().toString();
 
-        if(label.equals("")) {
+        if (label.equals("")) {
             return;
         }
 
@@ -223,16 +229,21 @@ public class CircularActivity extends AppCompatActivity {
         View circle3 = findViewById(R.id.circle_3);
         View circle2 = findViewById(R.id.circle_2);
         View circle1 = findViewById(R.id.circle_1);
+        TextView north = findViewById(R.id.north);
 
         ViewGroup.LayoutParams layoutParams4 = circle4.getLayoutParams();
         ViewGroup.LayoutParams layoutParams3 = circle3.getLayoutParams();
         ViewGroup.LayoutParams layoutParams2 = circle2.getLayoutParams();
         ViewGroup.LayoutParams layoutParams1 = circle1.getLayoutParams();
+        ConstraintLayout.LayoutParams layoutParamsNorth = (ConstraintLayout.LayoutParams) north.getLayoutParams();
 
-        if(numOfClickZoom == 0) {
-            if(source == 0)
+        if (numOfClickZoom == 0) {
+            if (source == 0) {
                 circle4.setVisibility(View.VISIBLE);
-
+                north.setText("N");
+                layoutParamsNorth.circleRadius = 460;
+                north.setLayoutParams(layoutParamsNorth);
+            }
             layoutParams4.width = 1050;
             layoutParams4.height = 1050;
             circle4.setLayoutParams(layoutParams4);
@@ -250,13 +261,15 @@ public class CircularActivity extends AppCompatActivity {
             circle1.setLayoutParams(layoutParams1);
         }
 
-
-        if(numOfClickZoom == 1) {
+        if (numOfClickZoom == 1) {
             if (source == 1)
                 circle4.setVisibility(View.INVISIBLE);
+            north.setText(".");
+            //north.setLayoutParams();
+            layoutParamsNorth.circleRadius = 565;
+
             if (source == 0)
                 circle3.setVisibility(View.VISIBLE);
-
             layoutParams3.width = 1050;
             layoutParams3.height = 1050;
             circle3.setLayoutParams(layoutParams3);
@@ -270,10 +283,11 @@ public class CircularActivity extends AppCompatActivity {
             circle1.setLayoutParams(layoutParams1);
         }
 
-
-        if(numOfClickZoom == 2) {
-            if (source == 1)
+        if (numOfClickZoom == 2) {
+            if (source == 1) {
                 circle3.setVisibility(View.INVISIBLE);
+                circle4.setVisibility(View.INVISIBLE);
+            }
             if (source == 0)
                 circle2.setVisibility(View.VISIBLE);
 
@@ -286,7 +300,7 @@ public class CircularActivity extends AppCompatActivity {
             circle1.setLayoutParams(layoutParams1);
         }
 
-        if(numOfClickZoom == 3) {
+        if (numOfClickZoom == 3) {
             if (source == 1)
                 circle2.setVisibility(View.INVISIBLE);
 
@@ -295,9 +309,9 @@ public class CircularActivity extends AppCompatActivity {
             circle1.setLayoutParams(layoutParams1);
         }
     }
+
     //Function for getting the number of zoomclick for JunitTest
-    public int getCircleCount()
-    {
-        return this.numOfClickZoom;
+    public static int getCircleCount() {
+        return numOfClickZoom;
     }
 }
