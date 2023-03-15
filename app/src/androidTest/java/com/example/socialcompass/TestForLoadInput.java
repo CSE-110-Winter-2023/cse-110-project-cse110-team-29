@@ -1,16 +1,13 @@
 package com.example.socialcompass;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +29,7 @@ public class TestForLoadInput {
 
         try(ActivityScenario<InputActivity>scenario = ActivityScenario.launch(InputActivity.class)){
             scenario.onActivity(activity -> {
-                TextView label = (TextView)activity.findViewById(R.id.labelName);
+                TextView label = (TextView)activity.findViewById(R.id.uid);
                 label.setText("Home");
                 TextView lat = (TextView)activity.findViewById(R.id.latitudeNum);
                 lat.setText("14");
