@@ -115,10 +115,10 @@ public class CircularActivity extends AppCompatActivity {
                         //long timeSinceLastGPS = System.currentTimeMillis()-gpstime;
                         if(!locationService.getLocationManager().isProviderEnabled(locationService.getLocationManager().GPS_PROVIDER)) {
                             gpsDot.clearColorFilter();
-                            var time = (int)(timeSinceLastGPS/1000);
+                            var time = (timeSinceLastGPS/1000);
                             if(time>=60) {
-                                hours = time / 3600;
-                                mins = time / 60;
+                                hours = (int)(time / 3600);
+                                mins = (int)(time / 60);
                                 var lostTime = hours + "hours " + mins + "mins ";
                                 timeView.setText(lostTime);
                             }
@@ -129,6 +129,7 @@ public class CircularActivity extends AppCompatActivity {
                         }
                         else{
                             gpsDot.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                            gpstime = locationService.getLastGPSTime();
                             timeView.setText("");
                         }
                     }
