@@ -218,9 +218,28 @@
         android:id="@+id/GPSSignal"
         android:layout_width="21dp"
         android:layout_height="23dp"
-        app:srcCompat="@drawable/center_point"
-        tools:layout_editor_absoluteX="347dp"
-        tools:layout_editor_absoluteY="130dp" />
+        android:layout_marginStart="130dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="43dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/clock"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/upArrow"
+        app:layout_constraintTop_toBottomOf="@+id/lostTime"
+        app:srcCompat="@drawable/gpsdot" />
+
+    <TextView
+        android:id="@+id/lostTime"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:layout_marginStart="323dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/GPSSignal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/back" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
