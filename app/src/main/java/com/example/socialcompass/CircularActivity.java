@@ -5,6 +5,7 @@ import static androidx.test.InstrumentationRegistry.getContext;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 
 
@@ -14,6 +15,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.core.util.Pair;
@@ -27,6 +29,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class CircularActivity extends AppCompatActivity {
     private LocationService locationService;
@@ -138,7 +142,10 @@ public class CircularActivity extends AppCompatActivity {
     private double orientationOffset;
 
     TextView northView;
-
+    TextView timeView;
+    private long gpstime;
+    private int hours;
+    private int mins;
 
     HashMap<Integer,ArrayList<ILocation>> location_ranges;
     //0-1,1-10,10-500,500+
@@ -185,18 +192,46 @@ public class CircularActivity extends AppCompatActivity {
             locationDisplayers.add(new LocationDisplayer(this, data.getLabel(), data.getLabel(), locationService.getLocation(), thisLoc, orientationService.getOrientation()));
         }
         ImageView gpsDot = findViewById(R.id.GPSSignal);
-        var LocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        var GPS = LocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        ViewGroup.LayoutParams GPSbutton = gpsDot.getLayoutParams();
-        if(GPS==true)
-        {
-        }
+        timeView = findViewById(R.id.lostTime);
+        gpstime = locationService.getLastGPSTime();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        var timeSinceLastGPS = System.currentTimeMillis()-gpstime;
+                        //long timeSinceLastGPS = System.currentTimeMillis()-gpstime;
+                        if(!locationService.getLocationManager().isProviderEnabled(locationService.getLocationManager().GPS_PROVIDER)) {
+                            gpsDot.clearColorFilter();
+                            var time = (int)(timeSinceLastGPS/1000);
+                            if(time>=60) {
+                                hours = time / 3600;
+                                mins = time / 60;
+                                var lostTime = hours + "hours " + mins + "mins ";
+                                timeView.setText(lostTime);
+                            }
+                            else{
+                                var lostTime = time+"s";
+                                timeView.setText(lostTime);
+                            }
+                        }
+                        else{
+                            gpsDot.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+                            timeView.setText("");
+                        }
+                    }
+                });
+            }
+        },0,1000);
+
     }
 
     private void setUpOrientationAndLocation() {
         locationService = LocationService.singleton(this);
         orientationService = OrientationService.singleton(this);
-        //this.prefs = getSharedPreferences("data", MODE_PRIVATE);
+        this.prefs = getSharedPreferences("data", MODE_PRIVATE);
     }
 
     private void observeOrientationAndLocation() {
