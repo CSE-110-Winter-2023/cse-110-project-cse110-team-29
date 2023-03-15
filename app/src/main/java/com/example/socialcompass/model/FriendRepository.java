@@ -76,7 +76,6 @@ public class FriendRepository {
 
     public LiveData<List<Friend>> getAllLocal() {
         return dao.getAll();
-
     }
 
     public void upsertLocal(Friend friend) {
