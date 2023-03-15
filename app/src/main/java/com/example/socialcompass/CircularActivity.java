@@ -364,4 +364,6 @@ public class CircularActivity extends AppCompatActivity {
     public static int getCircleCount() {
         return numOfClickZoom;
     }
+
+    public LocationService getLocationService(){return this.locationService;}
 }

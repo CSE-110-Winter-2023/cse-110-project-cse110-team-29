@@ -86,6 +86,9 @@ public class Friend {
         return this.public_code.equals(friend.public_code);
     }
 
+    public void setFriend_name(String truncatedName) { this.friend_name = truncatedName; }
+
+
     public static Friend fromJSON(String json) {
         return new Gson().fromJson(json, Friend.class);
     }

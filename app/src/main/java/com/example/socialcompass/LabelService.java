@@ -9,14 +9,24 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class LabelService {
-
+public class LabelService extends CircularActivity{
+        LocationService myLocation = getLocationService();
         public void truncateLabels(List<Friend> friends) {
             // sort the friends based on their distance from the center
+
             Collections.sort(friends, new Comparator<Friend>() {
                 @Override
                 public int compare(Friend f1, Friend f2) {
-                    return Double.compare(f1.distanceFromCenter, f2.distanceFromCenter);
+                    double f1Dis = Utilities.distance(f1.getLatitude(),
+                            f1.getLongitude(),
+                            myLocation.getLocation().getValue().first,
+                            myLocation.getLocation().getValue().second);
+                    double f2Dis = Utilities.distance(f2.getLatitude(),
+                            f2.getLongitude(),
+                            myLocation.getLocation().getValue().first,
+                            myLocation.getLocation().getValue().second);
+
+                    return Double.compare(f1Dis, f2Dis);
                 }
             });
 
@@ -26,19 +36,19 @@ public class LabelService {
                 Friend friend2 = friends.get(i + 1);
 
                 // calculate the distance between the two friends' labels
-                float[] distance = new float[1];
-                Location.distanceBetween(friend1.labelLocation.getLatitude(),
-                        friend1.labelLocation.getLongitude(),
-                        friend2.labelLocation.getLatitude(),
-                        friend2.labelLocation.getLongitude(),
-                        distance);
+                double[] distance = new double[1];
+                distance [0] = Utilities.distance(friend1.getLatitude(),
+                        friend1.getLongitude(),
+                        friend2.getLatitude(),
+                        friend2.getLongitude()
+                        );
 
                 // if the distance is less than the sum of the label widths, truncate the longer label
-                if (distance[0] < friend1.labelWidth + friend2.labelWidth) {
-                    if (friend1.labelWidth > friend2.labelWidth) {
-                        friend1.truncatedLabel = truncateString(friend1.label, friend2.labelWidth);
+                if (distance[0] < friend1.getName().length() + friend2.getName().length()) {
+                    if (friend1.getName().length() > friend2.getName().length()) {
+                        friend1.setFriend_name((truncateString(friend1.getName(), friend2.getName().length())));
                     } else {
-                        friend2.truncatedLabel = truncateString(friend2.label, friend1.labelWidth);
+                        friend2.setFriend_name((truncateString(friend2.getName(), friend1.getName().length())));
                     }
                 }
             }
