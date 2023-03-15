@@ -27,7 +27,7 @@ public class LocationDisplayer {
 
     public LocationDisplayer(Context context,
                              String uid,
-                             String label,
+                                 String label,
                              LiveData<Pair<Double, Double>> userLoc,
                              LiveData<Pair<Double, Double>> thisLoc,
                              LiveData<Float> phoneAngle) {

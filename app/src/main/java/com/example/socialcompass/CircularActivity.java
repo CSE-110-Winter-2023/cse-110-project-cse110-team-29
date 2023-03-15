@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.socialcompass.model.Friend;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,11 +38,14 @@ public class CircularActivity extends AppCompatActivity {
     // multiple locations
     List<ILocation> locations;
 
+    LiveData<List<Friend>> friends;
+
     List<LocationDisplayer> locationDisplayers;
 
     private double orientationOffset;
 
     TextView northView;
+
 
 
     HashMap<Integer, ArrayList<ILocation>> location_ranges;
@@ -64,7 +69,7 @@ public class CircularActivity extends AppCompatActivity {
         // startActivity(inputIntent);
         //}
 
-        this.northView = findViewById(R.id.north);
+        //this.northView = findViewById(R.id.north);
 
         // this.parentLocation = new Location(findViewById(R.id.ParentHome), prefs.getFloat("parentsLong", 0), prefs.getFloat("parentsLat", 0));
         // this.parentLocation.updateLabel(prefs.getString("parentsLabel",""));
@@ -89,8 +94,13 @@ public class CircularActivity extends AppCompatActivity {
         }
 
 
+
+        //public_code = friend.getPublicCode();
+        //repo.getSynced(public_code)
+
+
         //Story 18: Default Zoom is inner two levels
-        setMultipleCircles(1);
+        setMultipleCircles();
     }
 
     private void setUpOrientationAndLocation() {
@@ -209,14 +219,14 @@ public class CircularActivity extends AppCompatActivity {
         if (numOfClickZoom < 3) {
             numOfClickZoom++;
         }
-        setMultipleCircles(1); //1 represent it is from zoom in btn
+        setMultipleCircles();
     }
 
     public void onClickZoomOut(View view) {
         if (numOfClickZoom > 0) {
             numOfClickZoom--;
         }
-        setMultipleCircles(0); //0 represent it is from zoom out btn
+        setMultipleCircles();
     }
 
     public void onClickBack(View view){
@@ -224,26 +234,24 @@ public class CircularActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void setMultipleCircles(int source) {
+    private void setMultipleCircles() {
         View circle4 = findViewById(R.id.circle_4);
         View circle3 = findViewById(R.id.circle_3);
         View circle2 = findViewById(R.id.circle_2);
         View circle1 = findViewById(R.id.circle_1);
-        TextView north = findViewById(R.id.north);
 
         ViewGroup.LayoutParams layoutParams4 = circle4.getLayoutParams();
         ViewGroup.LayoutParams layoutParams3 = circle3.getLayoutParams();
         ViewGroup.LayoutParams layoutParams2 = circle2.getLayoutParams();
         ViewGroup.LayoutParams layoutParams1 = circle1.getLayoutParams();
-        ConstraintLayout.LayoutParams layoutParamsNorth = (ConstraintLayout.LayoutParams) north.getLayoutParams();
 
         if (numOfClickZoom == 0) {
-            if (source == 0) {
-                circle4.setVisibility(View.VISIBLE);
-                north.setText("N");
-                layoutParamsNorth.circleRadius = 460;
-                north.setLayoutParams(layoutParamsNorth);
-            }
+
+            circle4.setVisibility(View.VISIBLE);
+            circle3.setVisibility(View.VISIBLE);
+            circle2.setVisibility(View.VISIBLE);
+            circle1.setVisibility(View.VISIBLE);
+
             layoutParams4.width = 1050;
             layoutParams4.height = 1050;
             circle4.setLayoutParams(layoutParams4);
@@ -262,14 +270,11 @@ public class CircularActivity extends AppCompatActivity {
         }
 
         if (numOfClickZoom == 1) {
-            if (source == 1)
-                circle4.setVisibility(View.INVISIBLE);
-            north.setText(".");
-            //north.setLayoutParams();
-            layoutParamsNorth.circleRadius = 565;
+            circle4.setVisibility(View.INVISIBLE);
+            circle3.setVisibility(View.VISIBLE);
+            circle2.setVisibility(View.VISIBLE);
+            circle1.setVisibility(View.VISIBLE);
 
-            if (source == 0)
-                circle3.setVisibility(View.VISIBLE);
             layoutParams3.width = 1050;
             layoutParams3.height = 1050;
             circle3.setLayoutParams(layoutParams3);
@@ -284,12 +289,10 @@ public class CircularActivity extends AppCompatActivity {
         }
 
         if (numOfClickZoom == 2) {
-            if (source == 1) {
-                circle3.setVisibility(View.INVISIBLE);
-                circle4.setVisibility(View.INVISIBLE);
-            }
-            if (source == 0)
-                circle2.setVisibility(View.VISIBLE);
+            circle4.setVisibility(View.INVISIBLE);
+            circle3.setVisibility(View.INVISIBLE);
+            circle2.setVisibility(View.VISIBLE);
+            circle1.setVisibility(View.VISIBLE);
 
             layoutParams2.width = 1050;
             layoutParams2.height = 1050;
@@ -301,8 +304,10 @@ public class CircularActivity extends AppCompatActivity {
         }
 
         if (numOfClickZoom == 3) {
-            if (source == 1)
-                circle2.setVisibility(View.INVISIBLE);
+            circle4.setVisibility(View.INVISIBLE);
+            circle3.setVisibility(View.INVISIBLE);
+            circle2.setVisibility(View.INVISIBLE);
+            circle1.setVisibility(View.VISIBLE);
 
             layoutParams1.width = 1050;
             layoutParams1.height = 1050;
