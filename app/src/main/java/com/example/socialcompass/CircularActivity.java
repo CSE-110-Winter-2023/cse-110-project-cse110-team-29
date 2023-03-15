@@ -110,7 +110,9 @@ public class CircularActivity extends AppCompatActivity {
         friendRepo = new FriendRepository(FriendDatabase.provide(this).getDao());
         List<Friend> friends = friendRepo.getAllLocal();
         Log.d("hey", friends.toString());
+
         friends = friends == null ? new ArrayList<Friend>() : friends;
+
         for (Friend f : friends) {
             LiveData<Friend> liveFriend = friendRepo.getSynced(f.getUid());
             locationDisplayers.add(new LocationDisplayer(
@@ -122,6 +124,7 @@ public class CircularActivity extends AppCompatActivity {
                     orientationService.getOrientation()
             ));
         }
+
         ImageView gpsDot = findViewById(R.id.GPSSignal);
         timeView = findViewById(R.id.lostTime);
         gpstime = locationService.getLastGPSTime();
@@ -161,6 +164,28 @@ public class CircularActivity extends AppCompatActivity {
 
         //Story 18: Default Zoom is inner two levels
         setMultipleCircles(1);
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+        locationDisplayers = new ArrayList<>();
+        friendRepo = new FriendRepository(FriendDatabase.provide(this).getDao());
+
+        List<Friend> friends = friendRepo.getAllLocal();
+        Log.d("hey", friends.toString());
+        friends = friends == null ? new ArrayList<Friend>() : friends;
+        for (Friend f : friends) {
+            LiveData<Friend> liveFriend = friendRepo.getSynced(f.getUid());
+            locationDisplayers.add(new LocationDisplayer(
+                    this,
+                    f.getUid(),
+                    f.getName(),
+                    locationService.getLocation(),
+                    liveFriend,
+                    orientationService.getOrientation()
+            ));
+        }
     }
 
     private void setUpOrientationAndLocation() {
