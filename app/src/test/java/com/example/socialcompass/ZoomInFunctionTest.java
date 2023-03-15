@@ -25,33 +25,46 @@ public class ZoomInFunctionTest {
     public void ZoomInTest() {
         try (ActivityScenario<CircularActivity> scenario = ActivityScenario.launch(CircularActivity.class)) {
             scenario.onActivity(activity -> {
-                var zoomButt = activity.findViewById(R.id.zoom_in_btn);
-                //check before zoom in the number of zoom click should be 0
-                assertEquals(0,activity.getCircleCount());
-                //check after the first click of zoom in
-                zoomButt.performClick();
-                assertEquals(1,activity.getCircleCount());
+                var zoomInButt = activity.findViewById(R.id.zoom_in_btn);
                 var cir4 = activity.findViewById(R.id.circle_4);
-                assertEquals(cir4.INVISIBLE,cir4.getVisibility());
-                //check after the second click of zoom in
-                zoomButt.performClick();
-                assertEquals(2,activity.getCircleCount());
                 var cir3 = activity.findViewById(R.id.circle_3);
-                assertEquals(cir4.INVISIBLE,cir4.getVisibility());
-                assertEquals(cir3.INVISIBLE,cir3.getVisibility());
-                //check after the third click of zoom in
-                zoomButt.performClick();
-                assertEquals(3,activity.getCircleCount());
                 var cir2 = activity.findViewById(R.id.circle_2);
-                assertEquals(cir4.INVISIBLE,cir4.getVisibility());
-                assertEquals(cir3.INVISIBLE,cir3.getVisibility());
-                assertEquals(cir2.INVISIBLE,cir2.getVisibility());
-                //check the max zoom in already click, and continue click on zoom in
-                zoomButt.performClick();
+
+                //check before zoom in the number of zoom click should be 0
+                assertEquals(2,activity.getCircleCount());
+
+                //check after the first click of zoom in
+                zoomInButt.performClick();
                 assertEquals(3,activity.getCircleCount());
-                assertEquals(cir4.INVISIBLE,cir4.getVisibility());
-                assertEquals(cir3.INVISIBLE,cir3.getVisibility());
-                assertEquals(cir2.INVISIBLE,cir2.getVisibility());
+
+                assertEquals(View.INVISIBLE,cir4.getVisibility());
+                assertEquals(View.INVISIBLE,cir3.getVisibility());
+                assertEquals(View.INVISIBLE,cir2.getVisibility());
+
+                zoomInButt.performClick();
+                assertEquals(3,activity.getCircleCount());
+                assertEquals(View.INVISIBLE,cir4.getVisibility());
+                assertEquals(View.INVISIBLE,cir3.getVisibility());
+                assertEquals(View.INVISIBLE,cir2.getVisibility());
+
+                var zoomOutBtn = activity.findViewById(R.id.zoom_out_btn);
+                zoomOutBtn.performClick();
+                assertEquals(2,activity.getCircleCount());
+                assertEquals(View.INVISIBLE,cir4.getVisibility());
+                assertEquals(View.INVISIBLE,cir3.getVisibility());
+                assertEquals(View.VISIBLE,cir2.getVisibility());
+
+                zoomOutBtn.performClick();
+                assertEquals(1,activity.getCircleCount());
+                assertEquals(View.INVISIBLE,cir4.getVisibility());
+                assertEquals(View.VISIBLE,cir3.getVisibility());
+                assertEquals(View.VISIBLE,cir2.getVisibility());
+
+                zoomOutBtn.performClick();
+                assertEquals(0,activity.getCircleCount());
+                assertEquals(View.VISIBLE,cir4.getVisibility());
+                assertEquals(View.VISIBLE,cir3.getVisibility());
+                assertEquals(View.VISIBLE,cir2.getVisibility());
             });
         }
 

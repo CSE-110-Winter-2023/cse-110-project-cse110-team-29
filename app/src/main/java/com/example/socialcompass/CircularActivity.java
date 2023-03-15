@@ -284,8 +284,10 @@ public class CircularActivity extends AppCompatActivity {
         }
 
         if (numOfClickZoom == 2) {
-            if (source == 1)
+            if (source == 1) {
                 circle3.setVisibility(View.INVISIBLE);
+                circle4.setVisibility(View.INVISIBLE);
+            }
             if (source == 0)
                 circle2.setVisibility(View.VISIBLE);
 
