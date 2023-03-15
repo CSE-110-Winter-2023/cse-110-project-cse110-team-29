@@ -19,6 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.socialcompass.model.Friend;
+import com.example.socialcompass.model.FriendDatabase;
+import com.example.socialcompass.model.FriendRepository;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,13 +31,17 @@ public class CircularActivity extends AppCompatActivity {
     private LocationService locationService;
     private OrientationService orientationService;
 
-    SharedPreferences prefs;
+    private SharedPreferences preferences;
 
     // for a single saved location
     Location parentLocation;
 
     // multiple locations
-    List<ILocation> locations;
+    private LiveData<List<Friend>> friends;
+
+    private LiveData<Friend> currentUser;
+
+    private FriendRepository friendRepo;
 
     List<LocationDisplayer> locationDisplayers;
 
@@ -65,14 +73,13 @@ public class CircularActivity extends AppCompatActivity {
 
         this.northView = findViewById(R.id.north);
 
-        // this.parentLocation = new Location(findViewById(R.id.ParentHome), prefs.getFloat("parentsLong", 0), prefs.getFloat("parentsLat", 0));
-        // this.parentLocation.updateLabel(prefs.getString("parentsLabel",""));
+        friendRepo = new FriendRepository(FriendDatabase.provide(this).getDao());
 
-        locations = new ArrayList<>();
+        preferences = getPreferences(MODE_PRIVATE);
 
-        locations.add(new ILocation("test1", 75, 200, this));
-        locations.add(new ILocation("Sea World", 32.7641112f, -117.2284536f, this));
-        locations.add(new ILocation("Geisel", 32.8810965f, -117.2397546f, this));
+        // get public ID of current user
+        currentUser = friendRepo.getLocal(preferences.getString("Public", ""));
+        friends = friendRepo.getAllLocal();
 
         location_ranges = new HashMap<>();
 
@@ -80,11 +87,21 @@ public class CircularActivity extends AppCompatActivity {
         observeOrientationAndLocation();
 
         // temp code mocking other users
-        locationDisplayers = new ArrayList<>();
-        for (ILocation data : locations) {
-            MutableLiveData<Pair<Double, Double>> thisLoc = new MutableLiveData<>();
-            thisLoc.setValue(new Pair<>((double)data.getLatitude(), (double)data.getLongitude()));
-            locationDisplayers.add(new LocationDisplayer(this, data.getLabel(), data.getLabel(), locationService.getLocation(), thisLoc, orientationService.getOrientation()));
+//        locationDisplayers = new ArrayList<>();
+//        for (ILocation data : friends) {
+//            MutableLiveData<Pair<Double, Double>> thisLoc = new MutableLiveData<>();
+//            thisLoc.setValue(new Pair<>((double)data.getLatitude(), (double)data.getLongitude()));
+//            locationDisplayers.add(new LocationDisplayer(this, data.getLabel(), data.getLabel(), locationService.getLocation(), thisLoc, orientationService.getOrientation()));
+//        }
+    }
+
+    public void updateFriendLocations() {
+        // use this method in orientationChange and locationChange
+        // TODO: also call patch to update users info locally and remotely
+
+        List<Friend> currentFriends = friends.getValue();
+        for (int i = 0; i < currentFriends.size(); i++) {
+            // this.locationDisplayers.get(i).updateView();
         }
     }
 
@@ -299,5 +316,12 @@ public class CircularActivity extends AppCompatActivity {
     public int getCircleCount()
     {
         return this.numOfClickZoom;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        orientationService.unregisterSensorListeners();
+        locationService.unregisterLocationListener();
     }
 }
