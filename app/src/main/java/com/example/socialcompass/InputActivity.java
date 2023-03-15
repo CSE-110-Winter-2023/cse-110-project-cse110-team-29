@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.socialcompass.model.FriendDao;
+import com.example.socialcompass.model.FriendDatabase;
+import com.example.socialcompass.model.FriendRepository;
+
 public class InputActivity extends AppCompatActivity {
     private EditText UIDInput;
-    //private EditText latInput;
-    //private EditText longInput;
+    private FriendRepository repo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,35 +21,24 @@ public class InputActivity extends AppCompatActivity {
         setContentView(R.layout.activity_input);
 
         UIDInput = findViewById(R.id.uid);
-        //latInput = findViewById(R.id.latitudeNum);
-        //longInput = findViewById(R.id.longitudeNum);
-
-        // update locations with saved locations
-        //SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
-
-        //labelInput.setText(prefs.getString("parentsLabel",""));
-        //latInput.setText(String.valueOf(prefs.getFloat("parentsLat",0)));
-        //longInput.setText(String.valueOf(prefs.getFloat("parentsLong",0)));
+        FriendDao dao = FriendDatabase.provide(this).getDao();
+        repo = new FriendRepository(dao);
     }
 
-    /*
-    public void saveLocation() {
-        SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
+    public void saveFriend() {
+        String uid = UIDInput.getText().toString();
 
-        editor.putString("parentsLabel", labelInput.getText().toString());
-        editor.putFloat("parentsLat", Float.parseFloat(latInput.getText().toString()));
-        editor.putFloat("parentsLong", Float.parseFloat(longInput.getText().toString()));
-        editor.apply();
+        repo.getSynced(uid);
 
-        Intent intent = new Intent(this,CircularActivity.class);
-        startActivity(intent);
+        if (!repo.existsLocal(uid)) {
+            UIDInput.setError("Invalid friend code.");
+            return;
+        }
     }
-    */
 
 
     public void onFinish(View view) {
-        //saveLocation();
+        saveFriend();
         finish();
     }
 }
