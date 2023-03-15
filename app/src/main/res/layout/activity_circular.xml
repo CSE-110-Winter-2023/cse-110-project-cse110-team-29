@@ -74,20 +74,20 @@
             app:layout_constraintTop_toTopOf="@+id/circle_1"
             app:srcCompat="@drawable/center_point" />
 
-        <TextView
-            android:id="@+id/north"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="N"
-            android:textAllCaps="true"
-            android:textColor="#F44336"
-            android:textSize="50dp"
-            android:textStyle="bold"
-            android:translationY="0dp"
-            app:layout_constraintCircle="@id/clock"
-            app:layout_constraintCircleRadius="180dp"
-            tools:layout_editor_absoluteX="172dp"
-            tools:layout_editor_absoluteY="-23dp" />
+<!--        <TextView-->
+<!--            android:id="@+id/north"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="N"-->
+<!--            android:textAllCaps="true"-->
+<!--            android:textColor="#F44336"-->
+<!--            android:textSize="50dp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:translationY="0dp"-->
+<!--            app:layout_constraintCircle="@id/clock"-->
+<!--            app:layout_constraintCircleRadius="180dp"-->
+<!--            tools:layout_editor_absoluteX="172dp"-->
+<!--            tools:layout_editor_absoluteY="-23dp" />-->
 
         <TextView
             android:id="@+id/ParentHome"

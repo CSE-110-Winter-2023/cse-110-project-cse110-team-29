@@ -29,7 +29,7 @@ public class LocationDisplayer {
 
     public LocationDisplayer(Context context,
                              String uid,
-                             String label,
+                                 String label,
                              LiveData<Pair<Double, Double>> userLoc,
                              LiveData<Friend> friend,
                              LiveData<Float> phoneAngle) {
