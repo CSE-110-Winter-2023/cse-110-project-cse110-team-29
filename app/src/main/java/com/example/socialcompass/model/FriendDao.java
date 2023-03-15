@@ -25,14 +25,14 @@ public abstract class FriendDao {
     @Upsert
     public abstract long upsert(Friend friend);
 
-    @Query("SELECT EXISTS(SELECT 1 FROM friends WHERE uid = :uid)")
-    public abstract boolean exists(String uid);
+    @Query("SELECT EXISTS(SELECT 1 FROM friends WHERE public_code = :public_code)")
+    public abstract boolean exists(String public_code);
 
-    @Query("SELECT * FROM friends WHERE uid = :uid")
-    public abstract Friend get(String uid);
+    @Query("SELECT * FROM friends WHERE public_code = :public_code")
+    public abstract LiveData<Friend> get(String public_code);
 
-    @Query("SELECT * FROM friends ORDER BY uid")
-    public abstract List<Friend> getAll();
+    @Query("SELECT * FROM friends ORDER BY friend_name")
+    public abstract LiveData<List<Friend>> getAll();
 
     @Delete
     public abstract int delete(Friend friend);
