@@ -39,7 +39,6 @@ public class Utilities {
         return brng;
     }
 
-
     public static double distance(double lat1,
                                   double lon1, double lat2,
                                   double lon2)
