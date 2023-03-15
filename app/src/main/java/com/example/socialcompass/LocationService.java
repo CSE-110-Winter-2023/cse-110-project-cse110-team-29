@@ -74,10 +74,10 @@ public class LocationService implements LocationListener {
      * @param action the thing to do that needs permissions.
      */
     private void withLocationPermissions(Runnable action) {
-        if (Arrays.stream(REQUIRED_PERMISSIONS).allMatch(perm -> activity.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED)) {
+       // if (Arrays.stream(REQUIRED_PERMISSIONS).allMatch(perm -> activity.checkSelfPermission(perm) == PackageManager.PERMISSION_GRANTED)) {
             // We already have at least one of the location permissions, go ahead!
-            action.run();
-        } else {
+        //    action.run();
+       // } else {
             // We need to ask for permission first.
             // This is the call that requires AppCompatActivity and not just Activity!
             ActivityResultLauncher<String[]> launcher = activity.registerForActivityResult(new RequestMultiplePermissions(), grants -> {
@@ -90,7 +90,7 @@ public class LocationService implements LocationListener {
                 action.run();
             });
             launcher.launch(REQUIRED_PERMISSIONS);
-        }
+     //   }
     }
 
     @Override

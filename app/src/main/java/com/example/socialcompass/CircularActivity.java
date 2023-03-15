@@ -1,5 +1,7 @@
 package com.example.socialcompass;
 
+import static androidx.test.InstrumentationRegistry.getContext;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -19,6 +21,7 @@ import androidx.lifecycle.MutableLiveData;
 import android.location.LocationManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -28,6 +31,99 @@ import java.util.List;
 public class CircularActivity extends AppCompatActivity {
     private LocationService locationService;
     private OrientationService orientationService;
+
+    private LocationManager locationManager;
+    /**
+     * In your Activity, create a LocationManager object and a MyLocationListener object.
+     * Also, create a TextView object to display the time since the last GPS fix.
+     * typescript
+     *
+     * public class MainActivity extends AppCompatActivity {
+     *
+     *     private LocationManager locationManager;
+     *     private MyLocationListener locationListener;
+     *     private TextView gpsStatusTextView;
+     *     private long lastGpsFixTime;
+     *
+     *     @Override
+     *     protected void onCreate(Bundle savedInstanceState) {
+     *         super.onCreate(savedInstanceState);
+     *         setContentView(R.layout.activity_main);
+     *
+     *         // Get a reference to the TextView that will display the GPS status
+     *         gpsStatusTextView = findViewById(R.id.gps_status_text_view);
+     *
+     *         // Create a new LocationManager and LocationListener
+     *         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+     *         locationListener = new MyLocationListener();
+     *
+     *         // Request location updates from the LocationManager
+     *         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+     *     }
+     *
+     *     private class MyLocationListener implements LocationListener {
+     *
+     *         @Override
+     *         public void onLocationChanged(Location location) {
+     *             // Update the last GPS fix time
+     *             lastGpsFixTime = System.currentTimeMillis();
+     *
+     *             // Do something with the new location
+     *         }
+     *
+     *         @Override
+     *         public void onStatusChanged(String provider, int status, Bundle extras) {
+     *             // Do something when the status of the location provider changes
+     *         }
+     *
+     *         @Override
+     *         public void onProviderEnabled(String provider) {
+     *             // Do something when the location provider is enabled
+     *         }
+     *
+     *         @Override
+     *         public void onProviderDisabled(String provider) {
+     *             // Do something when the location provider is disabled
+     *         }
+     *     }
+     *
+     * }
+     * In the onLocationChanged() method of your MyLocationListener class, update the user's location on the map.
+     * You can use the Google Maps Android API to do this:
+     *
+     * @Override
+     * public void onLocationChanged(Location location) {
+     *     // Update the last GPS fix time
+     *     lastGpsFixTime = System.currentTimeMillis();
+     *
+     *     // Do something with the new location
+     *     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+     *     mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+     * }
+     *In the onCreate() method of your Activity,
+     *set up a Timer object that will update the GPS status TextView every second:
+     * // Set up a Timer to update the GPS status TextView
+     * Timer timer = new Timer();
+     * timer.schedule(new TimerTask() {
+     *     @Override
+     *     public void run() {
+     *         long timeSinceLastGpsFix = System.currentTimeMillis() - lastGpsFixTime;
+     *         final String gpsStatus;
+     *         if (timeSinceLastGpsFix > 10000) {
+     *             // If it's been more than 10 seconds since the last GPS fix, show a warning
+     *             gpsStatus = "GPS signal lost";
+     *         } else {
+     *             gpsStatus = "GPS signal ok";
+     *         }
+     *         runOnUiThread(new Runnable() {
+     *             @Override
+     *             public void run() {
+     *                 gpsStatusTextView.setText(gpsStatus);
+     *             }
+     *         });
+     *     }
+     * }, 0, 1000);
+     */
 
     SharedPreferences prefs;
 
@@ -88,12 +184,12 @@ public class CircularActivity extends AppCompatActivity {
             thisLoc.setValue(new Pair<>((double)data.getLatitude(), (double)data.getLongitude()));
             locationDisplayers.add(new LocationDisplayer(this, data.getLabel(), data.getLabel(), locationService.getLocation(), thisLoc, orientationService.getOrientation()));
         }
-        var gpsDot = findViewById(R.id.GPSSignal);
+        ImageView gpsDot = findViewById(R.id.GPSSignal);
         var LocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         var GPS = LocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        ViewGroup.LayoutParams GPSbutton = gpsDot.getLayoutParams();
         if(GPS==true)
         {
-            gpsDot.setBackgroundColor(Color.GREEN);
         }
     }
 
