@@ -33,7 +33,4 @@ public abstract class FriendDao {
 
     @Query("SELECT * FROM friends ORDER BY friend_name")
     public abstract List<Friend> getAll();
-
-    @Delete
-    public abstract int delete(Friend friend);
 }
