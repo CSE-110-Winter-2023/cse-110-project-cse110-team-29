@@ -31,12 +31,12 @@ public class FriendAPI {
      * @param public_code - Public UID of the user.
      * @return a User object, if the public code is found.
      */
-    public Friend get(String public_code) {
+    public Friend get(String endpoint, String public_code) {
         // URLs cannot contain spaces, so we replace them with %20.
         public_code = public_code.replace(" ", "%20");
 
         Request request = new Request.Builder()
-                .url("https://socialcompass.goto.ucsd.edu/location/" + public_code)
+                .url(endpoint + public_code)
                 .method("GET", null)
                 .build();
 
@@ -60,13 +60,13 @@ public class FriendAPI {
      * @param private_code - Private password of the user.
      * @param friend - The user to be updated
      */
-    public void put(String private_code, Friend friend) {
+    public void put(String endpoint, String private_code, Friend friend) {
         // URLs cannot contain spaces, so we replace them with %20.
         String public_code = friend.getUid();
         public_code = public_code.replace(" ", "%20");
         RequestBody requestBody = RequestBody.create(friend.toPutJSON(private_code), JSON);
         Request request = new Request.Builder()
-                .url("https://socialcompass.goto.ucsd.edu/location/" + public_code)
+                .url(endpoint + public_code)
                 .method("PUT", requestBody)
                 .build();
 
