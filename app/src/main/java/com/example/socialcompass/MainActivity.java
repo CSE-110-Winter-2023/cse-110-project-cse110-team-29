@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
          SharedPreferences preferences = getSharedPreferences("codes", MODE_PRIVATE);
 
-         String userPublicCode = preferences.getString("public", null);
+         String userPublicCode = preferences.getString("public_code", null);
 
          if(userPublicCode == null) {
              Intent intent = new Intent(this, NewUserActivity.class);

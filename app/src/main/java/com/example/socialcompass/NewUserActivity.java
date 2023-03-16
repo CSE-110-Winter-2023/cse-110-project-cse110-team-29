@@ -40,7 +40,6 @@ public class NewUserActivity extends AppCompatActivity {
         }
         String public_code = UUID.randomUUID().toString();
         String private_code = UUID.randomUUID().toString();
-        Friend new_user = new Friend(name.getText().toString(), public_code, 0, 0);
 
         SharedPreferences preferences = getSharedPreferences("codes", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -48,7 +47,6 @@ public class NewUserActivity extends AppCompatActivity {
         editor.putString("public_code", public_code);
         editor.putString("name", name.getText().toString());
         editor.apply();
-        repo.upsertSynced(private_code, new_user);
         Intent intent = new Intent(this, CircularActivity.class);
         startActivity(intent);
     }
