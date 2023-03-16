@@ -25,9 +25,18 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
 
-        // temp always start input activity immediately
-        Intent intent = new Intent(this, CircularActivity.class);
-        startActivity(intent);
+         SharedPreferences preferences = getSharedPreferences("codes", MODE_PRIVATE);
+
+         String userPublicCode = preferences.getString("public", null);
+
+         if(userPublicCode == null) {
+             Intent intent = new Intent(this, NewUserActivity.class);
+             startActivity(intent);
+         } else {
+            // temp always start input activity immediately
+            Intent intent = new Intent(this, CircularActivity.class);
+            startActivity(intent);
+         }
     }
     public void debug(View view) {
         SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);
