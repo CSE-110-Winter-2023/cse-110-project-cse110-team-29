@@ -43,6 +43,7 @@ public class LocationDisplayer {
         // create the view
         this.view = new TextView(context);
         this.view.setText(label);
+        this.view.setId(uid.hashCode());
         ConstraintLayout cLayout = ((Activity) context).findViewById(R.id.clock);
         cLayout.addView(this.view);
 
