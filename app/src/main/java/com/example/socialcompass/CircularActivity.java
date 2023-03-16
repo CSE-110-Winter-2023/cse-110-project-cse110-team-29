@@ -38,8 +38,6 @@ public class CircularActivity extends AppCompatActivity {
     private LocationService locationService;
     private OrientationService orientationService;
 
-    SharedPreferences prefs;
-
     List<LocationDisplayer> locationDisplayers;
 
     private double orientationOffset;
@@ -98,23 +96,21 @@ public class CircularActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        var timeSinceLastGPS = System.currentTimeMillis()-gpstime;
+                        var timeSinceLastGPS = System.currentTimeMillis() - gpstime;
                         //long timeSinceLastGPS = System.currentTimeMillis()-gpstime;
-                        if(!locationService.getLocationManager().isProviderEnabled(locationService.getLocationManager().GPS_PROVIDER)) {
+                        if (!locationService.getLocationManager().isProviderEnabled(locationService.getLocationManager().GPS_PROVIDER)) {
                             gpsDot.clearColorFilter();
-                            var time = (timeSinceLastGPS/1000);
-                            if(time>=60) {
-                                hours = (int)(time / 3600);
-                                mins = (int)(time / 60);
+                            var time = (timeSinceLastGPS / 1000);
+                            if (time >= 60) {
+                                hours = (int) (time / 3600);
+                                mins = (int) (time / 60);
                                 var lostTime = hours + "hours " + mins + "mins ";
                                 timeView.setText(lostTime);
-                            }
-                            else{
-                                var lostTime = time+"s";
+                            } else {
+                                var lostTime = time + "s";
                                 timeView.setText(lostTime);
                             }
-                        }
-                        else{
+                        } else {
                             gpsDot.setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
                             gpstime = locationService.getLastGPSTime();
                             timeView.setText("");
@@ -122,7 +118,7 @@ public class CircularActivity extends AppCompatActivity {
                     }
                 });
             }
-        },0,1000);
+        }, 0, 1000);
 
         //Story 18: Default Zoom is inner two levels
         setMultipleCircles();
@@ -153,7 +149,6 @@ public class CircularActivity extends AppCompatActivity {
     private void setUpOrientationAndLocation() {
         locationService = LocationService.singleton(this);
         orientationService = OrientationService.singleton(this);
-        this.prefs = getSharedPreferences("data", MODE_PRIVATE);
     }
 
     public void onEditOrientation(View view) {
@@ -267,5 +262,12 @@ public class CircularActivity extends AppCompatActivity {
     //Function for getting the number of zoomclick for JunitTest
     public static int getCircleCount() {
         return numOfClickZoom;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        orientationService.unregisterSensorListeners();
+        locationService.unregisterLocationListener();
     }
 }

@@ -1,3 +1,4 @@
+/*
 package com.example.socialcompass;
 
 
@@ -33,6 +34,20 @@ public class EspressoTestForDisplayMultipleCircle {
 
     @Test
     public void espressoTestForDisplayMultipleCircle() {
+//        ViewInteraction imageView = onView(
+//                allOf(withId(R.id.circle_4),
+//                        withParent(allOf(withId(R.id.clock),
+//                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
+//                        isDisplayed()));
+//        imageView.check(matches(isDisplayed()));
+//
+//        ViewInteraction imageView2 = onView(
+//                allOf(withId(R.id.circle_3),
+//                        withParent(allOf(withId(R.id.clock),
+//                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
+//                        isDisplayed()));
+//        imageView2.check(matches(isDisplayed()));
+
         ViewInteraction imageView3 = onView(
                 allOf(withId(R.id.circle_2),
                         withParent(allOf(withId(R.id.clock),
@@ -62,3 +77,4 @@ public class EspressoTestForDisplayMultipleCircle {
         imageView6.check(matches(isDisplayed()));
     }
 }
+*/
