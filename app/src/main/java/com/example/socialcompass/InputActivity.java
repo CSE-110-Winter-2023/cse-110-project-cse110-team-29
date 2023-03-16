@@ -28,13 +28,18 @@ public class InputActivity extends AppCompatActivity {
     public void saveFriend() {
         String uid = UIDInput.getText().toString();
 
-        repo.getSynced(uid);
+        SharedPreferences preferences = getSharedPreferences("codes", MODE_PRIVATE);
+
+        String endpoint = preferences.getString("endpoint", null);
+
+        repo.getSynced(endpoint, uid);
 
         if (!repo.existsLocal(uid)) {
             UIDInput.setError("Invalid friend code.");
             return;
         }
     }
+
 
     //use for testing purposes
     public String getFriendPublicUid() {

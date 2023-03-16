@@ -4,7 +4,6 @@ import static androidx.test.InstrumentationRegistry.getContext;
 
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
 
@@ -18,10 +17,9 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.core.util.Pair;
-import android.location.LocationManager;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,7 +28,6 @@ import com.example.socialcompass.model.FriendDatabase;
 import com.example.socialcompass.model.FriendRepository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,18 +38,15 @@ public class CircularActivity extends AppCompatActivity {
 
     List<LocationDisplayer> locationDisplayers;
 
-    private double orientationOffset;
-
-    TextView northView;
-
     FriendRepository friendRepo;
     TextView timeView;
     private long gpstime;
     private int hours;
     private int mins;
 
-
     private static int numOfClickZoom = 2;
+
+    private String endpoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +60,16 @@ public class CircularActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
 
+        SharedPreferences preferences = getSharedPreferences("codes", MODE_PRIVATE);
+
+        this.endpoint = preferences.getString("endpoint", null);
+
+        if(this.endpoint == null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("endpoint", "https://socialcompass.goto.ucsd.edu/location/");
+            endpoint = "https://socialcompass.goto.ucsd.edu/location/";
+        }
+
         setUpOrientationAndLocation();
 
         locationDisplayers = new ArrayList<>();
@@ -76,7 +80,7 @@ public class CircularActivity extends AppCompatActivity {
         friends = friends == null ? new ArrayList<Friend>() : friends;
 
         for (Friend f : friends) {
-            LiveData<Friend> liveFriend = friendRepo.getSynced(f.getUid());
+            LiveData<Friend> liveFriend = friendRepo.getSynced(this.endpoint, f.getUid());
             locationDisplayers.add(new LocationDisplayer(
                     this,
                     f.getUid(),
@@ -135,7 +139,7 @@ public class CircularActivity extends AppCompatActivity {
         Log.d("hey", friends.toString());
         friends = friends == null ? new ArrayList<Friend>() : friends;
         for (Friend f : friends) {
-            LiveData<Friend> liveFriend = friendRepo.getSynced(f.getUid());
+            LiveData<Friend> liveFriend = friendRepo.getSynced(this.endpoint, f.getUid());
             locationDisplayers.add(new LocationDisplayer(
                     this,
                     f.getUid(),
@@ -152,12 +156,15 @@ public class CircularActivity extends AppCompatActivity {
         orientationService = OrientationService.singleton(this);
     }
 
-    public void onEditOrientation(View view) {
-        // TODO: delete this
-    }
+    public void onEditEndpoint(View view) {
+        EditText newEndpointView = findViewById(R.id.editEndpoint);
 
-    public void onEditLabel(View view) {
-        // TODO: delete this
+        String newEndpoint = newEndpointView.getText().toString();
+
+        SharedPreferences preferences = getSharedPreferences("codes", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("endpoint", newEndpoint);
+        this.endpoint = newEndpoint;
     }
 
     public void onClickZoomIn(View view) {

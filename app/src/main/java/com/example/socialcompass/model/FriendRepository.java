@@ -37,7 +37,7 @@ public class FriendRepository {
      * @param public_code the uid of the friend
      * @return a LiveData object that will be updated when the note is updated locally or remotely.
      */
-    public LiveData<Friend> getSynced(String public_code) {
+    public LiveData<Friend> getSynced(String endpoint, String public_code) {
         var friend = new MediatorLiveData<Friend>();
 
         Observer<Friend> updateFromRemote = them -> {
@@ -54,14 +54,14 @@ public class FriendRepository {
         friend.addSource(getLocal(public_code), friend::postValue);
 
         // If we get a remote update, update the local version (triggering the above observer)
-        friend.addSource(getRemote(public_code), updateFromRemote);
+        friend.addSource(getRemote(endpoint, public_code), updateFromRemote);
 
         return friend;
     }
 
-    public void upsertSynced(String private_code, Friend friend) {
+    public void upsertSynced(String endpoint, String private_code, Friend friend) {
         upsertLocal(friend);
-        upsertRemote(private_code, friend);
+        upsertRemote(endpoint, private_code, friend);
     }
 
     // Local Methods
@@ -87,9 +87,9 @@ public class FriendRepository {
     // Remote Methods
     // ==============
 
-    public LiveData<Friend> getRemote(String public_code) {
+    public LiveData<Friend> getRemote(String endpoint, String public_code) {
 
-        Friend friend = api.get(public_code);
+        Friend friend = api.get(endpoint, public_code);
 
         if (friend != null) {
             upsertLocal(friend);
@@ -100,7 +100,7 @@ public class FriendRepository {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         friendFuture = executor.scheduleAtFixedRate(() -> {
             // Log.d("hey", "executor run " + public_code);
-            Friend tempFriend = api.get(public_code);
+            Friend tempFriend = api.get(endpoint, public_code);
 
             if (tempFriend != null) {
                 realLiveFriend.postValue(tempFriend);
@@ -112,7 +112,7 @@ public class FriendRepository {
         return realLiveFriend;
     }
 
-    public void upsertRemote(String private_code, Friend friend) {
-        api.put(private_code, friend);
+    public void upsertRemote(String endpoint, String private_code, Friend friend) {
+        api.put(endpoint, private_code, friend);
     }
 }
