@@ -1,5 +1,8 @@
 package com.example.socialcompass;
 
+import static androidx.test.InstrumentationRegistry.getContext;
+
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.LiveData;
@@ -274,5 +277,17 @@ public class CircularActivity extends AppCompatActivity {
         super.onDestroy();
         orientationService.unregisterSensorListeners();
         locationService.unregisterLocationListener();
+    }
+
+    @VisibleForTesting
+    public void addMockLocationDisplayer(String uid, String label, LiveData<Friend> f) {
+        locationDisplayers.add(new LocationDisplayer(
+                this,
+                uid,
+                label,
+                locationService.getLocation(),
+                f,
+                orientationService.getOrientation()
+        ));
     }
 }

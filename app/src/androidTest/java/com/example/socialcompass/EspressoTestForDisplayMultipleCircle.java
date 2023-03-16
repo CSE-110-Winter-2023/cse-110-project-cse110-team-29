@@ -1,4 +1,3 @@
-/*
 package com.example.socialcompass;
 
 
@@ -27,27 +26,13 @@ import org.junit.runner.RunWith;
 public class EspressoTestForDisplayMultipleCircle {
 
     @Rule
-    public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
-            new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule<CircularActivity> mActivityScenarioRule =
+            new ActivityScenarioRule<>(CircularActivity.class);
     @Rule
     public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION);
 
     @Test
     public void espressoTestForDisplayMultipleCircle() {
-//        ViewInteraction imageView = onView(
-//                allOf(withId(R.id.circle_4),
-//                        withParent(allOf(withId(R.id.clock),
-//                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
-//                        isDisplayed()));
-//        imageView.check(matches(isDisplayed()));
-//
-//        ViewInteraction imageView2 = onView(
-//                allOf(withId(R.id.circle_3),
-//                        withParent(allOf(withId(R.id.clock),
-//                                withParent(IsInstanceOf.<View>instanceOf(android.view.ViewGroup.class)))),
-//                        isDisplayed()));
-//        imageView2.check(matches(isDisplayed()));
-
         ViewInteraction imageView3 = onView(
                 allOf(withId(R.id.circle_2),
                         withParent(allOf(withId(R.id.clock),
@@ -77,4 +62,3 @@ public class EspressoTestForDisplayMultipleCircle {
         imageView6.check(matches(isDisplayed()));
     }
 }
-*/
