@@ -36,6 +36,10 @@ public class InputActivity extends AppCompatActivity {
         }
     }
 
+    //use for testing purposes
+    public String getFriendPublicUid() {
+        return UIDInput.getText().toString();
+    }
 
     public void onFinish(View view) {
         saveFriend();
