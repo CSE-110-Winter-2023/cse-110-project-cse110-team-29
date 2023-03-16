@@ -1,5 +1,7 @@
 package com.example.socialcompass.model;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,19 +15,12 @@ import java.util.concurrent.TimeUnit;
 
 public class FriendRepository {
     private final FriendDao dao;
-    private final FriendAPI api = new FriendAPI();
+    private final FriendAPI api;
     private ScheduledFuture<?> friendFuture;
-
-    private final MutableLiveData<Friend> realLiveContent;
-
-    private final MediatorLiveData<Friend> liveContent;
 
     public FriendRepository(FriendDao dao) {
         this.dao = dao;
-
-        realLiveContent = new MediatorLiveData<>();
-        liveContent = new MediatorLiveData<>();
-        liveContent.addSource(realLiveContent, liveContent::postValue);
+        this.api = FriendAPI.provide();
     }
 
     // Synced Methods
@@ -46,9 +41,11 @@ public class FriendRepository {
         var friend = new MediatorLiveData<Friend>();
 
         Observer<Friend> updateFromRemote = them -> {
+            Log.d("hey", "updateFromRemoteCalled");
             var ourFriend = friend.getValue();
-            if (ourFriend == null) return;
+            if (them == null) return;
             if (ourFriend == null || ourFriend.updatedAt < them.updatedAt) {
+                Log.d("hey", "upserting local");
                 upsertLocal(them);
             }
         };
@@ -74,12 +71,12 @@ public class FriendRepository {
         return dao.get(public_code);
     }
 
-    public LiveData<List<Friend>> getAllLocal() {
+    public List<Friend> getAllLocal() {
         return dao.getAll();
     }
 
     public void upsertLocal(Friend friend) {
-        friend.updatedAt = System.currentTimeMillis();
+        // friend.updatedAt = System.currentTimeMillis();
         dao.upsert(friend);
     }
 
@@ -91,9 +88,6 @@ public class FriendRepository {
     // ==============
 
     public LiveData<Friend> getRemote(String public_code) {
-        if (friendFuture != null) {
-            friendFuture.cancel(true);
-        }
 
         Friend friend = api.get(public_code);
 
@@ -101,17 +95,21 @@ public class FriendRepository {
             upsertLocal(friend);
         }
 
+        MutableLiveData<Friend> realLiveFriend = new MutableLiveData<>();
+
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         friendFuture = executor.scheduleAtFixedRate(() -> {
+            // Log.d("hey", "executor run " + public_code);
             Friend tempFriend = api.get(public_code);
 
             if (tempFriend != null) {
-                realLiveContent.postValue(tempFriend);
+                realLiveFriend.postValue(tempFriend);
+                // Log.d("hey", "executor posts value" + String.valueOf(tempFriend.getLatitude()) + ", " + String.valueOf(tempFriend.getLongitude()));
             }
 
         }, 0, 3, TimeUnit.SECONDS);
 
-        return liveContent;
+        return realLiveFriend;
     }
 
     public void upsertRemote(String private_code, Friend friend) {

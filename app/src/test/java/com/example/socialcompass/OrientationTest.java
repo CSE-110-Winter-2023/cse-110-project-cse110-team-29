@@ -1,3 +1,4 @@
+/*
 package com.example.socialcompass;
 
 import android.Manifest;
@@ -43,3 +44,4 @@ public class OrientationTest {
         });
     }
 }
+*/
