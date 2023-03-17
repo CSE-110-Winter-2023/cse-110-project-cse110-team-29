@@ -1,7 +1,5 @@
 package com.example.socialcompass;
 
-import static androidx.test.InstrumentationRegistry.getContext;
-
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -40,6 +38,7 @@ public class CircularActivity extends AppCompatActivity {
 
     FriendRepository friendRepo;
     TextView timeView;
+
     private long gpstime;
     private int hours;
     private int mins;
@@ -60,19 +59,13 @@ public class CircularActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
 
-        SharedPreferences preferences = getSharedPreferences("codes", MODE_PRIVATE);
-
-        this.endpoint = preferences.getString("endpoint", null);
-
-        if(this.endpoint == null) {
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("endpoint", "https://socialcompass.goto.ucsd.edu/location/");
-            endpoint = "https://socialcompass.goto.ucsd.edu/location/";
-        }
-
         setUpOrientationAndLocation();
 
         locationDisplayers = new ArrayList<>();
+
+        SharedPreferences preferences = getSharedPreferences("codes", MODE_PRIVATE);
+
+        this.endpoint = preferences.getString("endpoint", null);
 
         friendRepo = new FriendRepository(FriendDatabase.provide(this).getDao());
         List<Friend> friends = friendRepo.getAllLocal();
@@ -164,6 +157,7 @@ public class CircularActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("codes", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("endpoint", newEndpoint);
+        editor.apply();
         this.endpoint = newEndpoint;
     }
 
