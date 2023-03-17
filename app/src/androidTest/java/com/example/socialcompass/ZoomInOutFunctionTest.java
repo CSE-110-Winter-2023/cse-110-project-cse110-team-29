@@ -1,24 +1,18 @@
 package com.example.socialcompass;
 import android.Manifest;
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.View;
-import android.widget.TextView;
-import com.example.socialcompass.CircularActivity;
+
 import androidx.test.core.app.ActivityScenario;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
-public class ZoomInFunctionTest {
+public class ZoomInOutFunctionTest {
     @Rule
     public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule.grant(android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
     @Test
