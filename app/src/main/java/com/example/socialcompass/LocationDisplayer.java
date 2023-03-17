@@ -26,8 +26,9 @@ public class LocationDisplayer {
     private LiveData<Float> phoneAngle;
 
     private String label; //user for setNormalText
+    private CircularActivity context;
 
-    public LocationDisplayer(Context context,
+    public LocationDisplayer(CircularActivity context,
                              String uid,
                                  String label,
                              LiveData<Pair<Double, Double>> userLoc,
@@ -37,7 +38,7 @@ public class LocationDisplayer {
         this.userLoc = userLoc;
         this.friend = friend;
         this.phoneAngle = phoneAngle;
-
+        this.context = context;
         this.label = label;
 
         // create the view
@@ -57,14 +58,14 @@ public class LocationDisplayer {
         userLoc.observe((LifecycleOwner) context, new Observer<Pair<Double, Double>>() {
             @Override
             public void onChanged(Pair<Double, Double> doubleDoublePair) {
-                updateView();
+                handleUpdate();
             }
         });
 
         friend.observe((LifecycleOwner) context, new Observer<Friend>() {
             @Override
             public void onChanged(Friend f) {
-                updateView();
+                handleUpdate();
             }
         });
 
@@ -72,9 +73,13 @@ public class LocationDisplayer {
             @Override
             public void onChanged(Float f) {
                 //Log.i("new Angle", f.toString());
-                updateView();
+                handleUpdate();
             }
         });
+    }
+
+    private void handleUpdate(){
+        // context.handleOverlap();
     }
 
     // temp changed from private to public
@@ -99,11 +104,6 @@ public class LocationDisplayer {
         layoutParams.circleRadius = getRadius(distance_range, distance);
 
         setText(distance_range);
-
-        view.setLayoutParams(layoutParams);
-        int[] slocation = new int[2];
-        view.getLocationOnScreen(slocation);
-        Log.d("hey", label + ' ' + slocation[0] + ',' + slocation[1] + ": " + view.getWidth());
     }
 
     private void setText(int distance_range) {
