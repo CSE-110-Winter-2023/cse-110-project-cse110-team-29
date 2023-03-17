@@ -5,6 +5,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -18,6 +19,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+
+import com.example.socialcompass.model.Friend;
+import com.example.socialcompass.model.FriendDatabase;
+import com.example.socialcompass.model.FriendRepository;
 
 import java.util.Arrays;
 
@@ -37,6 +42,8 @@ public class LocationService implements LocationListener {
 
     private MutableLiveData<Pair<Double, Double>> locationValue;
 
+    private FriendRepository friendRepo;
+
     private final LocationManager locationManager;
 
     public static LocationService singleton(AppCompatActivity activity) {
@@ -55,6 +62,7 @@ public class LocationService implements LocationListener {
         this.locationValue = new MutableLiveData<>();
         this.activity = activity;
         this.locationManager = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
+        this.friendRepo = new FriendRepository(FriendDatabase.provide(activity).getDao());
 
         // Register sensor listeners
         withLocationPermissions(this::registerLocationListener);
@@ -96,6 +104,14 @@ public class LocationService implements LocationListener {
 
     @Override
     public void onLocationChanged(@NonNull Location location) {
+        SharedPreferences preferences = activity.getSharedPreferences("codes", activity.MODE_PRIVATE);
+
+        String public_code = preferences.getString("public_code", null);
+        String private_code = preferences.getString("private_code", null);
+        String name = preferences.getString("name", null);
+        String endpoint = preferences.getString("endpoint", null);
+
+        this.friendRepo.upsertRemote(endpoint, private_code, new Friend(public_code, name, location.getLatitude(), location.getLongitude()));
         this.lastGPSTime = System.currentTimeMillis();
         this.locationValue.postValue(new Pair<>(location.getLatitude(), location.getLongitude()));
     }
