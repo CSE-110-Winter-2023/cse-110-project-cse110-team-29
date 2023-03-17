@@ -28,13 +28,30 @@ public class LabelService{
             for (int i = 1; i < lds.size(); i++) {
                 // check for overlapping with earlier labels
                 TextView thisView = lds.get(i).getView();
+
+                if (thisView.getText().equals("•")) {
+                    continue;
+                }
+
                 int[] thisLoc = new int[2];
+                int prevOffset = lds.get(i).getOffset();
+                lds.get(i).setOffset(0);
+                lds.get(i).updateView();
                 thisView.getLocationOnScreen(thisLoc);
+                lds.get(i).setOffset(prevOffset);
+                lds.get(i).updateView();
+
+                int offset = 0;
 
                 for (int j = 0; j < i; j++) {
                     TextView otherView = lds.get(j).getView();
                     int[] otherLoc = new int[2];
+                    int prevOffset2 = lds.get(j).getOffset();
+                    lds.get(j).setOffset(0);
+                    lds.get(j).updateView();
                     otherView.getLocationOnScreen(otherLoc);
+                    lds.get(j).setOffset(prevOffset2);
+                    lds.get(j).updateView();
 
                     // calculate horizontal overlap
                     TextView left, right;
@@ -62,12 +79,18 @@ public class LabelService{
                         // otherLoc above
                         vOverlap = Math.max(0, otherView.getHeight() - (thisLoc[1] - otherLoc[1]));
                     }
+
+                    /*
                     var rawAngle = ((ConstraintLayout.LayoutParams)thisView.getLayoutParams()).circleAngle;
                     var angle = Math.toRadians((rawAngle+360+270) % 360);
                     int xRequiredOffset = (int)Math.ceil(hOverlap / Math.cos(angle));
                     int yRequiredOffset = (int)Math.ceil(vOverlap / Math.sin(angle));
-                    lds.get(i).increaseRadius(Math.max(xRequiredOffset, yRequiredOffset));
+                    offset = Math.max(offset, Math.max(xRequiredOffset, yRequiredOffset)); */
+                    offset = Math.max(offset, 50);
                 }
+
+                lds.get(i).setOffset(offset);
+                lds.get(i).updateView();
             }
             /*
             // check for overlapping labels

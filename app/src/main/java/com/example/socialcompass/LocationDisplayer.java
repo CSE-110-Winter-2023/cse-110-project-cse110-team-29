@@ -26,6 +26,8 @@ public class LocationDisplayer {
     private LiveData<Float> phoneAngle;
 
     private String label; //user for setNormalText
+    private int offset;
+    private boolean stackable;
     private CircularActivity context;
 
     public LocationDisplayer(CircularActivity context,
@@ -40,6 +42,7 @@ public class LocationDisplayer {
         this.phoneAngle = phoneAngle;
         this.context = context;
         this.label = label;
+        this.stackable = true;
 
         // create the view
         this.view = new TextView(context);
@@ -58,14 +61,16 @@ public class LocationDisplayer {
         userLoc.observe((LifecycleOwner) context, new Observer<Pair<Double, Double>>() {
             @Override
             public void onChanged(Pair<Double, Double> doubleDoublePair) {
-                handleUpdate();
+                // updateView();
+                stackable = true;
             }
         });
 
         friend.observe((LifecycleOwner) context, new Observer<Friend>() {
             @Override
             public void onChanged(Friend f) {
-                handleUpdate();
+                // updateView();
+                stackable = true;
             }
         });
 
@@ -73,13 +78,10 @@ public class LocationDisplayer {
             @Override
             public void onChanged(Float f) {
                 //Log.i("new Angle", f.toString());
-                handleUpdate();
+                // updateView();
+                stackable = true;
             }
         });
-    }
-
-    private void handleUpdate(){
-        // context.handleOverlap();
     }
 
     // temp changed from private to public
@@ -101,7 +103,7 @@ public class LocationDisplayer {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
         layoutParams.circleAngle = -angle.floatValue();
 
-        layoutParams.circleRadius = getRadius(distance_range, distance);
+        layoutParams.circleRadius = getRadius(distance_range, distance) + offset;
 
         setText(distance_range);
     }
@@ -209,9 +211,22 @@ public class LocationDisplayer {
 
     public TextView getView() { return this.view; }
 
-    public void increaseRadius(int length) {
-        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
-        layoutParams.circleRadius = layoutParams.circleRadius + length;
-        view.setLayoutParams(layoutParams);
+    public void setOffset(int length) {
+            this.offset = length;
+    }
+
+    public int getOffset(){ return this.offset; }
+
+    public void removeThis() {
+        ConstraintLayout cLayout = ((Activity) context).findViewById(R.id.clock);
+        cLayout.removeView(this.view);
+    }
+
+    public void resetTruncation() {
+        view.setText(label);
+    }
+
+    public void truncate() {
+        view.setText(label.substring(0, label.length()/3));
     }
 }
