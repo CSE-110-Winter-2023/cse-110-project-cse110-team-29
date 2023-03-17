@@ -78,28 +78,4 @@ public class FriendAPI {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Sends a PATCH request to the server.
-     * @param private_code - Private password of the user.
-     * @param friend - The user to be updated
-     */
-    public void patch(String endpoint, String private_code, Friend friend) {
-        // URLs cannot contain spaces, so we replace them with %20.
-        String public_code = friend.getUid();
-        public_code = public_code.replace(" ", "%20");
-        RequestBody requestBody = RequestBody.create(friend.toPatchJSON(private_code), JSON);
-        Request request = new Request.Builder()
-                .url(endpoint + public_code)
-                .method("PUT", requestBody)
-                .build();
-
-        try (okhttp3.Response response = client.newCall(request).execute()) {
-            assert response.body() != null;
-            String body = response.body().string();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
