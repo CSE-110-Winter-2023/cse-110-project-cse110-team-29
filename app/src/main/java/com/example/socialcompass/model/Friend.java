@@ -35,7 +35,6 @@ public class Friend {
     @NonNull
     @SerializedName("label")
     public String friend_name;
-
     /**
      * When the note was last modified. Used for resolving local (db) vs remote (api) conflicts.
      * Defaults to 0 (Jan 1, 1970), so that if a note already exists remotely, its content is
@@ -85,6 +84,9 @@ public class Friend {
     public boolean equals(Friend friend) {
         return this.public_code.equals(friend.public_code);
     }
+
+    public void setFriend_name(String truncatedName) { this.friend_name = truncatedName; }
+
 
     public static Friend fromJSON(String json) {
         return new Gson().fromJson(json, Friend.class);

@@ -113,6 +113,13 @@ public class CircularActivity extends AppCompatActivity {
                             gpstime = locationService.getLastGPSTime();
                             timeView.setText("");
                         }
+
+                        // update offsets
+                        for (LocationDisplayer ld : locationDisplayers) {
+                            //ld.setOffset(0);
+                            ld.updateView();
+                        }
+                        LabelService.truncateLabels(locationDisplayers);
                     }
                 });
             }
@@ -124,6 +131,10 @@ public class CircularActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
+
+        for (LocationDisplayer ld : locationDisplayers) {
+            ld.removeThis();
+        }
 
         locationDisplayers = new ArrayList<>();
         friendRepo = new FriendRepository(FriendDatabase.provide(this).getDao());
@@ -166,6 +177,9 @@ public class CircularActivity extends AppCompatActivity {
             numOfClickZoom++;
         }
         setMultipleCircles();
+        for (LocationDisplayer ld : locationDisplayers) {
+            ld.updateView();
+        }
     }
 
     public void onClickZoomOut(View view) {
@@ -266,11 +280,16 @@ public class CircularActivity extends AppCompatActivity {
         return numOfClickZoom;
     }
 
+    public LocationService getLocationService(){return this.locationService;}
     @Override
     protected void onDestroy() {
         super.onDestroy();
         orientationService.unregisterSensorListeners();
         locationService.unregisterLocationListener();
+    }
+
+    public void handleOverlap() {
+
     }
 
     @VisibleForTesting

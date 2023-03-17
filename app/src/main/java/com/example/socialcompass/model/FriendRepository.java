@@ -113,6 +113,8 @@ public class FriendRepository {
     }
 
     public void upsertRemote(String endpoint, String private_code, Friend friend) {
-        api.put(endpoint, private_code, friend);
+        // temp
+
+        //api.put(endpoint, private_code, friend);
     }
 }

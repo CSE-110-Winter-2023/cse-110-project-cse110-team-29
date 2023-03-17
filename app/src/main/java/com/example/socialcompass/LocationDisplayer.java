@@ -26,8 +26,11 @@ public class LocationDisplayer {
     private LiveData<Float> phoneAngle;
 
     private String label; //user for setNormalText
+    private int offset;
+    private boolean stackable;
+    private CircularActivity context;
 
-    public LocationDisplayer(Context context,
+    public LocationDisplayer(CircularActivity context,
                              String uid,
                                  String label,
                              LiveData<Pair<Double, Double>> userLoc,
@@ -37,8 +40,9 @@ public class LocationDisplayer {
         this.userLoc = userLoc;
         this.friend = friend;
         this.phoneAngle = phoneAngle;
-
+        this.context = context;
         this.label = label;
+        this.stackable = true;
 
         // create the view
         this.view = new TextView(context);
@@ -57,14 +61,16 @@ public class LocationDisplayer {
         userLoc.observe((LifecycleOwner) context, new Observer<Pair<Double, Double>>() {
             @Override
             public void onChanged(Pair<Double, Double> doubleDoublePair) {
-                updateView();
+                // updateView();
+                stackable = true;
             }
         });
 
         friend.observe((LifecycleOwner) context, new Observer<Friend>() {
             @Override
             public void onChanged(Friend f) {
-                updateView();
+                // updateView();
+                stackable = true;
             }
         });
 
@@ -72,12 +78,14 @@ public class LocationDisplayer {
             @Override
             public void onChanged(Float f) {
                 //Log.i("new Angle", f.toString());
-                updateView();
+                // updateView();
+                stackable = true;
             }
         });
     }
 
-    private void updateView() {
+    // temp changed from private to public
+    public void updateView() {
         if (userLoc.getValue() == null || friend.getValue() == null || phoneAngle.getValue() == null)
             return;
 
@@ -95,11 +103,9 @@ public class LocationDisplayer {
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
         layoutParams.circleAngle = -angle.floatValue();
 
-        layoutParams.circleRadius = getRadius(distance_range, distance);
+        layoutParams.circleRadius = getRadius(distance_range, distance) + offset;
 
         setText(distance_range);
-
-        view.setLayoutParams(layoutParams);
     }
 
     private void setText(int distance_range) {
@@ -201,5 +207,26 @@ public class LocationDisplayer {
         }
 
         return (int) radius;
+    }
+
+    public TextView getView() { return this.view; }
+
+    public void setOffset(int length) {
+            this.offset = length;
+    }
+
+    public int getOffset(){ return this.offset; }
+
+    public void removeThis() {
+        ConstraintLayout cLayout = ((Activity) context).findViewById(R.id.clock);
+        cLayout.removeView(this.view);
+    }
+
+    public void resetTruncation() {
+        view.setText(label);
+    }
+
+    public void truncate() {
+        view.setText(label.substring(0, label.length()/3));
     }
 }
