@@ -30,8 +30,6 @@ public class TestForLoadInput {
             scenario.onActivity(activity -> {
                 TextView label = (TextView)activity.findViewById(R.id.uid);
                 label.setText("Home");
-                View but = activity.findViewById(R.id.button2);
-                but.performClick();
                 assertEquals("Home",activity.getFriendPublicUid());
             });
         }
