@@ -3,9 +3,6 @@ package com.example.socialcompass;
 import static org.robolectric.Shadows.shadowOf;
 
 import android.Manifest;
-import android.content.Context;
-import android.os.Looper;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.junit.Assert;
@@ -14,12 +11,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.LooperMode;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.util.Pair;
 import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.rule.GrantPermissionRule;
@@ -27,7 +22,7 @@ import androidx.test.rule.GrantPermissionRule;
 import com.example.socialcompass.model.Friend;
 
 @RunWith(RobolectricTestRunner.class)
-public class TruncateTest {
+public class StackTest {
     private CircularActivity activity;
     private MutableLiveData<Float> mockOrientation;
     private MutableLiveData<Pair<Double, Double>> mockLocation;
@@ -93,6 +88,6 @@ public class TruncateTest {
 
             ConstraintLayout.LayoutParams missionBayLayoutParams = (ConstraintLayout.LayoutParams) missionBayLabel.getLayoutParams();
 
+            Assert.assertTrue(seaWorldLabelLayoutParams.circleRadius >= (missionBayLayoutParams.circleRadius + seaWorldLabelLayoutParams.height));
     }
-
 }
