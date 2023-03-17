@@ -1,7 +1,5 @@
 package com.example.socialcompass;
 
-import static androidx.test.InstrumentationRegistry.getContext;
-
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -40,6 +38,7 @@ public class CircularActivity extends AppCompatActivity {
 
     FriendRepository friendRepo;
     TextView timeView;
+
     private long gpstime;
     private int hours;
     private int mins;
