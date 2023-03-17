@@ -33,6 +33,7 @@ public class Friend {
     public double latitude;
 
     @NonNull
+    @SerializedName("label")
     public String friend_name;
     @NonNull
     private float labelWidth;

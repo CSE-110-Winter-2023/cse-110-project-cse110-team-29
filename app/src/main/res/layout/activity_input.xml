@@ -33,4 +33,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.651" />
+
+    <TextView
+        android:id="@+id/uidTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="210dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="138dp"
+        android:layout_marginBottom="205dp"
+        android:hint="UID"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/uid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="300dp"
+        android:layout_marginBottom="218dp"
+        android:text="Your UID is"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/uid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

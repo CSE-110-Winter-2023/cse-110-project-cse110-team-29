@@ -16,24 +16,26 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
+import com.example.socialcompass.model.Friend;
+
 public class LocationDisplayer {
     private String uid;
     private TextView view;
     private LiveData<Pair<Double, Double>> userLoc;
-    private LiveData<Pair<Double, Double>> thisLoc;
+    private LiveData<Friend> friend;
     private LiveData<Float> phoneAngle;
 
     private String label; //user for setNormalText
 
     public LocationDisplayer(Context context,
                              String uid,
-                             String label,
+                                 String label,
                              LiveData<Pair<Double, Double>> userLoc,
-                             LiveData<Pair<Double, Double>> thisLoc,
+                             LiveData<Friend> friend,
                              LiveData<Float> phoneAngle) {
         this.uid = uid;
         this.userLoc = userLoc;
-        this.thisLoc = thisLoc;
+        this.friend = friend;
         this.phoneAngle = phoneAngle;
 
         this.label = label;
@@ -41,6 +43,7 @@ public class LocationDisplayer {
         // create the view
         this.view = new TextView(context);
         this.view.setText(label);
+        this.view.setId(uid.hashCode());
         ConstraintLayout cLayout = ((Activity) context).findViewById(R.id.clock);
         cLayout.addView(this.view);
 
@@ -58,9 +61,9 @@ public class LocationDisplayer {
             }
         });
 
-        thisLoc.observe((LifecycleOwner) context, new Observer<Pair<Double, Double>>() {
+        friend.observe((LifecycleOwner) context, new Observer<Friend>() {
             @Override
-            public void onChanged(Pair<Double, Double> doubleDoublePair) {
+            public void onChanged(Friend f) {
                 updateView();
             }
         });
@@ -75,13 +78,13 @@ public class LocationDisplayer {
     }
 
     private void updateView() {
-        if (userLoc.getValue() == null || thisLoc.getValue() == null || phoneAngle.getValue() == null)
+        if (userLoc.getValue() == null || friend.getValue() == null || phoneAngle.getValue() == null)
             return;
 
         Double uLat = userLoc.getValue().first;
         Double uLon = userLoc.getValue().second;
-        Double tLat = thisLoc.getValue().first;
-        Double tLon = thisLoc.getValue().second;
+        Double tLat = friend.getValue().getLatitude();
+        Double tLon = friend.getValue().getLongitude();
 
         // calculate new constraints
         Double angle = Utilities.angleInActivity(uLat, uLon, tLat, tLon) + Math.toDegrees(phoneAngle.getValue());

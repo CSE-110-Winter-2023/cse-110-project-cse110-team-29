@@ -25,9 +25,26 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 200);
         }
 
-        // temp always start input activity immediately
-        Intent intent = new Intent(this, CircularActivity.class);
-        startActivity(intent);
+         SharedPreferences preferences = getSharedPreferences("codes", MODE_PRIVATE);
+
+        String endpoint = preferences.getString("endpoint", null);
+
+        if(endpoint == null) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("endpoint", "https://socialcompass.goto.ucsd.edu/location/");
+            editor.apply();
+        }
+
+         String userPublicCode = preferences.getString("public_code", null);
+
+         if(userPublicCode == null) {
+             Intent intent = new Intent(this, NewUserActivity.class);
+             startActivity(intent);
+         } else {
+            // temp always start input activity immediately
+            Intent intent = new Intent(this, CircularActivity.class);
+            startActivity(intent);
+         }
     }
     public void debug(View view) {
         SharedPreferences prefs = getSharedPreferences("data", MODE_PRIVATE);

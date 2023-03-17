@@ -74,20 +74,20 @@
             app:layout_constraintTop_toTopOf="@+id/circle_1"
             app:srcCompat="@drawable/center_point" />
 
-        <TextView
-            android:id="@+id/north"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="N"
-            android:textAllCaps="true"
-            android:textColor="#F44336"
-            android:textSize="50dp"
-            android:textStyle="bold"
-            android:translationY="0dp"
-            app:layout_constraintCircle="@id/clock"
-            app:layout_constraintCircleRadius="180dp"
-            tools:layout_editor_absoluteX="172dp"
-            tools:layout_editor_absoluteY="-23dp" />
+<!--        <TextView-->
+<!--            android:id="@+id/north"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="N"-->
+<!--            android:textAllCaps="true"-->
+<!--            android:textColor="#F44336"-->
+<!--            android:textSize="50dp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:translationY="0dp"-->
+<!--            app:layout_constraintCircle="@id/clock"-->
+<!--            app:layout_constraintCircleRadius="180dp"-->
+<!--            tools:layout_editor_absoluteX="172dp"-->
+<!--            tools:layout_editor_absoluteY="-23dp" />-->
 
         <TextView
             android:id="@+id/ParentHome"
@@ -102,52 +102,27 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/editOrientationBtn"
+        android:id="@+id/editEndpointBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onEditOrientation"
-        android:text="Set Orientation"
+        android:onClick="onEditEndpoint"
+        android:text="Update Endpoint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editOrientation"
-        android:layout_width="180dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:hint="0"
-        android:inputType="numberSigned"
-        app:layout_constraintBottom_toTopOf="@+id/editOrientationBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.069"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/editLabelBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onEditLabel"
-        android:text="Update Label"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.939"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/editLabel"
-        android:layout_width="180dp"
-        android:layout_height="45dp"
+        android:id="@+id/editEndpoint"
+        android:layout_width="227dp"
+        android:layout_height="47dp"
         android:autofillHints="Enter label..."
         android:ems="10"
-        android:hint="Enter Label"
+        android:hint="Enter Endpoint"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/editLabelBtn"
+        app:layout_constraintBottom_toTopOf="@+id/editEndpointBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
