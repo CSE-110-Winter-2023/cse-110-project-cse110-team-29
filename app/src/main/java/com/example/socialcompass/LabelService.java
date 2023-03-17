@@ -12,9 +12,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class LabelService extends CircularActivity{
-        LocationService myLocation = getLocationService();
-        public void truncateLabels(List<LocationDisplayer> lds) {
+public class LabelService{
+        public static void truncateLabels(List<LocationDisplayer> lds) {
             // sort the friends based on their distance from the center
 
             Collections.sort(lds, new Comparator<LocationDisplayer>() {
@@ -28,23 +27,26 @@ public class LabelService extends CircularActivity{
 
             for (int i = 1; i < lds.size(); i++) {
                 // check for overlapping with earlier labels
+                TextView thisView = lds.get(i).getView();
                 int[] thisLoc = new int[2];
-                lds.get(i).getView().getLocationOnScreen(thisLoc);
+                thisView.getLocationOnScreen(thisLoc);
+
                 for (int j = 0; j < i; j++) {
+                    TextView otherView = lds.get(j).getView();
                     int[] otherLoc = new int[2];
-                    lds.get(j).getView().getLocationOnScreen(otherLoc);
+                    otherView.getLocationOnScreen(otherLoc);
 
                     // calculate horizontal overlap
                     TextView left, right;
                     int[] leftLoc, rightLoc;
                     if (thisLoc[0] < otherLoc[0]) {
-                        left = lds.get(i).getView();
-                        right = lds.get(j).getView();
+                        left = thisView;
+                        right = otherView;
                         leftLoc = thisLoc;
                         rightLoc = otherLoc;
                     } else {
-                        left = lds.get(j).getView();
-                        right = lds.get(i).getView();
+                        left = otherView;
+                        right = thisView;
                         leftLoc = otherLoc;
                         rightLoc = thisLoc;
                     }
@@ -54,14 +56,17 @@ public class LabelService extends CircularActivity{
                     int vOverlap;
                     if (thisLoc[1] < otherLoc[1]) {
                         // thisLoc above
-                        vOverlap = Math.max(0, lds.get(i).getView().getHeight() - (otherLoc[1] - thisLoc[1]));
+                        vOverlap = Math.max(0, thisView.getHeight() - (otherLoc[1] - thisLoc[1]));
                     }
                     else {
                         // otherLoc above
-                        vOverlap = Math.max(0, lds.get(j).getView().getHeight() - (thisLoc[1] - otherLoc[1]));
+                        vOverlap = Math.max(0, otherView.getHeight() - (thisLoc[1] - otherLoc[1]));
                     }
-                    //var angle = Math.toRadians(lds.get(i).getView().getLayoutParams().circle)
-                    //int xRequiredOffset = hOverlap /
+                    var rawAngle = ((ConstraintLayout.LayoutParams)thisView.getLayoutParams()).circleAngle;
+                    var angle = Math.toRadians((rawAngle+360+270) % 360);
+                    int xRequiredOffset = (int)Math.ceil(hOverlap / Math.cos(angle));
+                    int yRequiredOffset = (int)Math.ceil(vOverlap / Math.sin(angle));
+                    lds.get(i).increaseRadius(Math.max(xRequiredOffset, yRequiredOffset));
                 }
             }
             /*

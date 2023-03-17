@@ -29,6 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class CircularActivity extends AppCompatActivity {
     private LocationService locationService;
@@ -120,6 +123,15 @@ public class CircularActivity extends AppCompatActivity {
 
         //Story 18: Default Zoom is inner two levels
         setMultipleCircles();
+
+        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+        executor.scheduleAtFixedRate(() -> {
+            Log.d("hey", "executor run update views");
+            for (LocationDisplayer ld : locationDisplayers) {
+                ld.updateView();
+            }
+            LabelService.truncateLabels(locationDisplayers);
+        }, 0, 3, TimeUnit.SECONDS);
     }
 
     protected void onResume() {
@@ -276,6 +288,16 @@ public class CircularActivity extends AppCompatActivity {
         orientationService.unregisterSensorListeners();
         locationService.unregisterLocationListener();
     }
+
+    public void handleOverlap() {
+        Log.d("hey", "handling overlap");
+        for (LocationDisplayer ld : locationDisplayers) {
+            ld.updateView();
+        }
+        LabelService.truncateLabels(locationDisplayers);
+    }
+
+
 
     @VisibleForTesting
     public void addMockLocationDisplayer(String uid, String label, LiveData<Friend> f) {
