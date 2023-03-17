@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.socialcompass.model.FriendDao;
 import com.example.socialcompass.model.FriendDatabase;
@@ -14,12 +15,18 @@ import com.example.socialcompass.model.FriendRepository;
 public class InputActivity extends AppCompatActivity {
     private EditText UIDInput;
     private FriendRepository repo;
+    private SharedPreferences prefs;
+
+    private TextView uidText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input);
 
+        prefs = getSharedPreferences("codes",MODE_PRIVATE);
+        uidText = findViewById(R.id.uidTextView);
+        uidText.setText(prefs.getString("public_code",""));
         UIDInput = findViewById(R.id.uid);
         FriendDao dao = FriendDatabase.provide(this).getDao();
         repo = new FriendRepository(dao);
