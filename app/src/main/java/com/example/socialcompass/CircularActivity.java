@@ -123,15 +123,23 @@ public class CircularActivity extends AppCompatActivity {
 
         //Story 18: Default Zoom is inner two levels
         setMultipleCircles();
-
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        executor.scheduleAtFixedRate(() -> {
-            Log.d("hey", "executor run update views");
-            for (LocationDisplayer ld : locationDisplayers) {
-                ld.updateView();
+        /*
+        Timer timer2 = new Timer();
+        timer2.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("hey", "executor run update views");
+                        for (LocationDisplayer ld : locationDisplayers) {
+                            ld.updateView();
+                        }
+                        LabelService.truncateLabels(locationDisplayers);
+                    }
+                });
             }
-            LabelService.truncateLabels(locationDisplayers);
-        }, 0, 3, TimeUnit.SECONDS);
+        }, 0, 1000);*/
     }
 
     protected void onResume() {
