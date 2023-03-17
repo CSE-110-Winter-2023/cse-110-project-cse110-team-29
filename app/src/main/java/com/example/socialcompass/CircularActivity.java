@@ -166,6 +166,9 @@ public class CircularActivity extends AppCompatActivity {
             numOfClickZoom++;
         }
         setMultipleCircles();
+        for (LocationDisplayer ld : locationDisplayers) {
+            ld.updateView();
+        }
     }
 
     public void onClickZoomOut(View view) {

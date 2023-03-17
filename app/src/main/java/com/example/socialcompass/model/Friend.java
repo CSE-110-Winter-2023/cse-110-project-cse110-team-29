@@ -35,8 +35,6 @@ public class Friend {
     @NonNull
     @SerializedName("label")
     public String friend_name;
-    @NonNull
-    private float labelWidth;
     /**
      * When the note was last modified. Used for resolving local (db) vs remote (api) conflicts.
      * Defaults to 0 (Jan 1, 1970), so that if a note already exists remotely, its content is

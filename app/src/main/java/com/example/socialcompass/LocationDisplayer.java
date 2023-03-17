@@ -77,7 +77,8 @@ public class LocationDisplayer {
         });
     }
 
-    private void updateView() {
+    // temp changed from private to public
+    public void updateView() {
         if (userLoc.getValue() == null || friend.getValue() == null || phoneAngle.getValue() == null)
             return;
 
@@ -100,6 +101,9 @@ public class LocationDisplayer {
         setText(distance_range);
 
         view.setLayoutParams(layoutParams);
+        int[] slocation = new int[2];
+        view.getLocationOnScreen(slocation);
+        Log.d("hey", label + ' ' + slocation[0] + ',' + slocation[1] + ": " + view.getWidth());
     }
 
     private void setText(int distance_range) {
@@ -201,5 +205,13 @@ public class LocationDisplayer {
         }
 
         return (int) radius;
+    }
+
+    public TextView getView() { return this.view; }
+
+    public void increaseRadius(int length) {
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
+        layoutParams.circleRadius = layoutParams.circleRadius + length;
+        view.setLayoutParams(layoutParams);
     }
 }

@@ -54,7 +54,7 @@ public class FriendRepository {
         friend.addSource(getLocal(public_code), friend::postValue);
 
         // If we get a remote update, update the local version (triggering the above observer)
-        friend.addSource(getRemote(endpoint, public_code), updateFromRemote);
+        // friend.addSource(getRemote(endpoint, public_code), updateFromRemote);
 
         return friend;
     }
@@ -113,6 +113,8 @@ public class FriendRepository {
     }
 
     public void upsertRemote(String endpoint, String private_code, Friend friend) {
-        api.put(endpoint, private_code, friend);
+        // temp
+
+        //api.put(endpoint, private_code, friend);
     }
 }
