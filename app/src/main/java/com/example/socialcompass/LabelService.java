@@ -35,11 +35,7 @@ public class LabelService{
 
                 int[] thisLoc = new int[2];
                 int prevOffset = lds.get(i).getOffset();
-                lds.get(i).setOffset(0);
-                lds.get(i).updateView();
                 thisView.getLocationOnScreen(thisLoc);
-                lds.get(i).setOffset(prevOffset);
-                lds.get(i).updateView();
 
                 int offset = 0;
 
@@ -47,11 +43,7 @@ public class LabelService{
                     TextView otherView = lds.get(j).getView();
                     int[] otherLoc = new int[2];
                     int prevOffset2 = lds.get(j).getOffset();
-                    lds.get(j).setOffset(0);
-                    lds.get(j).updateView();
                     otherView.getLocationOnScreen(otherLoc);
-                    lds.get(j).setOffset(prevOffset2);
-                    lds.get(j).updateView();
 
                     // calculate horizontal overlap
                     TextView left, right;
